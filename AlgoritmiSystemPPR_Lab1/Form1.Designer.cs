@@ -30,7 +30,7 @@
         {
             matrixLabel = new Label();
             inverseMatrixLabel = new Label();
-            GenerateMatrix = new Button();
+            GenerateMatrixButton = new Button();
             matrixCols = new NumericUpDown();
             matrixRows = new NumericUpDown();
             calculateinverseMatrixButton = new Button();
@@ -74,15 +74,15 @@
             inverseMatrixLabel.TabIndex = 2;
             inverseMatrixLabel.Text = "Обернена матриця";
             // 
-            // GenerateMatrix
+            // GenerateMatrixButton
             // 
-            GenerateMatrix.Location = new Point(9, 20);
-            GenerateMatrix.Name = "GenerateMatrix";
-            GenerateMatrix.Size = new Size(119, 63);
-            GenerateMatrix.TabIndex = 3;
-            GenerateMatrix.Text = "Згенерувати";
-            GenerateMatrix.UseVisualStyleBackColor = true;
-            GenerateMatrix.Click += GenerateMatrix_Click;
+            GenerateMatrixButton.Location = new Point(9, 20);
+            GenerateMatrixButton.Name = "GenerateMatrixButton";
+            GenerateMatrixButton.Size = new Size(119, 63);
+            GenerateMatrixButton.TabIndex = 3;
+            GenerateMatrixButton.Text = "Згенерувати";
+            GenerateMatrixButton.UseVisualStyleBackColor = true;
+            GenerateMatrixButton.Click += GenerateMatrixButton_Click;
             // 
             // matrixCols
             // 
@@ -118,7 +118,7 @@
             // 
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label3);
-            panel1.Controls.Add(GenerateMatrix);
+            panel1.Controls.Add(GenerateMatrixButton);
             panel1.Controls.Add(matrixCols);
             panel1.Controls.Add(matrixRows);
             panel1.Location = new Point(22, 268);
@@ -291,7 +291,7 @@
         #endregion
         private Label matrixLabel;
         private Label inverseMatrixLabel;
-        private Button GenerateMatrix;
+        private Button GenerateMatrixButton;
         private NumericUpDown matrixCols;
         private NumericUpDown matrixRows;
         private Button calculateinverseMatrixButton;
