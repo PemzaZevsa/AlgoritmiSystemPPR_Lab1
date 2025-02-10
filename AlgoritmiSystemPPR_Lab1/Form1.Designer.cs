@@ -164,7 +164,7 @@
             // 
             protocolRichTextBox.Location = new Point(657, 62);
             protocolRichTextBox.Name = "protocolRichTextBox";
-            protocolRichTextBox.Size = new Size(272, 368);
+            protocolRichTextBox.Size = new Size(400, 368);
             protocolRichTextBox.TabIndex = 11;
             protocolRichTextBox.Text = "";
             // 
@@ -173,9 +173,9 @@
             matrixRankLabel.AutoSize = true;
             matrixRankLabel.Location = new Point(9, 23);
             matrixRankLabel.Name = "matrixRankLabel";
-            matrixRankLabel.Size = new Size(101, 20);
+            matrixRankLabel.Size = new Size(100, 20);
             matrixRankLabel.TabIndex = 12;
-            matrixRankLabel.Text = "Ранк матриці";
+            matrixRankLabel.Text = "Ранг матриці";
             // 
             // matrixRankTextBox
             // 
@@ -260,7 +260,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(941, 469);
+            ClientSize = new Size(1071, 469);
             Controls.Add(label5);
             Controls.Add(SLAUCalculateButton);
             Controls.Add(label2);

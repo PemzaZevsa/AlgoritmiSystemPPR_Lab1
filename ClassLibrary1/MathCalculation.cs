@@ -10,16 +10,7 @@ namespace ClassLibrary1
     {
         public static double[,] DifficultMathStaff(double[,] insertMatrix, int k)
         {
-            double[,] tempMatrix = new double[insertMatrix.GetLength(0), insertMatrix.GetLength(1)];
-
-            //copy
-            for (int i = 0; i < insertMatrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < insertMatrix.GetLength(1); j++)
-                {
-                    tempMatrix[i, j] = insertMatrix[i, j];
-                }
-            }
+            double[,] tempMatrix = CopyArray(insertMatrix);
 
             double ars = tempMatrix[k, k];
             insertMatrix[k, k] = 1;
@@ -76,16 +67,7 @@ namespace ClassLibrary1
 
         public static int MatrixRank(double[,] insertMatrix)
         {
-            double[,] rankMatrix = new double[insertMatrix.GetLength(0), insertMatrix.GetLength(1)];
-
-            //copy
-            for (int i = 0; i < insertMatrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < insertMatrix.GetLength(1); j++)
-                {
-                    rankMatrix[i, j] = insertMatrix[i, j];
-                }
-            }
+            double[,] rankMatrix = CopyArray(insertMatrix);
 
             //calculate
             int rank = 0;
@@ -103,46 +85,63 @@ namespace ClassLibrary1
             return rank;
         }
 
-        public static double[,] InverseMatrix(double[,] insertMatrix, out string protocol)
+        public static double[,] InverseMatrix(double[,] insertMatrix, StringBuilder stringBuilder)
         {
-            double[,] inverseMatrix = new double[insertMatrix.GetLength(0), insertMatrix.GetLength(1)];
-
-            //copy
-            for (int i = 0; i < insertMatrix.GetLength(0); i++)
-            {
-                for (int j = 0; j < insertMatrix.GetLength(1); j++)
-                {
-                    inverseMatrix[i, j] = insertMatrix[i, j];
-                }
-            }
+            double[,] inverseMatrix = CopyArray(insertMatrix);
 
             //calculate
-            StringBuilder stringBuilder = new StringBuilder();
             for (int i = 0; i < 3; i++)
             {
                 inverseMatrix = DifficultMathStaff(inverseMatrix, i);
                 FormStaff.PrintProtocol(inverseMatrix, stringBuilder, i);
             }
 
-            protocol = stringBuilder.ToString();
             return inverseMatrix;
         }
 
-        public static double[] SLAU(double[] insertArray, double[,] incertMatrix)
+        public static double[] SLAU(double[] insertArray, double[,] incertMatrix, StringBuilder stringBuilder)
         {
             double[] xMatrix = new double[insertArray.GetLength(0)];
+            stringBuilder.AppendLine($"Обчислення розв'язків:");
             for (int i = 0; i < insertArray.GetLength(0); i++)
             {
+                stringBuilder.Append($"X[{i}] = ");
+
                 double sum = 0;
                 for (int j = 0; j < incertMatrix.GetLength(1); j++)
                 {
                     sum += incertMatrix[i, j] * insertArray[j];
+                    stringBuilder.Append($"{Math.Round(incertMatrix[i, j],2)} * {Math.Round(insertArray[j],2)} ");
+
+                    if (j < incertMatrix.GetLength(1)-1)
+                    {
+                        stringBuilder.Append($"+ ");
+                    }
                 }
 
                 xMatrix[i] = sum;
+                stringBuilder.AppendLine($"= {sum}");
             }
 
+            stringBuilder.AppendLine($"\n");
             return xMatrix;
+        }
+
+        public static double[,] GenerateMatrix(int rows, int cols)
+        {
+            double[,] newMatrix = new double[rows, cols];
+
+            Random random = new Random();
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    newMatrix[i, j] = random.Next(1, 10); // [1-9]
+                }
+            }
+
+            return newMatrix;
         }
     }
 }

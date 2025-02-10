@@ -5,9 +5,7 @@ VisualStudioVersion = 17.9.34622.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AlgoritmiSystemPPR_Lab1", "AlgoritmiSystemPPR_Lab1\AlgoritmiSystemPPR_Lab1.csproj", "{657AD480-E709-40C9-864B-EC6246146CD9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject1", "TestProject1\TestProject1.csproj", "{505B7E84-4364-45E5-AD39-A4A13C515E92}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{88D72163-04A6-4AD8-9799-D03B43ED9200}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassLibrary1", "ClassLibrary1\ClassLibrary1.csproj", "{88D72163-04A6-4AD8-9799-D03B43ED9200}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +17,6 @@ Global
 		{657AD480-E709-40C9-864B-EC6246146CD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{657AD480-E709-40C9-864B-EC6246146CD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{657AD480-E709-40C9-864B-EC6246146CD9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{505B7E84-4364-45E5-AD39-A4A13C515E92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{505B7E84-4364-45E5-AD39-A4A13C515E92}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{505B7E84-4364-45E5-AD39-A4A13C515E92}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{505B7E84-4364-45E5-AD39-A4A13C515E92}.Release|Any CPU.Build.0 = Release|Any CPU
 		{88D72163-04A6-4AD8-9799-D03B43ED9200}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{88D72163-04A6-4AD8-9799-D03B43ED9200}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88D72163-04A6-4AD8-9799-D03B43ED9200}.Release|Any CPU.ActiveCfg = Release|Any CPU

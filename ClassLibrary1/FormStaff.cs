@@ -11,8 +11,8 @@ namespace ClassLibrary1
         public static void PrintProtocol(double[,] insertMatrix, StringBuilder protocolText, int step)
         {
             double solvingElement = insertMatrix[step, step];
-            protocolText.AppendLine($"Step №{step + 1}");
-            protocolText.AppendLine($"Solving element: A[{step},{step}] = {Math.Round(solvingElement, 3)}");
+            protocolText.AppendLine($"Крок №{step + 1}");
+            protocolText.AppendLine($"Розв'язувальний елемент: A[{step},{step}] = {Math.Round(solvingElement, 3)}");
 
             for (int i = 0; i < insertMatrix.GetLength(0); i++)
             {
