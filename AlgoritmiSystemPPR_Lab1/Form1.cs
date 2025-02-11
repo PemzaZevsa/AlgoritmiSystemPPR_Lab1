@@ -7,23 +7,18 @@ namespace AlgoritmiSystemPPR_Lab1
 {
     public partial class Form1 : Form
     {
-        public double[,] matrix = {
-                        { 5, -3, 7},
-                        {-1, 4, 3},
-                        {6, -2, 5},
-                     };
+        private double[,] matrix;
 
-        public double[] bMatrix = {
-                        13,
-                        13,
-                        12,
-                     };
+        private double[] bMatrix;
 
-        double[,] inverseMatrix = null;
+        private double[,] inverseMatrix;
 
         public Form1()
         {
             InitializeComponent();
+            matrix = null;
+            bMatrix = null;
+            inverseMatrix = null;
         }
 
         private void PrintMatrixOnRichTextBox(double[,] incertMatrix, RichTextBox richTextBox)
@@ -54,7 +49,8 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void GenerateMatrixButton_Click(object sender, EventArgs e)
         {
-            //matrix = GenerateMatrix(((int)matrixRows.Value), ((int)matrixCols.Value));
+            matrix = MathCalculation.GenerateMatrix(((int)matrixRows.Value), ((int)matrixCols.Value), 1, 5);
+            bMatrix = MathCalculation.GenerateArray(((int)matrixRows.Value), 1, 5);
 
             PrintMatrixOnRichTextBox(matrix, matrixrRichTextBox);
             PrintArrayOnRichTextBox(bMatrix, matrixBRichTextBox);
@@ -67,7 +63,7 @@ namespace AlgoritmiSystemPPR_Lab1
             PrintMatrixOnRichTextBox(inverseMatrix, inverseMatrixRichTextBox);
 
             protocolRichTextBox.Clear();
-            protocolRichTextBox.Text = stringBuilder.ToString();            
+            protocolRichTextBox.Text = stringBuilder.ToString();
         }
 
         private void matrixRankButton_Click(object sender, EventArgs e)
@@ -89,6 +85,27 @@ namespace AlgoritmiSystemPPR_Lab1
 
             protocolRichTextBox.Clear();
             protocolRichTextBox.Text = stringBuilder.ToString();
+        }
+
+        private void loadMatrixButton_Click(object sender, EventArgs e)
+        {
+            double[,] tempMatrix = {
+                        { -2, 3, 2},
+                        {1, -1, 3},
+                        {2, -2, 1},
+                     };
+
+            double[] tempBMatrix = {
+                        1,
+                        4,
+                        3,
+                     };
+
+            matrix = MathCalculation.CopyMatrix(tempMatrix);
+            bMatrix = MathCalculation.CopyArray(tempBMatrix);
+
+            PrintMatrixOnRichTextBox(matrix, matrixrRichTextBox);
+            PrintArrayOnRichTextBox(bMatrix, matrixBRichTextBox);
         }
     }
 }

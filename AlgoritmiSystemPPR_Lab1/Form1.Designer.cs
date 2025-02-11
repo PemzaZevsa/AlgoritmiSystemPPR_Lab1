@@ -37,6 +37,7 @@
             panel1 = new Panel();
             label4 = new Label();
             label3 = new Label();
+            loadMatrixButton = new Button();
             matrixrRichTextBox = new RichTextBox();
             inverseMatrixRichTextBox = new RichTextBox();
             protocolRichTextBox = new RichTextBox();
@@ -68,7 +69,7 @@
             // inverseMatrixLabel
             // 
             inverseMatrixLabel.AutoSize = true;
-            inverseMatrixLabel.Location = new Point(358, 25);
+            inverseMatrixLabel.Location = new Point(313, 25);
             inverseMatrixLabel.Name = "inverseMatrixLabel";
             inverseMatrixLabel.Size = new Size(144, 20);
             inverseMatrixLabel.TabIndex = 2;
@@ -76,7 +77,7 @@
             // 
             // GenerateMatrixButton
             // 
-            GenerateMatrixButton.Location = new Point(9, 20);
+            GenerateMatrixButton.Location = new Point(0, 3);
             GenerateMatrixButton.Name = "GenerateMatrixButton";
             GenerateMatrixButton.Size = new Size(119, 63);
             GenerateMatrixButton.TabIndex = 3;
@@ -86,7 +87,7 @@
             // 
             // matrixCols
             // 
-            matrixCols.Location = new Point(206, 20);
+            matrixCols.Location = new Point(195, 6);
             matrixCols.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             matrixCols.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             matrixCols.Name = "matrixCols";
@@ -96,7 +97,7 @@
             // 
             // matrixRows
             // 
-            matrixRows.Location = new Point(206, 56);
+            matrixRows.Location = new Point(195, 39);
             matrixRows.Maximum = new decimal(new int[] { 10, 0, 0, 0 });
             matrixRows.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             matrixRows.Name = "matrixRows";
@@ -106,7 +107,7 @@
             // 
             // calculateinverseMatrixButton
             // 
-            calculateinverseMatrixButton.Location = new Point(358, 268);
+            calculateinverseMatrixButton.Location = new Point(313, 268);
             calculateinverseMatrixButton.Name = "calculateinverseMatrixButton";
             calculateinverseMatrixButton.Size = new Size(256, 50);
             calculateinverseMatrixButton.TabIndex = 7;
@@ -123,13 +124,13 @@
             panel1.Controls.Add(matrixRows);
             panel1.Location = new Point(22, 268);
             panel1.Name = "panel1";
-            panel1.Size = new Size(288, 94);
+            panel1.Size = new Size(256, 73);
             panel1.TabIndex = 8;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(138, 63);
+            label4.Location = new Point(125, 41);
             label4.Name = "label4";
             label4.Size = new Size(49, 20);
             label4.TabIndex = 8;
@@ -138,11 +139,21 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(138, 27);
+            label3.Location = new Point(125, 8);
             label3.Name = "label3";
             label3.Size = new Size(63, 20);
             label3.TabIndex = 7;
             label3.Text = "Стовпці";
+            // 
+            // loadMatrixButton
+            // 
+            loadMatrixButton.Location = new Point(22, 347);
+            loadMatrixButton.Name = "loadMatrixButton";
+            loadMatrixButton.Size = new Size(256, 41);
+            loadMatrixButton.TabIndex = 9;
+            loadMatrixButton.Text = "Використати готові матриці";
+            loadMatrixButton.UseVisualStyleBackColor = true;
+            loadMatrixButton.Click += loadMatrixButton_Click;
             // 
             // matrixrRichTextBox
             // 
@@ -154,7 +165,7 @@
             // 
             // inverseMatrixRichTextBox
             // 
-            inverseMatrixRichTextBox.Location = new Point(358, 62);
+            inverseMatrixRichTextBox.Location = new Point(313, 62);
             inverseMatrixRichTextBox.Name = "inverseMatrixRichTextBox";
             inverseMatrixRichTextBox.Size = new Size(200, 200);
             inverseMatrixRichTextBox.TabIndex = 10;
@@ -162,7 +173,7 @@
             // 
             // protocolRichTextBox
             // 
-            protocolRichTextBox.Location = new Point(657, 62);
+            protocolRichTextBox.Location = new Point(598, 62);
             protocolRichTextBox.Name = "protocolRichTextBox";
             protocolRichTextBox.Size = new Size(400, 368);
             protocolRichTextBox.TabIndex = 11;
@@ -171,7 +182,7 @@
             // matrixRankLabel
             // 
             matrixRankLabel.AutoSize = true;
-            matrixRankLabel.Location = new Point(9, 23);
+            matrixRankLabel.Location = new Point(3, 7);
             matrixRankLabel.Name = "matrixRankLabel";
             matrixRankLabel.Size = new Size(100, 20);
             matrixRankLabel.TabIndex = 12;
@@ -179,23 +190,23 @@
             // 
             // matrixRankTextBox
             // 
-            matrixRankTextBox.Location = new Point(143, 16);
+            matrixRankTextBox.Location = new Point(143, 4);
             matrixRankTextBox.Name = "matrixRankTextBox";
-            matrixRankTextBox.Size = new Size(124, 27);
+            matrixRankTextBox.Size = new Size(113, 27);
             matrixRankTextBox.TabIndex = 13;
             // 
             // panel2
             // 
             panel2.Controls.Add(matrixRankTextBox);
             panel2.Controls.Add(matrixRankLabel);
-            panel2.Location = new Point(22, 375);
+            panel2.Location = new Point(22, 394);
             panel2.Name = "panel2";
-            panel2.Size = new Size(290, 55);
+            panel2.Size = new Size(256, 36);
             panel2.TabIndex = 14;
             // 
             // matrixRankButton
             // 
-            matrixRankButton.Location = new Point(358, 324);
+            matrixRankButton.Location = new Point(313, 324);
             matrixRankButton.Name = "matrixRankButton";
             matrixRankButton.Size = new Size(256, 50);
             matrixRankButton.TabIndex = 15;
@@ -213,7 +224,7 @@
             // 
             // matrixXRichTextBox
             // 
-            matrixXRichTextBox.Location = new Point(564, 62);
+            matrixXRichTextBox.Location = new Point(519, 62);
             matrixXRichTextBox.Name = "matrixXRichTextBox";
             matrixXRichTextBox.Size = new Size(50, 200);
             matrixXRichTextBox.TabIndex = 17;
@@ -222,7 +233,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(228, 25);
+            label1.Location = new Point(194, 25);
             label1.Name = "label1";
             label1.Size = new Size(84, 20);
             label1.TabIndex = 18;
@@ -231,7 +242,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(564, 25);
+            label2.Location = new Point(485, 25);
             label2.Name = "label2";
             label2.Size = new Size(84, 20);
             label2.TabIndex = 19;
@@ -239,7 +250,7 @@
             // 
             // SLAUCalculateButton
             // 
-            SLAUCalculateButton.Location = new Point(358, 380);
+            SLAUCalculateButton.Location = new Point(313, 380);
             SLAUCalculateButton.Name = "SLAUCalculateButton";
             SLAUCalculateButton.Size = new Size(256, 50);
             SLAUCalculateButton.TabIndex = 20;
@@ -250,7 +261,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(657, 25);
+            label5.Location = new Point(598, 25);
             label5.Name = "label5";
             label5.Size = new Size(77, 20);
             label5.TabIndex = 21;
@@ -260,7 +271,8 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1071, 469);
+            ClientSize = new Size(1017, 469);
+            Controls.Add(loadMatrixButton);
             Controls.Add(label5);
             Controls.Add(SLAUCalculateButton);
             Controls.Add(label2);
@@ -311,5 +323,6 @@
         private Label label2;
         private Button SLAUCalculateButton;
         private Label label5;
+        private Button loadMatrixButton;
     }
 }
