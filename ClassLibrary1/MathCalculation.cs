@@ -35,8 +35,72 @@ namespace ClassLibrary1
 
             return newArray;
         }
-
         public static double[,] DifficultMathStaff(double[,] insertMatrix, int k)
+        {
+            double[,] tempMatrix = CopyMatrix(insertMatrix);
+
+            if (tempMatrix[k, k] == 0)
+            {
+                int swapRow = -1;
+                for (int i = k + 1; i < insertMatrix.GetLength(0); i++)
+                {
+                    if (tempMatrix[i, k] != 0)
+                    {
+                        swapRow = i;
+                        break;
+                    }
+                }
+
+                if (swapRow == -1)
+                {
+                    throw new InvalidOperationException("У столбці тільки нулі");
+                }
+
+                for (int j = 0; j < insertMatrix.GetLength(1); j++)
+                {
+                    double temp = insertMatrix[k, j];
+                    insertMatrix[k, j] = insertMatrix[swapRow, j];
+                    insertMatrix[swapRow, j] = temp;
+                }
+
+                tempMatrix = CopyMatrix(insertMatrix); 
+            }
+
+            double ars = tempMatrix[k, k];
+
+            insertMatrix[k, k] = 1;
+
+            //main row
+            for (int i = 0; i < insertMatrix.GetLength(1); i++)
+            {
+                if (k != i)
+                {
+                    insertMatrix[k, i] = -tempMatrix[k, i];
+                }
+            }
+            //other rows
+            for (int i = 0; i < insertMatrix.GetLength(0); i++)
+            {
+                if (i == k) continue;
+
+                for (int j = 0; j < insertMatrix.GetLength(1); j++)
+                {
+                    if (j == k) continue;
+                    insertMatrix[i, j] = tempMatrix[i, j] * tempMatrix[k, k] - tempMatrix[k, j] * tempMatrix[i, k];
+                }
+            }
+            //division
+            for (int i = 0; i < insertMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < insertMatrix.GetLength(1); j++)
+                {
+                    insertMatrix[i, j] /= ars;
+                }
+            }
+
+            return insertMatrix;
+        }
+        public static double[,] DifficultMathStaffOLD(double[,] insertMatrix, int k)
         {
             double[,] tempMatrix = CopyMatrix(insertMatrix);
 
@@ -108,19 +172,18 @@ namespace ClassLibrary1
 
         public static int MatrixRank(double[,] insertMatrix)
         {
+            int n = insertMatrix.GetLength(0);
+            int m = insertMatrix.GetLength(1);
             double[,] rankMatrix = CopyMatrix(insertMatrix);
 
-            //calculate
             int rank = 0;
-            for (int i = 0; i < insertMatrix.GetLength(0); i++)
+            for (int i = 0; i < Math.Min(n, m); i++)
             {
-                if (rankMatrix[i, i] == 0)
+                if (rankMatrix[i, i] != 0)
                 {
-                    continue;
+                    rankMatrix = DifficultMathStaff(rankMatrix, i);
+                    rank++;
                 }
-
-                rankMatrix = DifficultMathStaff(rankMatrix, i);
-                rank++;
             }
 
             return rank;
@@ -130,7 +193,6 @@ namespace ClassLibrary1
         {
             double[,] inverseMatrix = CopyMatrix(insertMatrix);
 
-            //calculate
             for (int i = 0; i < inverseMatrix.GetLength(0); i++)
             {
                 inverseMatrix = DifficultMathStaff(inverseMatrix, i);

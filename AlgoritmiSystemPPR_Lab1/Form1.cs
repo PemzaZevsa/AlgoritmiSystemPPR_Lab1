@@ -1,6 +1,7 @@
 using ClassLibrary1;
 using System.Drawing.Drawing2D;
 using System.Text;
+using System.Windows.Forms;
 using System.Xml.Linq;
 
 namespace AlgoritmiSystemPPR_Lab1
@@ -36,6 +37,21 @@ namespace AlgoritmiSystemPPR_Lab1
             }
         }
 
+        private void FancyPrintMatrixOnRichTextBox(double[,] incertMatrix, RichTextBox richTextBox)
+        {
+            richTextBox.Clear();
+
+            for (int i = 0; i < incertMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < incertMatrix.GetLength(1); j++)
+                {
+                    richTextBox.Text += Math.Round(incertMatrix[i, j], 3);
+                    richTextBox.Text += "\t";
+                }
+                richTextBox.Text += "\n";
+            }
+        }
+
         private void PrintArrayOnRichTextBox(double[] incertMatrix, RichTextBox richTextBox)
         {
             richTextBox.Clear();
@@ -56,11 +72,13 @@ namespace AlgoritmiSystemPPR_Lab1
             PrintArrayOnRichTextBox(bMatrix, matrixBRichTextBox);
         }
 
-        private void CalculateinverseMatrixButton_Click(object sender, EventArgs e)
+        private void CalculateInverseMatrixButton_Click(object sender, EventArgs e)
         {
+            matrix = ReadMatrixFromRichTextBox(matrixrRichTextBox);
+
             StringBuilder stringBuilder = new StringBuilder();
             inverseMatrix = MathCalculation.InverseMatrix(matrix, stringBuilder);
-            PrintMatrixOnRichTextBox(inverseMatrix, inverseMatrixRichTextBox);
+            FancyPrintMatrixOnRichTextBox(inverseMatrix, inverseMatrixRichTextBox);
 
             protocolRichTextBox.Clear();
             protocolRichTextBox.Text = stringBuilder.ToString();
@@ -68,6 +86,8 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void matrixRankButton_Click(object sender, EventArgs e)
         {
+            matrix = ReadMatrixFromRichTextBox(matrixrRichTextBox);
+
             int rank = MathCalculation.MatrixRank(matrix);
 
             matrixRankTextBox.Clear();
@@ -76,13 +96,20 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void SLAUCalculateButton_Click(object sender, EventArgs e)
         {
+            //reading
+            matrix = ReadMatrixFromRichTextBox(matrixrRichTextBox);
+            bMatrix = ReadMatrixBFromRichTextBox(matrixBRichTextBox);
+
+            //preparations
             StringBuilder stringBuilder = new StringBuilder();
             inverseMatrix = MathCalculation.InverseMatrix(matrix, stringBuilder);
-            PrintMatrixOnRichTextBox(inverseMatrix, inverseMatrixRichTextBox);
-
+            FancyPrintMatrixOnRichTextBox(inverseMatrix, inverseMatrixRichTextBox);
+            
+            //calculation
             double[] xMatrix = MathCalculation.SLAU(bMatrix, inverseMatrix, stringBuilder);
             PrintArrayOnRichTextBox(xMatrix, matrixXRichTextBox);
 
+            //protocol
             protocolRichTextBox.Clear();
             protocolRichTextBox.Text = stringBuilder.ToString();
         }
@@ -90,15 +117,15 @@ namespace AlgoritmiSystemPPR_Lab1
         private void loadMatrixButton_Click(object sender, EventArgs e)
         {
             double[,] tempMatrix = {
-                        { -2, 3, 2},
-                        {1, -1, 3},
-                        {2, -2, 1},
+                        {1, 1, 2},
+                        {-1, -1, 5},
+                        {2, 3, -3},
                      };
 
             double[] tempBMatrix = {
-                        1,
+                        5,
+                        2,
                         4,
-                        3,
                      };
 
             matrix = MathCalculation.CopyMatrix(tempMatrix);
@@ -107,5 +134,57 @@ namespace AlgoritmiSystemPPR_Lab1
             PrintMatrixOnRichTextBox(matrix, matrixrRichTextBox);
             PrintArrayOnRichTextBox(bMatrix, matrixBRichTextBox);
         }
+
+        private double[,] ReadMatrixFromRichTextBox(RichTextBox inputRichTextBox)
+        {
+            string[] rows = inputRichTextBox.Text.Trim().Split('\n');
+            string[] firstRowElements = rows[0].Trim().Split(' ');
+
+            int rowCount = rows.Length;           
+            int colCount = firstRowElements.Length;
+            double[,] matrix = new double[rowCount, colCount];
+
+            try
+            {
+                for (int i = 0; i < rowCount; i++)
+                {
+                    string[] elements = rows[i].Trim().Split(' ');
+
+                    for (int j = 0; j < colCount; j++)
+                    {
+                        matrix[i, j] = double.Parse(elements[j]);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                protocolRichTextBox.Text += $"{ex.Message}\n";
+            }
+
+            return matrix;
+        }
+
+        private double[] ReadMatrixBFromRichTextBox(RichTextBox inputRichTextBox)
+        {
+            string[] elements = inputRichTextBox.Text.Trim().Split('\n');
+            double[] array = new double[elements.Length];
+
+            try
+            {
+                for (int i = 0; i < elements.Length; i++)
+                {
+                    array[i] = double.Parse(elements[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                protocolRichTextBox.Text += $"{ex.Message}\n";
+            }
+
+            return array;
+        }
+
+
     }
 }

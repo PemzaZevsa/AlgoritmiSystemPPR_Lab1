@@ -15,7 +15,12 @@ namespace ClassLibrary1
             {
                 for (int j = 0; j < insertMatrix.GetLength(1); j++)
                 {
-                    protocolText.Append(Math.Round(insertMatrix[i, j], 3) + " ");
+                    if (insertMatrix[i, j] >= 0)
+                    {
+                        protocolText.Append(" ");
+                    }
+
+                    protocolText.Append(Math.Round(insertMatrix[i, j], 3) + "\t");
                 }
                 protocolText.AppendLine();
             }

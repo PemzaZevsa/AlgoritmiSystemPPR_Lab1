@@ -69,7 +69,7 @@
             // inverseMatrixLabel
             // 
             inverseMatrixLabel.AutoSize = true;
-            inverseMatrixLabel.Location = new Point(313, 25);
+            inverseMatrixLabel.Location = new Point(284, 25);
             inverseMatrixLabel.Name = "inverseMatrixLabel";
             inverseMatrixLabel.Size = new Size(144, 20);
             inverseMatrixLabel.TabIndex = 2;
@@ -77,9 +77,9 @@
             // 
             // GenerateMatrixButton
             // 
-            GenerateMatrixButton.Location = new Point(0, 3);
+            GenerateMatrixButton.Location = new Point(0, 6);
             GenerateMatrixButton.Name = "GenerateMatrixButton";
-            GenerateMatrixButton.Size = new Size(119, 63);
+            GenerateMatrixButton.Size = new Size(119, 60);
             GenerateMatrixButton.TabIndex = 3;
             GenerateMatrixButton.Text = "Згенерувати";
             GenerateMatrixButton.UseVisualStyleBackColor = true;
@@ -107,13 +107,13 @@
             // 
             // calculateinverseMatrixButton
             // 
-            calculateinverseMatrixButton.Location = new Point(313, 268);
+            calculateinverseMatrixButton.Location = new Point(284, 268);
             calculateinverseMatrixButton.Name = "calculateinverseMatrixButton";
-            calculateinverseMatrixButton.Size = new Size(256, 50);
+            calculateinverseMatrixButton.Size = new Size(356, 50);
             calculateinverseMatrixButton.TabIndex = 7;
             calculateinverseMatrixButton.Text = "Знайти обернену матрицю";
             calculateinverseMatrixButton.UseVisualStyleBackColor = true;
-            calculateinverseMatrixButton.Click += CalculateinverseMatrixButton_Click;
+            calculateinverseMatrixButton.Click += CalculateInverseMatrixButton_Click;
             // 
             // panel1
             // 
@@ -165,15 +165,15 @@
             // 
             // inverseMatrixRichTextBox
             // 
-            inverseMatrixRichTextBox.Location = new Point(313, 62);
+            inverseMatrixRichTextBox.Location = new Point(284, 62);
             inverseMatrixRichTextBox.Name = "inverseMatrixRichTextBox";
-            inverseMatrixRichTextBox.Size = new Size(200, 200);
+            inverseMatrixRichTextBox.Size = new Size(300, 200);
             inverseMatrixRichTextBox.TabIndex = 10;
             inverseMatrixRichTextBox.Text = "";
             // 
             // protocolRichTextBox
             // 
-            protocolRichTextBox.Location = new Point(598, 62);
+            protocolRichTextBox.Location = new Point(646, 62);
             protocolRichTextBox.Name = "protocolRichTextBox";
             protocolRichTextBox.Size = new Size(400, 368);
             protocolRichTextBox.TabIndex = 11;
@@ -206,9 +206,9 @@
             // 
             // matrixRankButton
             // 
-            matrixRankButton.Location = new Point(313, 324);
+            matrixRankButton.Location = new Point(284, 324);
             matrixRankButton.Name = "matrixRankButton";
-            matrixRankButton.Size = new Size(256, 50);
+            matrixRankButton.Size = new Size(356, 50);
             matrixRankButton.TabIndex = 15;
             matrixRankButton.Text = "Знайти ранг матриці";
             matrixRankButton.UseVisualStyleBackColor = true;
@@ -224,7 +224,7 @@
             // 
             // matrixXRichTextBox
             // 
-            matrixXRichTextBox.Location = new Point(519, 62);
+            matrixXRichTextBox.Location = new Point(590, 62);
             matrixXRichTextBox.Name = "matrixXRichTextBox";
             matrixXRichTextBox.Size = new Size(50, 200);
             matrixXRichTextBox.TabIndex = 17;
@@ -242,7 +242,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(485, 25);
+            label2.Location = new Point(556, 25);
             label2.Name = "label2";
             label2.Size = new Size(84, 20);
             label2.TabIndex = 19;
@@ -250,9 +250,9 @@
             // 
             // SLAUCalculateButton
             // 
-            SLAUCalculateButton.Location = new Point(313, 380);
+            SLAUCalculateButton.Location = new Point(284, 380);
             SLAUCalculateButton.Name = "SLAUCalculateButton";
-            SLAUCalculateButton.Size = new Size(256, 50);
+            SLAUCalculateButton.Size = new Size(356, 50);
             SLAUCalculateButton.TabIndex = 20;
             SLAUCalculateButton.Text = "Обчислити СЛАУ";
             SLAUCalculateButton.UseVisualStyleBackColor = true;
@@ -261,7 +261,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(598, 25);
+            label5.Location = new Point(646, 25);
             label5.Name = "label5";
             label5.Size = new Size(77, 20);
             label5.TabIndex = 21;
@@ -271,7 +271,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1017, 469);
+            ClientSize = new Size(1062, 469);
             Controls.Add(loadMatrixButton);
             Controls.Add(label5);
             Controls.Add(SLAUCalculateButton);
@@ -289,7 +289,7 @@
             Controls.Add(inverseMatrixLabel);
             Controls.Add(matrixLabel);
             Name = "Form1";
-            Text = "Хвостовець АЛГОРИТМИ СИСТЕМ ПІДТРИМКИ ПРИЙНЯТТЯ РІШЕНЬ Лаб1";
+            Text = "Хвостовець АСППР Лаб1";
             ((System.ComponentModel.ISupportInitialize)matrixCols).EndInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).EndInit();
             panel1.ResumeLayout(false);
