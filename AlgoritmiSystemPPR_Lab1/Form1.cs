@@ -88,10 +88,24 @@ namespace AlgoritmiSystemPPR_Lab1
         {
             matrix = ReadMatrixFromRichTextBox(matrixrRichTextBox);
 
-            int rank = MathCalculation.MatrixRank(matrix);
+            StringBuilder stringBuilder = new StringBuilder();
+            try
+            {
+                int rank = MathCalculation.MatrixRank(matrix, stringBuilder);
+                matrixRankTextBox.Clear();
+                matrixRankTextBox.Text = $"{rank}";
 
-            matrixRankTextBox.Clear();
-            matrixRankTextBox.Text = $"{rank}";
+                //protocol
+                protocolRichTextBox.Clear();
+                protocolRichTextBox.Text = stringBuilder.ToString();
+            }
+            catch (Exception ex)
+            {
+                protocolRichTextBox.Clear();
+                protocolRichTextBox.Text = stringBuilder.ToString();
+
+                protocolRichTextBox.Text += $"{ex.Message}";
+            }
         }
 
         private void SLAUCalculateButton_Click(object sender, EventArgs e)
