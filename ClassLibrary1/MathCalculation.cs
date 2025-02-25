@@ -35,6 +35,7 @@ namespace ClassLibrary1
 
             return newArray;
         }
+
         public static double[,] DifficultMathStaff(double[,] insertMatrix, int r, int s)
         {
             double[,] tempMatrix = CopyMatrix(insertMatrix);
@@ -102,6 +103,7 @@ namespace ClassLibrary1
 
             return insertMatrix;
         }
+
         public static double[,] DifficultMathStaffOLD(double[,] insertMatrix, int k)
         {
             double[,] tempMatrix = CopyMatrix(insertMatrix);
@@ -186,7 +188,14 @@ namespace ClassLibrary1
 
                 if (rankMatrix[itaya, jitaya] != 0)
                 {
-                    rankMatrix = DifficultMathStaff(rankMatrix, itaya, jitaya);
+                    try
+                    {
+                        rankMatrix = DifficultMathStaff(rankMatrix, itaya, jitaya);
+                    }
+                    catch (Exception)
+                    {
+                        throw;
+                    }
                     FormStaff.PrintProtocol(rankMatrix, stringBuilder, i, itaya, jitaya);
                     rank++;
                 }
@@ -218,7 +227,15 @@ namespace ClassLibrary1
 
             for (int i = 0; i < inverseMatrix.GetLength(0); i++)
             {
-                inverseMatrix = DifficultMathStaff(inverseMatrix, i, i);
+                try
+                {
+                    inverseMatrix = DifficultMathStaff(inverseMatrix, i, i);
+
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
                 FormStaff.PrintProtocol(inverseMatrix, stringBuilder, i);
             }
 
@@ -258,6 +275,74 @@ namespace ClassLibrary1
 
             stringBuilder.AppendLine($"\n");
             return xMatrix;
+        }
+
+        public static double[,] ModifiedZhordansExeptions(double[,] insertMatrix, int r, int s)
+        {
+            double[,] tempMatrix = CopyMatrix(insertMatrix);
+
+
+            if (tempMatrix[r, s] == 0)
+            {
+                int swapRow = -1;
+                for (int i = r + 1; i < insertMatrix.GetLength(0); i++)
+                {
+                    if (tempMatrix[i, r] != 0)
+                    {
+                        swapRow = i;
+                        break;
+                    }
+                }
+
+                if (swapRow == -1)
+                {
+                    throw new InvalidOperationException("У столбці тільки нулі");
+                }
+
+                for (int j = 0; j < insertMatrix.GetLength(1); j++)
+                {
+                    double temp = insertMatrix[r, j];
+                    insertMatrix[r, j] = insertMatrix[swapRow, j];
+                    insertMatrix[swapRow, j] = temp;
+                }
+
+                tempMatrix = CopyMatrix(insertMatrix);
+            }
+
+
+            double ars = tempMatrix[r, s];
+
+            insertMatrix[r, s] = 1;
+
+            //main col
+            for (int i = 0; i < insertMatrix.GetLength(0); i++)
+            {
+                if (s != i)
+                {
+                    insertMatrix[i, s] = -tempMatrix[i, s];
+                }
+            }
+            //other cols
+            for (int i = 0; i < insertMatrix.GetLength(0); i++)
+            {
+                if (i == r) continue;
+
+                for (int j = 0; j < insertMatrix.GetLength(1); j++)
+                {
+                    if (j == r) continue;
+                    insertMatrix[i, j] = tempMatrix[i, j] * tempMatrix[r, s] - tempMatrix[r, j] * tempMatrix[i, s];
+                }
+            }
+            //division
+            for (int i = 0; i < insertMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < insertMatrix.GetLength(1); j++)
+                {
+                    insertMatrix[i, j] /= ars;
+                }
+            }
+
+            return insertMatrix;
         }
 
     }
