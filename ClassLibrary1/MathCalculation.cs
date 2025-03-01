@@ -5,6 +5,7 @@ namespace ClassLibrary1
 {
     public static class MathCalculation
     {
+        //lab 1.1
         public static double[,] GenerateMatrix(int rows, int cols, int min, int max)
         {
             double[,] newMatrix = new double[rows, cols];
@@ -277,17 +278,18 @@ namespace ClassLibrary1
             return xMatrix;
         }
 
-        public static double[,] ModifiedZhordansExeptions(double[,] insertMatrix, int r, int s)
+        //lab 1.2
+        public static double[,] ModifiedZhordansExeptions(double[,] insertMatrix, int row, int col)
         {
             double[,] tempMatrix = CopyMatrix(insertMatrix);
 
 
-            if (tempMatrix[r, s] == 0)
+            if (tempMatrix[row, col] == 0)
             {
                 int swapRow = -1;
-                for (int i = r + 1; i < insertMatrix.GetLength(0); i++)
+                for (int i = row + 1; i < insertMatrix.GetLength(0); i++)
                 {
-                    if (tempMatrix[i, r] != 0)
+                    if (tempMatrix[i, row] != 0)
                     {
                         swapRow = i;
                         break;
@@ -301,8 +303,8 @@ namespace ClassLibrary1
 
                 for (int j = 0; j < insertMatrix.GetLength(1); j++)
                 {
-                    double temp = insertMatrix[r, j];
-                    insertMatrix[r, j] = insertMatrix[swapRow, j];
+                    double temp = insertMatrix[row, j];
+                    insertMatrix[row, j] = insertMatrix[swapRow, j];
                     insertMatrix[swapRow, j] = temp;
                 }
 
@@ -310,27 +312,27 @@ namespace ClassLibrary1
             }
 
 
-            double ars = tempMatrix[r, s];
+            double ars = tempMatrix[row, col];
 
-            insertMatrix[r, s] = 1;
+            insertMatrix[row, col] = 1;
 
             //main col
             for (int i = 0; i < insertMatrix.GetLength(0); i++)
             {
-                if (s != i)
+                if (col != i)
                 {
-                    insertMatrix[i, s] = -tempMatrix[i, s];
+                    insertMatrix[i, col] = -tempMatrix[i, col];
                 }
             }
             //other cols
             for (int i = 0; i < insertMatrix.GetLength(0); i++)
             {
-                if (i == r) continue;
+                if (i == row) continue;
 
                 for (int j = 0; j < insertMatrix.GetLength(1); j++)
                 {
-                    if (j == r) continue;
-                    insertMatrix[i, j] = tempMatrix[i, j] * tempMatrix[r, s] - tempMatrix[r, j] * tempMatrix[i, s];
+                    if (j == row) continue;
+                    insertMatrix[i, j] = tempMatrix[i, j] * tempMatrix[row, col] - tempMatrix[row, j] * tempMatrix[i, col];
                 }
             }
             //division
@@ -345,5 +347,238 @@ namespace ClassLibrary1
             return insertMatrix;
         }
 
+        public static double[,] MatrixFill(int[] variables, string[] rows)
+        {
+            double[,] matrix = new double[rows.Length + 1, variables.Length + 1];// rows.Length + 1 => zRow, variables.Length + 1 => right part
+
+            for (int i = 0; i < rows.Length; i++)
+            {
+                int indexMoreOrEqual = rows[i].IndexOf(">=");
+                int indexLessOrEqual = rows[i].IndexOf("<=");
+
+                if (indexMoreOrEqual != -1)
+                {
+                    string[] rowParts = rows[i].Split(">=");
+                    int[] vars = VariablesRead(variables.Length, rowParts[0]);
+
+                    for (int j = 0; j < variables.Length; j++)
+                    {
+                        matrix[i, j] = vars[j] * -1;// *-1
+                    }
+
+                    matrix[i, variables.Length] = int.Parse(rowParts[1]) * -1;
+                }
+
+                if (indexLessOrEqual != -1)
+                {
+                    string[] rowParts = rows[i].Split("<=");
+                    int[] vars = VariablesRead(variables.Length, rowParts[0]);
+
+                    for (int j = 0; j < variables.Length; j++)
+                    {
+                        matrix[i, j] = vars[j]; //*-1
+                    }
+
+                    matrix[i, variables.Length] = int.Parse(rowParts[1]);
+                }
+
+            }
+
+            for (int j = 0; j < variables.Length; j++)
+            {
+                matrix[rows.Length, j] = variables[j] * -1;
+            }
+
+            return matrix;
+        }
+
+        public static int[] VariablesRead(int varAmount, string zString)
+        {
+            int[] variables = new int[varAmount];
+            int tempVariable = 1;
+
+            while (zString.Length > 0)
+            {
+                tempVariable = 1;
+
+                //x value
+                if (zString[0] == '-')
+                {
+                    tempVariable *= -1;
+                    zString = zString.Substring(1);
+                }
+
+                if (zString[0] == '+')
+                {
+                    zString = zString.Substring(1);
+                }
+
+                string coeff = String.Empty;
+                while (zString[0] != 'x')
+                {
+                    coeff += zString.Substring(0, 1);
+                    zString = zString.Substring(1);
+                }
+
+                if (coeff != String.Empty)
+                {
+                    tempVariable *= int.Parse(coeff);
+                }
+
+                //remowe 'x'
+                zString = zString.Substring(1);
+
+                //x index
+                string xIndex = string.Empty;
+                while (zString.Length > 0 && zString[0] != '-' && zString[0] != '+')
+                {
+                    xIndex += zString.Substring(0, 1);
+                    zString = zString.Substring(1);
+                }
+
+                try
+                {
+                    variables[int.Parse(xIndex) - 1] = tempVariable;
+                }
+                catch (Exception ex)
+                {
+                    //stringBuilder.AppendLine(ex.Message);
+                    //stringBuilder.AppendLine($"х{xIndex} не існує");
+                }
+            }
+
+            return variables;
+        }
+
+        public static double[] SupportSolution(double[,] matrix, StringBuilder stringBuilder)
+        {
+            double[] res = new double[matrix.GetLength(1) - 1];
+            int[] rowsHeading = new int[matrix.GetLength(0) - 1];
+            int[] colsHeading = new int[matrix.GetLength(1) - 1];
+
+            //rowsHeading and colsHeading filling
+            for (int i = 0; i < matrix.GetLength(0) - 1; i++)
+            {
+                rowsHeading[i] = i * -1;
+            }
+
+            for (int i = 0; i < matrix.GetLength(1) - 1; i++)
+            {
+                colsHeading[i] = i * 1;
+            }
+
+            //negative numer search
+            double firstNegativeNumber = 0;
+            int pickedRow = -1;
+            for (int i = 0; i < matrix.GetLength(0) - 1; i++) //GetLength(0) - 1 => until rigth-bottom zero  
+            {
+                if (matrix[i, matrix.GetLength(1) - 1] < 0)
+                {
+                    firstNegativeNumber = matrix[i, matrix.GetLength(1) - 1];
+                    pickedRow = i;
+                    break;
+                }
+            }
+
+            //if no negative values in одиничному стовпці
+            if (firstNegativeNumber == 0)
+            {
+                //todo
+                for (int i = 0; i < matrix.GetLength(0) - 1; i++)
+                {
+                    if (rowsHeading[i] > 0)
+                    {
+                        res[rowsHeading[i] - 1] = matrix[i, matrix.GetLength(1) - 1];
+                    }
+                }
+
+                return res;
+            }
+
+            int iteration = 0;
+            do
+            {
+                iteration++;
+
+                //negative number search in picked row
+                double rowNegativeNumber = 0;
+                int pickedCol = -1;
+
+                for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+                {
+                    if (matrix[pickedRow, j] < 0)
+                    {
+                        rowNegativeNumber = matrix[pickedRow, j];
+                        pickedCol = j;
+                        MatrixElementsSwap(ref rowsHeading, pickedRow, ref colsHeading, j);
+                        break;
+                    }
+                }
+
+                if (rowNegativeNumber == 0)
+                {
+                    //вообще вписывать исключения в логику кода это плохо
+                    throw new ArgumentException("Система обмежень є суперечливою");
+                }
+
+                //redo
+                //minimal non-negative number search
+                double minimalNonNegative = double.MaxValue;
+                for (int i = 0; i < matrix.GetLength(0) - 1; i++)
+                {
+                    if (matrix[i, matrix.GetLength(1) - 1] / matrix[i, pickedCol] >= 0)
+                    {
+                        if ((matrix[i, matrix.GetLength(1) - 1] < minimalNonNegative))
+                        {
+                            minimalNonNegative = matrix[i, matrix.GetLength(1) - 1] / matrix[i, pickedCol];//
+                            pickedRow = i;
+                        }
+                    }
+                }
+
+                matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
+                FormStaff.PrintProtocol(matrix, stringBuilder, iteration, pickedRow, pickedCol);
+
+                //negative numer search
+                firstNegativeNumber = 0;
+                pickedRow = -1;
+                for (int i = 0; i < matrix.GetLength(0) - 1; i++) //GetLength(0) - 1 => until rigth-bottom zero  
+                {
+                    if (matrix[i, matrix.GetLength(1) - 1] < 0)
+                    {
+                        firstNegativeNumber = matrix[i, matrix.GetLength(1) - 1];
+                        pickedRow = i;
+                        break;
+                    }
+                }
+
+            } while (firstNegativeNumber != 0);
+
+            //if no negative values in одиничному стовпці
+
+            //todo 
+            for (int i = 0; i < matrix.GetLength(0) - 1; i++)
+            {
+                if (rowsHeading[i] > 0)
+                {
+                    res[rowsHeading[i] - 1] = matrix[i, matrix.GetLength(1) - 1];
+                }
+            }
+
+            return res;
+
+        }
+
+        public static double[] OptimalSolution(double[,] matrix)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static void MatrixElementsSwap(ref int[] array1, int index1, ref int[] array2, int index2)
+        {
+            int temp = array1[index1];
+            array1[index1] = array2[index2];
+            array2[index2] = temp;
+        }
     }
 }

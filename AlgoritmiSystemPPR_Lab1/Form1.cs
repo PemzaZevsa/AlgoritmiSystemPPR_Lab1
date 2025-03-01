@@ -22,6 +22,7 @@ namespace AlgoritmiSystemPPR_Lab1
             inverseMatrix = null;
         }
 
+        //lab 1.1
         private void PrintMatrixOnRichTextBox(double[,] incertMatrix, RichTextBox richTextBox)
         {
             richTextBox.Clear();
@@ -39,7 +40,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void FancyPrintMatrixOnRichTextBox(double[,] incertMatrix, RichTextBox richTextBox)
         {
-            richTextBox.Clear();
+            //richTextBox.Clear();
 
             for (int i = 0; i < incertMatrix.GetLength(0); i++)
             {
@@ -54,9 +55,9 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void PrintArrayOnRichTextBox(double[] incertMatrix, RichTextBox richTextBox)
         {
-            richTextBox.Clear();
+            //richTextBox.Clear();
 
-            for (int i = 0; i < matrix.GetLength(0); i++)
+            for (int i = 0; i < incertMatrix.GetLength(0); i++)
             {
                 richTextBox.Text += Math.Round(incertMatrix[i], 3);
                 richTextBox.Text += "\n";
@@ -206,6 +207,7 @@ namespace AlgoritmiSystemPPR_Lab1
             return array;
         }
 
+        //protocol
         private void protocolTextIncreaseButton_Click(object sender, EventArgs e)
         {
             protocolRichTextBox.Font = new Font(protocolRichTextBox.SelectionFont.FontFamily, protocolRichTextBox.SelectionFont.Size + 1);
@@ -228,73 +230,66 @@ namespace AlgoritmiSystemPPR_Lab1
             protocolRichTextBox.Clear();
         }
 
+        //lab 1.2
         private void calculateOptimalSolutionButton_Click(object sender, EventArgs e)
         {
-            int varAmount = ((int)variablesNumericUpDown.Value);
-            int[] variables = new int[varAmount];
+            if (maxRadioButton.Checked)
+            {
+                MaxSolutionScript();
+            }
+
+            if (minRadioButton.Checked)
+            {
+                MinSolutionScript();
+            }
+        }
+
+        private void MaxSolutionScript()
+        {
+            int variblesAmount = ((int)variablesNumericUpDown.Value);
             string zString = zTextBox.Text.Trim().ToLower();
-            int tempVariable = 1;
+            string[] restrictions = restrictionsRichTextBox.Text.Trim().Split('\n');
 
-            while (zString.Length > 0)
+            int[] variables = MathCalculation.VariablesRead(variblesAmount, zString);
+            double[,] matrix = MathCalculation.MatrixFill(variables, restrictions);
+
+            FancyPrintMatrixOnRichTextBox(matrix, protocolRichTextBox);
+
+            StringBuilder stringBuilder = new StringBuilder();
+            try
             {
-                tempVariable = 1;
-
-                //x value
-                if (zString[0] == '-')
-                {
-                    tempVariable *= -1;
-                    zString = zString.Substring(1);
-                }
-
-                if (zString[0] == '+')
-                {
-                    zString = zString.Substring(1);
-                }
-
-                string coeff = String.Empty;
-                while (zString[0] != 'x')
-                {
-                    coeff += zString.Substring(0,1);
-                    zString = zString.Substring(1);
-                }
-
-                if (coeff != String.Empty)
-                {
-                    tempVariable *= int.Parse(coeff);
-                }
-
-                //remowe 'x'
-                zString = zString.Substring(1);
-
-                //x index
-                string xIndex = string.Empty;
-                while (zString.Length > 0 && zString[0] != '-' && zString[0] != '+')
-                {
-                    xIndex += zString.Substring(0, 1);
-                    zString = zString.Substring(1);
-                }
-
-                try
-                {
-                    variables[int.Parse(xIndex)-1] = tempVariable;
-                }
-                catch (Exception ex)
-                {
-                    //stringBuilder.AppendLine(ex.Message);
-                    //stringBuilder.AppendLine($"υ{xIndex} νε ³ρνσΊ");
-                }
+                double[] result = MathCalculation.SupportSolution(matrix, stringBuilder);
+                PrintArrayOnRichTextBox(result, protocolRichTextBox);
+                FancyPrintMatrixOnRichTextBox(matrix, protocolRichTextBox);
+            }
+            catch (Exception ex)
+            {
+                protocolRichTextBox.Text += ex.Message;
             }
 
-            for (int i = 0; i < varAmount; i++)
-            {
-                protocolRichTextBox.Text += $"x{i+1}: {variables[i]}\t";
-            }
+            //protocol
+            protocolRichTextBox.Text += stringBuilder.ToString();
+        }
+
+        private void MinSolutionScript()
+        {
+            //double[,] resultMatrix = MathCalculation.MinFunction();
+
+
+            //int variblesAmount = ((int)variablesNumericUpDown.Value);
+            //string zString = zTextBox.Text.Trim().ToLower();
+            //string[] restrictions = restrictionsRichTextBox.Text.Trim().Split('\n');
+
+            //int[] variables = MathCalculation.VariablesRead(variblesAmount, zString);
+            //double[,] matrix = MathCalculation.MatrixFill(variables, restrictions);
+
+            //FancyPrintMatrixOnRichTextBox(matrix, protocolRichTextBox);
         }
 
         private void exampleButton_Click(object sender, EventArgs e)
         {
             StringBuilder limitations = new();
-            limitations.AppendLine("x1+x2-x3-2x4=6");
+            limitations.AppendLine("x1+x2-x3-2x4<=6");
             limitations.AppendLine("x1+x2+x3-x4<=5");
             limitations.AppendLine("2x1-x2+3x3-4x4<=10");
             restrictionsRichTextBox.Text = limitations.ToString();

@@ -58,9 +58,9 @@
             minRadioButton = new RadioButton();
             maxRadioButton = new RadioButton();
             restrictionsLabel = new Label();
-            yTextBox = new TextBox();
-            xTextBox = new TextBox();
-            yLabel = new Label();
+            zResultTextBox = new TextBox();
+            xResultTextBox = new TextBox();
+            zLabel2 = new Label();
             xLabel = new Label();
             calculateOptimalSolutionButton = new Button();
             variablesNumericUpDown = new NumericUpDown();
@@ -68,7 +68,7 @@
             restrictionsRichTextBox = new RichTextBox();
             exampleButton = new Button();
             zTextBox = new TextBox();
-            zLabel = new Label();
+            zLabel1 = new Label();
             clearProtocolButton = new Button();
             protocolTextIncreaseButton = new Button();
             protocolTextDecreaseButton = new Button();
@@ -332,9 +332,9 @@
             // 
             tabPage2.Controls.Add(panel3);
             tabPage2.Controls.Add(restrictionsLabel);
-            tabPage2.Controls.Add(yTextBox);
-            tabPage2.Controls.Add(xTextBox);
-            tabPage2.Controls.Add(yLabel);
+            tabPage2.Controls.Add(zResultTextBox);
+            tabPage2.Controls.Add(xResultTextBox);
+            tabPage2.Controls.Add(zLabel2);
             tabPage2.Controls.Add(xLabel);
             tabPage2.Controls.Add(calculateOptimalSolutionButton);
             tabPage2.Controls.Add(variablesNumericUpDown);
@@ -342,7 +342,7 @@
             tabPage2.Controls.Add(restrictionsRichTextBox);
             tabPage2.Controls.Add(exampleButton);
             tabPage2.Controls.Add(zTextBox);
-            tabPage2.Controls.Add(zLabel);
+            tabPage2.Controls.Add(zLabel1);
             tabPage2.Location = new Point(4, 29);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
@@ -363,6 +363,7 @@
             // minRadioButton
             // 
             minRadioButton.AutoSize = true;
+            minRadioButton.Checked = true;
             minRadioButton.Location = new Point(3, 15);
             minRadioButton.Name = "minRadioButton";
             minRadioButton.Size = new Size(58, 24);
@@ -378,7 +379,6 @@
             maxRadioButton.Name = "maxRadioButton";
             maxRadioButton.Size = new Size(62, 24);
             maxRadioButton.TabIndex = 3;
-            maxRadioButton.TabStop = true;
             maxRadioButton.Text = "MAX";
             maxRadioButton.UseVisualStyleBackColor = true;
             // 
@@ -391,28 +391,28 @@
             restrictionsLabel.TabIndex = 13;
             restrictionsLabel.Text = "Обмеження";
             // 
-            // yTextBox
+            // zResultTextBox
             // 
-            yTextBox.Location = new Point(423, 292);
-            yTextBox.Name = "yTextBox";
-            yTextBox.Size = new Size(230, 27);
-            yTextBox.TabIndex = 12;
+            zResultTextBox.Location = new Point(423, 292);
+            zResultTextBox.Name = "zResultTextBox";
+            zResultTextBox.Size = new Size(230, 27);
+            zResultTextBox.TabIndex = 12;
             // 
-            // xTextBox
+            // xResultTextBox
             // 
-            xTextBox.Location = new Point(424, 251);
-            xTextBox.Name = "xTextBox";
-            xTextBox.Size = new Size(229, 27);
-            xTextBox.TabIndex = 11;
+            xResultTextBox.Location = new Point(424, 251);
+            xResultTextBox.Name = "xResultTextBox";
+            xResultTextBox.Size = new Size(229, 27);
+            xResultTextBox.TabIndex = 11;
             // 
-            // yLabel
+            // zLabel2
             // 
-            yLabel.AutoSize = true;
-            yLabel.Location = new Point(386, 299);
-            yLabel.Name = "yLabel";
-            yLabel.Size = new Size(31, 20);
-            yLabel.TabIndex = 10;
-            yLabel.Text = "Y =";
+            zLabel2.AutoSize = true;
+            zLabel2.Location = new Point(386, 295);
+            zLabel2.Name = "zLabel2";
+            zLabel2.Size = new Size(32, 20);
+            zLabel2.TabIndex = 10;
+            zLabel2.Text = "Z =";
             // 
             // xLabel
             // 
@@ -476,14 +476,14 @@
             zTextBox.Size = new Size(315, 27);
             zTextBox.TabIndex = 1;
             // 
-            // zLabel
+            // zLabel1
             // 
-            zLabel.AutoSize = true;
-            zLabel.Location = new Point(14, 35);
-            zLabel.Name = "zLabel";
-            zLabel.Size = new Size(32, 20);
-            zLabel.TabIndex = 0;
-            zLabel.Text = "Z =";
+            zLabel1.AutoSize = true;
+            zLabel1.Location = new Point(14, 35);
+            zLabel1.Name = "zLabel1";
+            zLabel1.Size = new Size(32, 20);
+            zLabel1.TabIndex = 0;
+            zLabel1.Text = "Z =";
             // 
             // clearProtocolButton
             // 
@@ -580,12 +580,12 @@
         private RadioButton maxRadioButton;
         private RadioButton minRadioButton;
         private TextBox zTextBox;
-        private Label zLabel;
+        private Label zLabel1;
         private Label variablesLabel;
         private RichTextBox restrictionsRichTextBox;
-        private TextBox yTextBox;
-        private TextBox xTextBox;
-        private Label yLabel;
+        private TextBox zResultTextBox;
+        private TextBox xResultTextBox;
+        private Label zLabel2;
         private Label xLabel;
         private Button calculateOptimalSolutionButton;
         private NumericUpDown variablesNumericUpDown;
