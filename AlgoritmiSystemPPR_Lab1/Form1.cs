@@ -299,17 +299,62 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void MinSolutionScript()
         {
-            //double[,] resultMatrix = MathCalculation.MinFunction();
+            int variblesAmount = ((int)variablesNumericUpDown.Value);
+            string zString = zTextBox.Text.Trim().ToLower();
+            string[] restrictions = restrictionsRichTextBox.Text.Trim().Split('\n');
 
+            int[] variables = MathCalculation.VariablesRead(variblesAmount, zString);
+            double[,] matrix = MathCalculation.MatrixFill(variables, restrictions);
 
-            //int variblesAmount = ((int)variablesNumericUpDown.Value);
-            //string zString = zTextBox.Text.Trim().ToLower();
-            //string[] restrictions = restrictionsRichTextBox.Text.Trim().Split('\n');
+            //приведення до Z'
+            for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+            {
+                matrix[matrix.GetLength(0) - 1, j] *= -1;
+            }
 
-            //int[] variables = MathCalculation.VariablesRead(variblesAmount, zString);
-            //double[,] matrix = MathCalculation.MatrixFill(variables, restrictions);
+            FancyPrintMatrixOnRichTextBox(matrix, protocolRichTextBox);
 
-            //FancyPrintMatrixOnRichTextBox(matrix, protocolRichTextBox);
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("Знаходження опорного рішення:");
+            int[] rowsHeading = null;
+            int[] colsHeading = null;
+            try
+            {
+                double[] result = MathCalculation.SupportSolution(ref matrix, stringBuilder, out rowsHeading, out colsHeading);
+                stringBuilder.AppendLine("Опорний розв'язок знайдено:");
+
+                for (int i = 0; i < result.Length; i++)
+                {
+                    stringBuilder.AppendLine($"x{i + 1}:{result[i]}");
+                }
+            }
+            catch (Exception ex)
+            {
+                protocolRichTextBox.Text += ex.Message;
+            }
+
+            stringBuilder.AppendLine("Знаходження оптимального рішення:");
+            try
+            {
+                double[] result = MathCalculation.OptimalSolution(ref matrix, stringBuilder, rowsHeading, colsHeading);
+                stringBuilder.AppendLine("Оптимальний розв'язок знайдено:");
+
+                for (int i = 0; i < result.Length; i++)
+                {
+                    stringBuilder.AppendLine($"x{i + 1}:{result[i]}");
+                }
+
+                //min Z = -(max Z')
+                double zRes = matrix[matrix.GetLength(0) - 1, matrix.GetLength(1) - 1] * -1;
+                zResultTextBox.Text = $"{zRes}";
+            }
+            catch (Exception ex)
+            {
+                protocolRichTextBox.Text += ex.Message;
+            }
+
+            //protocol
+            protocolRichTextBox.Text += stringBuilder.ToString();
         }
 
         private void exampleButton_Click(object sender, EventArgs e)
