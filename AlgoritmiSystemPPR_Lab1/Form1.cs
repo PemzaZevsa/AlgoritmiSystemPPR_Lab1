@@ -256,11 +256,37 @@ namespace AlgoritmiSystemPPR_Lab1
             FancyPrintMatrixOnRichTextBox(matrix, protocolRichTextBox);
 
             StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("Знаходження опорного рішення:");
+            int[] rowsHeading = null;
+            int[] colsHeading = null;
             try
             {
-                double[] result = MathCalculation.SupportSolution(matrix, stringBuilder);
-                PrintArrayOnRichTextBox(result, protocolRichTextBox);
-                FancyPrintMatrixOnRichTextBox(matrix, protocolRichTextBox);
+                double[] result = MathCalculation.SupportSolution(ref matrix, stringBuilder, out rowsHeading, out colsHeading);
+                stringBuilder.AppendLine("Опорний розв'язок знайдено:");
+
+                for (int i = 0; i < result.Length; i++)
+                {
+                    stringBuilder.AppendLine($"x{i + 1}:{result[i]}");
+                }
+            }
+            catch (Exception ex)
+            {
+                protocolRichTextBox.Text += ex.Message;
+            }
+
+            stringBuilder.AppendLine("Знаходження оптимального рішення:");
+            try
+            {
+                double[] result = MathCalculation.OptimalSolution(ref matrix, stringBuilder, rowsHeading, colsHeading);
+                stringBuilder.AppendLine("Оптимальний розв'язок знайдено:");
+
+                for (int i = 0; i < result.Length; i++)
+                {
+                    stringBuilder.AppendLine($"x{i + 1}:{result[i]}");
+                }
+
+                double zRes = matrix[matrix.GetLength(0) - 1, matrix.GetLength(1) - 1];
+                zResultTextBox.Text = $"{zRes}";
             }
             catch (Exception ex)
             {
@@ -290,13 +316,23 @@ namespace AlgoritmiSystemPPR_Lab1
         {
             StringBuilder limitations = new();
             limitations.AppendLine("x1+x2-x3-2x4<=6");
-            limitations.AppendLine("x1+x2+x3-x4<=5");
-            limitations.AppendLine("2x1-x2+3x3-4x4<=10");
+            limitations.AppendLine("x1+x2+x3-x4>=5");
+            limitations.AppendLine("2x1-x2+3x3+4x4<=10");
             restrictionsRichTextBox.Text = limitations.ToString();
 
-            minRadioButton.Checked = true;
+            maxRadioButton.Checked = true;
             variablesNumericUpDown.Value = 4;
-            zTextBox.Text = "x1-x3+x4";
+            zTextBox.Text = "x1+2x2-x3-x4";
+
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("x1+x2-x3-2x4<=6");
+            //limitations.AppendLine("x1+x2+x3-x4<=5");
+            //limitations.AppendLine("2x1-x2+3x3-4x4<=10");
+            //restrictionsRichTextBox.Text = limitations.ToString();
+
+            //minRadioButton.Checked = true;
+            //variablesNumericUpDown.Value = 4;
+            //zTextBox.Text = "x1-x3+x4";
         }
     }
 }

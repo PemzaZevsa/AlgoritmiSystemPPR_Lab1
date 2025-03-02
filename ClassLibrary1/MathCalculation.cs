@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Text;
 
 namespace ClassLibrary1
@@ -283,7 +284,6 @@ namespace ClassLibrary1
         {
             double[,] tempMatrix = CopyMatrix(insertMatrix);
 
-
             if (tempMatrix[row, col] == 0)
             {
                 int swapRow = -1;
@@ -311,19 +311,15 @@ namespace ClassLibrary1
                 tempMatrix = CopyMatrix(insertMatrix);
             }
 
-
             double ars = tempMatrix[row, col];
-
-            insertMatrix[row, col] = 1;
 
             //main col
             for (int i = 0; i < insertMatrix.GetLength(0); i++)
             {
-                if (col != i)
-                {
-                    insertMatrix[i, col] = -tempMatrix[i, col];
-                }
+                insertMatrix[i, col] = -tempMatrix[i, col];
             }
+            insertMatrix[row, col] = 1;
+
             //other cols
             for (int i = 0; i < insertMatrix.GetLength(0); i++)
             {
@@ -331,10 +327,11 @@ namespace ClassLibrary1
 
                 for (int j = 0; j < insertMatrix.GetLength(1); j++)
                 {
-                    if (j == row) continue;
+                    if (j == col) continue;
                     insertMatrix[i, j] = tempMatrix[i, j] * tempMatrix[row, col] - tempMatrix[row, j] * tempMatrix[i, col];
                 }
             }
+
             //division
             for (int i = 0; i < insertMatrix.GetLength(0); i++)
             {
@@ -450,21 +447,23 @@ namespace ClassLibrary1
             return variables;
         }
 
-        public static double[] SupportSolution(double[,] matrix, StringBuilder stringBuilder)
+        public static double[] SupportSolution(ref double[,] matrix, StringBuilder stringBuilder, out int[] rowsHeading, out int[] colsHeading)
         {
             double[] res = new double[matrix.GetLength(1) - 1];
-            int[] rowsHeading = new int[matrix.GetLength(0) - 1];
-            int[] colsHeading = new int[matrix.GetLength(1) - 1];
+            rowsHeading = new int[matrix.GetLength(0) - 1];
+            colsHeading = new int[matrix.GetLength(1) - 1];
 
             //rowsHeading and colsHeading filling
+            //тобто, я придумав таку систему: позитивні числа серед rowsHeading та rowsHeading - це икси,
+            //негативні - ігрики
             for (int i = 0; i < matrix.GetLength(0) - 1; i++)
             {
-                rowsHeading[i] = i * -1;
+                rowsHeading[i] = 1 + i * -1;
             }
 
             for (int i = 0; i < matrix.GetLength(1) - 1; i++)
             {
-                colsHeading[i] = i * 1;
+                colsHeading[i] = 1 + i * 1;
             }
 
             //negative numer search
@@ -483,7 +482,6 @@ namespace ClassLibrary1
             //if no negative values in одиничному стовпці
             if (firstNegativeNumber == 0)
             {
-                //todo
                 for (int i = 0; i < matrix.GetLength(0) - 1; i++)
                 {
                     if (rowsHeading[i] > 0)
@@ -498,8 +496,6 @@ namespace ClassLibrary1
             int iteration = 0;
             do
             {
-                iteration++;
-
                 //negative number search in picked row
                 double rowNegativeNumber = 0;
                 int pickedCol = -1;
@@ -552,11 +548,11 @@ namespace ClassLibrary1
                     }
                 }
 
+                iteration++;
             } while (firstNegativeNumber != 0);
 
             //if no negative values in одиничному стовпці
-
-            //todo 
+            //если rowsHeading есть позитивные (тоесть иксы), то мы умножаем там чёто
             for (int i = 0; i < matrix.GetLength(0) - 1; i++)
             {
                 if (rowsHeading[i] > 0)
@@ -566,12 +562,130 @@ namespace ClassLibrary1
             }
 
             return res;
-
         }
 
-        public static double[] OptimalSolution(double[,] matrix)
+        public static double OptimalSolutionOLD(double[,] matrix, StringBuilder stringBuilder)
         {
-            throw new NotImplementedException();
+            //negative number search
+            int pickedCol = -1;   
+            for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+            {
+                if (matrix[matrix.GetLength(0) - 1, j] < 0)
+                {
+                    pickedCol = j; 
+                    break;
+                }
+            }
+
+            int iteration = 0;
+            while (pickedCol != -1 && iteration < 10)
+            {
+                //minimal non-negative number search
+                int pickedRow = -1;
+                double minimalNonNegative = double.MaxValue;
+                for (int i = 0; i < matrix.GetLength(0) - 1; i++)
+                {
+                    if (matrix[i, matrix.GetLength(1) - 1] / matrix[i, pickedCol] >= 0)
+                    {
+                        if ((matrix[i, matrix.GetLength(1) - 1] < minimalNonNegative))
+                        {
+                            minimalNonNegative = matrix[i, matrix.GetLength(1) - 1] / matrix[i, pickedCol];//
+                            pickedRow = i;
+                        }
+                    }
+                }
+
+                if (pickedRow == -1)
+                {
+                    throw new ArgumentException("Функція мети не обмежена зверху");
+                }
+
+                matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
+                FormStaff.PrintProtocol(matrix, stringBuilder, iteration, pickedRow, pickedCol);
+                iteration++;
+
+                //negative number search
+                pickedCol = -1;
+                for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+                {
+                    if (matrix[matrix.GetLength(0) - 1, j] < 0)
+                    {
+                        pickedCol = j;
+                        break;
+                    }
+                }
+            }
+
+            return matrix[matrix.GetLength(0)-1,matrix.GetLength(1)-1];
+        }
+
+        public static double[] OptimalSolution(ref double[,] matrix, StringBuilder stringBuilder, int[] rowsHeading, int[] colsHeading)
+        {
+            double[] res = new double[matrix.GetLength(1) - 1];
+            
+            // Поиск отрицательного числа в последней строке
+            int pickedCol = -1;
+            for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+            {
+                if (matrix[matrix.GetLength(0) - 1, j] < 0)
+                {
+                    pickedCol = j;
+                    break;
+                }
+            }
+
+            int iteration = 0;
+            while (pickedCol != -1 && iteration < 10)
+            {
+                // Поиск минимального положительного отношения
+                int pickedRow = -1;
+                double minimalNonNegative = double.MaxValue;
+
+                for (int i = 0; i < matrix.GetLength(0) - 1; i++)
+                {
+                    if (matrix[i, pickedCol] > 0) // Исключаем деление на ноль и отрицательные значения
+                    {
+                        double ratio = matrix[i, matrix.GetLength(1) - 1] / matrix[i, pickedCol];
+                        if (ratio >= 0 && ratio < minimalNonNegative)
+                        {
+                            minimalNonNegative = ratio;
+                            pickedRow = i;
+                        }
+                    }
+                }
+
+                if (pickedRow == -1)
+                {
+                    throw new ArgumentException("Функція мети не обмежена зверху");
+                }
+
+                // Применение метода Жордана
+                matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
+                MatrixElementsSwap(ref rowsHeading, pickedRow, ref colsHeading, pickedCol);
+                FormStaff.PrintProtocol(matrix, stringBuilder, iteration, pickedRow, pickedCol);
+                iteration++;
+
+                // Поиск следующего отрицательного числа
+                pickedCol = -1;
+                for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+                {
+                    if (matrix[matrix.GetLength(0) - 1, j] < 0)
+                    {
+                        pickedCol = j;
+                        break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < matrix.GetLength(0) - 1; i++)
+            {
+                if (rowsHeading[i] > 0)
+                {
+                    res[rowsHeading[i] - 1] = matrix[i, matrix.GetLength(1) - 1];
+                }
+            }
+
+            return res;
         }
 
         public static void MatrixElementsSwap(ref int[] array1, int index1, ref int[] array2, int index2)
