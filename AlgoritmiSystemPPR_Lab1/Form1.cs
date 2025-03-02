@@ -264,10 +264,8 @@ namespace AlgoritmiSystemPPR_Lab1
                 double[] result = MathCalculation.SupportSolution(ref matrix, stringBuilder, out rowsHeading, out colsHeading);
                 stringBuilder.AppendLine("Опорний розв'язок знайдено:");
 
-                for (int i = 0; i < result.Length; i++)
-                {
-                    stringBuilder.AppendLine($"x{i + 1}:{result[i]}");
-                }
+                string str = string.Join(", ", result);
+                stringBuilder.AppendLine($"X:({str})\n");
             }
             catch (Exception ex)
             {
@@ -280,10 +278,9 @@ namespace AlgoritmiSystemPPR_Lab1
                 double[] result = MathCalculation.OptimalSolution(ref matrix, stringBuilder, rowsHeading, colsHeading);
                 stringBuilder.AppendLine("Оптимальний розв'язок знайдено:");
 
-                for (int i = 0; i < result.Length; i++)
-                {
-                    stringBuilder.AppendLine($"x{i + 1}:{result[i]}");
-                }
+                string str = string.Join(", ", result);
+                stringBuilder.AppendLine($"X:({str})\n");
+                xResultTextBox.Text = str;
 
                 double zRes = matrix[matrix.GetLength(0) - 1, matrix.GetLength(1) - 1];
                 zResultTextBox.Text = $"{zRes}";
@@ -323,10 +320,8 @@ namespace AlgoritmiSystemPPR_Lab1
                 double[] result = MathCalculation.SupportSolution(ref matrix, stringBuilder, out rowsHeading, out colsHeading);
                 stringBuilder.AppendLine("Опорний розв'язок знайдено:");
 
-                for (int i = 0; i < result.Length; i++)
-                {
-                    stringBuilder.AppendLine($"x{i + 1}:{result[i]}");
-                }
+                string str = string.Join(", ", result);
+                stringBuilder.AppendLine($"X:({str})\n");
             }
             catch (Exception ex)
             {
@@ -339,10 +334,9 @@ namespace AlgoritmiSystemPPR_Lab1
                 double[] result = MathCalculation.OptimalSolution(ref matrix, stringBuilder, rowsHeading, colsHeading);
                 stringBuilder.AppendLine("Оптимальний розв'язок знайдено:");
 
-                for (int i = 0; i < result.Length; i++)
-                {
-                    stringBuilder.AppendLine($"x{i + 1}:{result[i]}");
-                }
+                string str = string.Join(", ", result);
+                stringBuilder.AppendLine($"X:({str})\n");
+                xResultTextBox.Text = str;
 
                 //min Z = -(max Z')
                 double zRes = matrix[matrix.GetLength(0) - 1, matrix.GetLength(1) - 1] * -1;
