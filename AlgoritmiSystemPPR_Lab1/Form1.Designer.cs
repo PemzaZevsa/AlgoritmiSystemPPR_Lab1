@@ -69,6 +69,24 @@
             exampleButton = new Button();
             zTextBox = new TextBox();
             zLabel1 = new Label();
+            tabPage3 = new TabPage();
+            panel4 = new Panel();
+            minRadioButton2 = new RadioButton();
+            maxRadioButton2 = new RadioButton();
+            label6 = new Label();
+            zResultTextBox2 = new TextBox();
+            xResultTextBox2 = new TextBox();
+            label7 = new Label();
+            label8 = new Label();
+            calculateOptimalSolutionButton2 = new Button();
+            variablesNumericUpDown2 = new NumericUpDown();
+            label10 = new Label();
+            restrictionsRichTextBox2 = new RichTextBox();
+            exampleButton2 = new Button();
+            zTextBox2 = new TextBox();
+            label11 = new Label();
+            freeVariablesTextBox = new TextBox();
+            label9 = new Label();
             clearProtocolButton = new Button();
             protocolTextIncreaseButton = new Button();
             protocolTextDecreaseButton = new Button();
@@ -81,6 +99,9 @@
             tabPage2.SuspendLayout();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)variablesNumericUpDown).BeginInit();
+            tabPage3.SuspendLayout();
+            panel4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)variablesNumericUpDown2).BeginInit();
             SuspendLayout();
             // 
             // matrixLabel
@@ -298,6 +319,7 @@
             // 
             tabControl1.Controls.Add(tabPage1);
             tabControl1.Controls.Add(tabPage2);
+            tabControl1.Controls.Add(tabPage3);
             tabControl1.Location = new Point(2, 3);
             tabControl1.Name = "tabControl1";
             tabControl1.SelectedIndex = 0;
@@ -325,7 +347,7 @@
             tabPage1.Padding = new Padding(3);
             tabPage1.Size = new Size(677, 421);
             tabPage1.TabIndex = 0;
-            tabPage1.Text = "Лаб1";
+            tabPage1.Text = "Лаб 1.1";
             tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
@@ -348,7 +370,7 @@
             tabPage2.Padding = new Padding(3);
             tabPage2.Size = new Size(677, 421);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "Лаб2";
+            tabPage2.Text = "Лаб 1.2";
             tabPage2.UseVisualStyleBackColor = true;
             // 
             // panel3
@@ -485,6 +507,181 @@
             zLabel1.TabIndex = 0;
             zLabel1.Text = "Z =";
             // 
+            // tabPage3
+            // 
+            tabPage3.Controls.Add(panel4);
+            tabPage3.Controls.Add(label6);
+            tabPage3.Controls.Add(zResultTextBox2);
+            tabPage3.Controls.Add(xResultTextBox2);
+            tabPage3.Controls.Add(label7);
+            tabPage3.Controls.Add(label8);
+            tabPage3.Controls.Add(calculateOptimalSolutionButton2);
+            tabPage3.Controls.Add(variablesNumericUpDown2);
+            tabPage3.Controls.Add(label10);
+            tabPage3.Controls.Add(restrictionsRichTextBox2);
+            tabPage3.Controls.Add(exampleButton2);
+            tabPage3.Controls.Add(zTextBox2);
+            tabPage3.Controls.Add(label11);
+            tabPage3.Controls.Add(freeVariablesTextBox);
+            tabPage3.Controls.Add(label9);
+            tabPage3.Location = new Point(4, 29);
+            tabPage3.Name = "tabPage3";
+            tabPage3.Padding = new Padding(3);
+            tabPage3.Size = new Size(677, 421);
+            tabPage3.TabIndex = 2;
+            tabPage3.Text = "Лаб 1.3";
+            tabPage3.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            panel4.Controls.Add(minRadioButton2);
+            panel4.Controls.Add(maxRadioButton2);
+            panel4.Location = new Point(386, 15);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(148, 58);
+            panel4.TabIndex = 27;
+            // 
+            // minRadioButton2
+            // 
+            minRadioButton2.AutoSize = true;
+            minRadioButton2.Checked = true;
+            minRadioButton2.Location = new Point(3, 15);
+            minRadioButton2.Name = "minRadioButton2";
+            minRadioButton2.Size = new Size(58, 24);
+            minRadioButton2.TabIndex = 2;
+            minRadioButton2.TabStop = true;
+            minRadioButton2.Text = "MIN";
+            minRadioButton2.UseVisualStyleBackColor = true;
+            // 
+            // maxRadioButton2
+            // 
+            maxRadioButton2.AutoSize = true;
+            maxRadioButton2.Location = new Point(65, 15);
+            maxRadioButton2.Name = "maxRadioButton2";
+            maxRadioButton2.Size = new Size(62, 24);
+            maxRadioButton2.TabIndex = 3;
+            maxRadioButton2.Text = "MAX";
+            maxRadioButton2.UseVisualStyleBackColor = true;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(14, 79);
+            label6.Name = "label6";
+            label6.Size = new Size(93, 20);
+            label6.TabIndex = 26;
+            label6.Text = "Обмеження";
+            // 
+            // zResultTextBox2
+            // 
+            zResultTextBox2.Location = new Point(423, 291);
+            zResultTextBox2.Name = "zResultTextBox2";
+            zResultTextBox2.Size = new Size(230, 27);
+            zResultTextBox2.TabIndex = 25;
+            // 
+            // xResultTextBox2
+            // 
+            xResultTextBox2.Location = new Point(424, 250);
+            xResultTextBox2.Name = "xResultTextBox2";
+            xResultTextBox2.Size = new Size(229, 27);
+            xResultTextBox2.TabIndex = 24;
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(386, 294);
+            label7.Name = "label7";
+            label7.Size = new Size(32, 20);
+            label7.TabIndex = 23;
+            label7.Text = "Z =";
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Location = new Point(386, 253);
+            label8.Name = "label8";
+            label8.Size = new Size(32, 20);
+            label8.TabIndex = 22;
+            label8.Text = "X =";
+            // 
+            // calculateOptimalSolutionButton2
+            // 
+            calculateOptimalSolutionButton2.Location = new Point(386, 169);
+            calculateOptimalSolutionButton2.Name = "calculateOptimalSolutionButton2";
+            calculateOptimalSolutionButton2.Size = new Size(267, 51);
+            calculateOptimalSolutionButton2.TabIndex = 21;
+            calculateOptimalSolutionButton2.Text = "Знайти оптимальний розв'язок";
+            calculateOptimalSolutionButton2.UseVisualStyleBackColor = true;
+            calculateOptimalSolutionButton2.Click += calculateOptimalSolutionButton2_Click;
+            // 
+            // variablesNumericUpDown2
+            // 
+            variablesNumericUpDown2.Location = new Point(551, 117);
+            variablesNumericUpDown2.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            variablesNumericUpDown2.Name = "variablesNumericUpDown2";
+            variablesNumericUpDown2.Size = new Size(102, 27);
+            variablesNumericUpDown2.TabIndex = 20;
+            variablesNumericUpDown2.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Location = new Point(386, 119);
+            label10.Name = "label10";
+            label10.Size = new Size(130, 20);
+            label10.TabIndex = 19;
+            label10.Text = "Кількість змінних";
+            // 
+            // restrictionsRichTextBox2
+            // 
+            restrictionsRichTextBox2.Location = new Point(14, 102);
+            restrictionsRichTextBox2.Name = "restrictionsRichTextBox2";
+            restrictionsRichTextBox2.Size = new Size(353, 246);
+            restrictionsRichTextBox2.TabIndex = 18;
+            restrictionsRichTextBox2.Text = "";
+            // 
+            // exampleButton2
+            // 
+            exampleButton2.Location = new Point(540, 15);
+            exampleButton2.Name = "exampleButton2";
+            exampleButton2.Size = new Size(113, 58);
+            exampleButton2.TabIndex = 17;
+            exampleButton2.Text = "Приклад";
+            exampleButton2.UseVisualStyleBackColor = true;
+            exampleButton2.Click += exampleButton2_Click;
+            // 
+            // zTextBox2
+            // 
+            zTextBox2.Location = new Point(52, 31);
+            zTextBox2.Name = "zTextBox2";
+            zTextBox2.Size = new Size(315, 27);
+            zTextBox2.TabIndex = 16;
+            // 
+            // label11
+            // 
+            label11.AutoSize = true;
+            label11.Location = new Point(14, 34);
+            label11.Name = "label11";
+            label11.Size = new Size(32, 20);
+            label11.TabIndex = 15;
+            label11.Text = "Z =";
+            // 
+            // freeVariablesTextBox
+            // 
+            freeVariablesTextBox.Location = new Point(119, 366);
+            freeVariablesTextBox.Name = "freeVariablesTextBox";
+            freeVariablesTextBox.Size = new Size(248, 27);
+            freeVariablesTextBox.TabIndex = 9;
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(14, 369);
+            label9.Name = "label9";
+            label9.Size = new Size(99, 20);
+            label9.TabIndex = 8;
+            label9.Text = "Вільні змінні";
+            // 
             // clearProtocolButton
             // 
             clearProtocolButton.Location = new Point(693, 417);
@@ -527,7 +724,7 @@
             Controls.Add(protocolRichTextBox);
             Controls.Add(label5);
             Name = "Form1";
-            Text = "Хвостовець АСППР Лаб1,2";
+            Text = "Хвостовець АСППР Лаб1.1, 1.2, 1.3";
             ((System.ComponentModel.ISupportInitialize)matrixCols).EndInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).EndInit();
             panel1.ResumeLayout(false);
@@ -542,6 +739,11 @@
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)variablesNumericUpDown).EndInit();
+            tabPage3.ResumeLayout(false);
+            tabPage3.PerformLayout();
+            panel4.ResumeLayout(false);
+            panel4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)variablesNumericUpDown2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -591,5 +793,23 @@
         private NumericUpDown variablesNumericUpDown;
         private Label restrictionsLabel;
         private Panel panel3;
+        private TabPage tabPage3;
+        private TextBox freeVariablesTextBox;
+        private Label label9;
+        private Panel panel4;
+        private RadioButton minRadioButton2;
+        private RadioButton maxRadioButton2;
+        private Label label6;
+        private TextBox zResultTextBox2;
+        private TextBox xResultTextBox2;
+        private Label label7;
+        private Label label8;
+        private Button calculateOptimalSolutionButton2;
+        private NumericUpDown variablesNumericUpDown2;
+        private Label label10;
+        private RichTextBox restrictionsRichTextBox2;
+        private Button exampleButton2;
+        private TextBox zTextBox2;
+        private Label label11;
     }
 }

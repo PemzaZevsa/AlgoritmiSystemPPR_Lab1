@@ -50,5 +50,92 @@ namespace ClassLibrary1
 
             protocolText.AppendLine("\n");
         }
+
+        public static void FancyMatrixPrint(LinearMatrix linearMatrix, StringBuilder protocolBuilder)
+        {
+            double[,] matrix = linearMatrix.matrix;
+            protocolBuilder.AppendLine("Вивід матриці:");
+
+            protocolBuilder.Append($"\t");
+            for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+            {
+                string varible = linearMatrix.colsHeading[j] > 0 ? "x" : linearMatrix.colsHeading[j] < 0 ? "y" : "";
+                protocolBuilder.Append($"{varible}{Math.Abs(linearMatrix.colsHeading[j])}\t");
+            }
+            protocolBuilder.AppendLine($"1");
+
+            for (int i = 0; i < matrix.GetLength(1) + 1; i++)
+            {
+                protocolBuilder.Append($"---------\t");
+            }
+            protocolBuilder.AppendLine($"");
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                if (i < matrix.GetLength(0) - 1)
+                {
+                    string varible = linearMatrix.rowsHeading[i] > 0 ? "x" : linearMatrix.rowsHeading[i] < 0 ? "y" : "";
+                    protocolBuilder.Append($"{varible}{Math.Abs(linearMatrix.rowsHeading[i])} = \t");
+                }
+                else
+                {
+                    protocolBuilder.Append($"Z = \t");
+                }
+
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    protocolBuilder.Append($"{Math.Round(matrix[i, j], 3)}");
+                    protocolBuilder.Append("\t");
+                }
+
+                protocolBuilder.AppendLine();
+            }
+        }
+
+        public static void FancyMatrixPrint(LinearMatrix linearMatrix, int step, int itaya, int jitaya, StringBuilder protocolBuilder)
+        {
+            double[,] matrix = linearMatrix.matrix;
+            double solvingElement = matrix[itaya, jitaya];
+
+            protocolBuilder.AppendLine($"Крок №{step + 1}");
+            protocolBuilder.AppendLine($"Розв'язувальний елемент: A[{itaya},{jitaya}] = {Math.Round(solvingElement, 3)}");
+
+            protocolBuilder.Append($"\t");
+            for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+            {
+                string varible = linearMatrix.colsHeading[j] > 0 ? "x" : linearMatrix.colsHeading[j] < 0 ? "y" : "";
+                protocolBuilder.Append($"{varible}{Math.Abs(linearMatrix.colsHeading[j])}\t");
+            }
+            protocolBuilder.AppendLine($"1");
+
+            for (int i = 0; i < matrix.GetLength(1) + 1; i++)
+            {
+                protocolBuilder.Append($"---------\t");
+            }
+            protocolBuilder.AppendLine($"");
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                if (i < matrix.GetLength(0) - 1)
+                {
+                    string varible = linearMatrix.rowsHeading[i] > 0 ? "x" : linearMatrix.rowsHeading[i] < 0 ? "y" : "";
+                    protocolBuilder.Append($"{varible}{Math.Abs(linearMatrix.rowsHeading[i])} = \t");
+                }
+                else
+                {
+                    protocolBuilder.Append($"Z = \t");
+                }
+
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    protocolBuilder.Append($"{Math.Round(matrix[i, j], 3)}");
+                    protocolBuilder.Append("\t");
+                }
+
+                protocolBuilder.AppendLine();
+            }
+        }
+
+
     }
 }
