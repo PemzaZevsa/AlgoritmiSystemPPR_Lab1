@@ -407,7 +407,7 @@
             // restrictionsLabel
             // 
             restrictionsLabel.AutoSize = true;
-            restrictionsLabel.Location = new Point(52, 80);
+            restrictionsLabel.Location = new Point(14, 80);
             restrictionsLabel.Name = "restrictionsLabel";
             restrictionsLabel.Size = new Size(93, 20);
             restrictionsLabel.TabIndex = 13;
@@ -475,9 +475,9 @@
             // 
             // restrictionsRichTextBox
             // 
-            restrictionsRichTextBox.Location = new Point(52, 103);
+            restrictionsRichTextBox.Location = new Point(14, 103);
             restrictionsRichTextBox.Name = "restrictionsRichTextBox";
-            restrictionsRichTextBox.Size = new Size(315, 246);
+            restrictionsRichTextBox.Size = new Size(353, 246);
             restrictionsRichTextBox.TabIndex = 5;
             restrictionsRichTextBox.Text = "";
             // 
@@ -536,7 +536,7 @@
             // 
             panel4.Controls.Add(minRadioButton2);
             panel4.Controls.Add(maxRadioButton2);
-            panel4.Location = new Point(386, 15);
+            panel4.Location = new Point(386, 16);
             panel4.Name = "panel4";
             panel4.Size = new Size(148, 58);
             panel4.TabIndex = 27;
@@ -566,7 +566,7 @@
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(14, 79);
+            label6.Location = new Point(14, 80);
             label6.Name = "label6";
             label6.Size = new Size(93, 20);
             label6.TabIndex = 26;
@@ -574,14 +574,14 @@
             // 
             // zResultTextBox2
             // 
-            zResultTextBox2.Location = new Point(423, 291);
+            zResultTextBox2.Location = new Point(423, 292);
             zResultTextBox2.Name = "zResultTextBox2";
             zResultTextBox2.Size = new Size(230, 27);
             zResultTextBox2.TabIndex = 25;
             // 
             // xResultTextBox2
             // 
-            xResultTextBox2.Location = new Point(424, 250);
+            xResultTextBox2.Location = new Point(424, 251);
             xResultTextBox2.Name = "xResultTextBox2";
             xResultTextBox2.Size = new Size(229, 27);
             xResultTextBox2.TabIndex = 24;
@@ -589,7 +589,7 @@
             // label7
             // 
             label7.AutoSize = true;
-            label7.Location = new Point(386, 294);
+            label7.Location = new Point(386, 295);
             label7.Name = "label7";
             label7.Size = new Size(32, 20);
             label7.TabIndex = 23;
@@ -598,7 +598,7 @@
             // label8
             // 
             label8.AutoSize = true;
-            label8.Location = new Point(386, 253);
+            label8.Location = new Point(386, 254);
             label8.Name = "label8";
             label8.Size = new Size(32, 20);
             label8.TabIndex = 22;
@@ -606,7 +606,7 @@
             // 
             // calculateOptimalSolutionButton2
             // 
-            calculateOptimalSolutionButton2.Location = new Point(386, 169);
+            calculateOptimalSolutionButton2.Location = new Point(386, 170);
             calculateOptimalSolutionButton2.Name = "calculateOptimalSolutionButton2";
             calculateOptimalSolutionButton2.Size = new Size(267, 51);
             calculateOptimalSolutionButton2.TabIndex = 21;
@@ -616,7 +616,7 @@
             // 
             // variablesNumericUpDown2
             // 
-            variablesNumericUpDown2.Location = new Point(551, 117);
+            variablesNumericUpDown2.Location = new Point(551, 118);
             variablesNumericUpDown2.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             variablesNumericUpDown2.Name = "variablesNumericUpDown2";
             variablesNumericUpDown2.Size = new Size(102, 27);
@@ -626,7 +626,7 @@
             // label10
             // 
             label10.AutoSize = true;
-            label10.Location = new Point(386, 119);
+            label10.Location = new Point(386, 120);
             label10.Name = "label10";
             label10.Size = new Size(130, 20);
             label10.TabIndex = 19;
@@ -634,7 +634,7 @@
             // 
             // restrictionsRichTextBox2
             // 
-            restrictionsRichTextBox2.Location = new Point(14, 102);
+            restrictionsRichTextBox2.Location = new Point(14, 103);
             restrictionsRichTextBox2.Name = "restrictionsRichTextBox2";
             restrictionsRichTextBox2.Size = new Size(353, 246);
             restrictionsRichTextBox2.TabIndex = 18;
@@ -642,7 +642,7 @@
             // 
             // exampleButton2
             // 
-            exampleButton2.Location = new Point(540, 15);
+            exampleButton2.Location = new Point(540, 16);
             exampleButton2.Name = "exampleButton2";
             exampleButton2.Size = new Size(113, 58);
             exampleButton2.TabIndex = 17;
@@ -652,7 +652,7 @@
             // 
             // zTextBox2
             // 
-            zTextBox2.Location = new Point(52, 31);
+            zTextBox2.Location = new Point(52, 32);
             zTextBox2.Name = "zTextBox2";
             zTextBox2.Size = new Size(315, 27);
             zTextBox2.TabIndex = 16;
@@ -660,7 +660,7 @@
             // label11
             // 
             label11.AutoSize = true;
-            label11.Location = new Point(14, 34);
+            label11.Location = new Point(14, 35);
             label11.Name = "label11";
             label11.Size = new Size(32, 20);
             label11.TabIndex = 15;
@@ -684,12 +684,13 @@
             // 
             // clearProtocolButton
             // 
+            clearProtocolButton.BackColor = Color.LightCoral;
             clearProtocolButton.Location = new Point(693, 417);
             clearProtocolButton.Name = "clearProtocolButton";
             clearProtocolButton.Size = new Size(137, 36);
             clearProtocolButton.TabIndex = 23;
             clearProtocolButton.Text = "Очистити";
-            clearProtocolButton.UseVisualStyleBackColor = true;
+            clearProtocolButton.UseVisualStyleBackColor = false;
             clearProtocolButton.Click += clearProtocolButton_Click;
             // 
             // protocolTextIncreaseButton

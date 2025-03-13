@@ -355,31 +355,32 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleButton_Click(object sender, EventArgs e)
         {
+            StringBuilder limitations = new();
+            limitations.AppendLine("x1+x2-x3-2x4<=6");
+            limitations.AppendLine("x1+x2+x3-x4>=5");
+            limitations.AppendLine("2x1-x2+3x3+4x4<=10");
+            restrictionsRichTextBox.Text = limitations.ToString();
+
+            maxRadioButton.Checked = true;
+            variablesNumericUpDown.Value = 4;
+            zTextBox.Text = "x1+2x2-x3-x4";
+
             //StringBuilder limitations = new();
             //limitations.AppendLine("x1+x2-x3-2x4<=6");
-            //limitations.AppendLine("x1+x2+x3-x4>=5");
+            //limitations.AppendLine("x1+x2+x3-x4<=5");
             //limitations.AppendLine("2x1-x2+3x3+4x4<=10");
             //restrictionsRichTextBox.Text = limitations.ToString();
 
-            //maxRadioButton.Checked = true;
+            //minRadioButton.Checked = true;
             //variablesNumericUpDown.Value = 4;
-            //zTextBox.Text = "x1+2x2-x3-x4";
-
-            StringBuilder limitations = new();
-            limitations.AppendLine("x1+x2-x3-2x4<=6");
-            limitations.AppendLine("x1+x2+x3-x4<=5");
-            limitations.AppendLine("2x1-x2+3x3-4x4<=10");
-            restrictionsRichTextBox.Text = limitations.ToString();
-
-            minRadioButton.Checked = true;
-            variablesNumericUpDown.Value = 4;
-            zTextBox.Text = "x1-x3+x4";
+            //zTextBox.Text = "x1-x3+x4";
         }
 
         //lab 1.3
 
         private void exampleButton2_Click(object sender, EventArgs e)
         {
+            ////Приклад
             //StringBuilder limitations = new();
             //limitations.AppendLine("-2x1+x2+x3+3x4=2");
             //limitations.AppendLine("-3x1+2x2-3x3=7");
@@ -391,6 +392,7 @@ namespace AlgoritmiSystemPPR_Lab1
             //variablesNumericUpDown2.Value = 4;
             //zTextBox2.Text = "10x1-x2-42x3-52x4";
 
+            //Варіант
             StringBuilder limitations = new();
             limitations.AppendLine("x1+x2-x3-2x4=6");
             limitations.AppendLine("x1+x2+x3-x4<=5");
@@ -400,6 +402,21 @@ namespace AlgoritmiSystemPPR_Lab1
             minRadioButton2.Checked = true;
             variablesNumericUpDown2.Value = 4;
             zTextBox2.Text = "x1-x3+x4";
+
+            ////Приклад з вільними змінними
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("x1+2x2+1>=0");
+            //limitations.AppendLine("2x1+x2-4>=0");
+            //limitations.AppendLine("x1-x2+1>=0");
+            //limitations.AppendLine("x1-4x2+13>=0");
+            //limitations.AppendLine("-4x1+x2+23>=0");
+
+            //restrictionsRichTextBox2.Text = limitations.ToString();
+
+            //maxRadioButton2.Checked = true;
+            //variablesNumericUpDown2.Value = 2;
+            //zTextBox2.Text = "-3x1+6x2";
+            //freeVariablesTextBox.Text = "x1 x2";
         }
 
         private void calculateOptimalSolutionButton2_Click(object sender, EventArgs e)
@@ -413,19 +430,22 @@ namespace AlgoritmiSystemPPR_Lab1
             double[,] matrix = linearMatrix.matrix;
             StringBuilder stringBuilder = new StringBuilder();
 
-            FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
-
-            try
-            {
-                MathCalculation.ZerosElimanating(linearMatrix, stringBuilder);
-            }
-            catch (Exception ex)
-            {
-                stringBuilder.AppendLine(ex.Message);
-            }
+            
 
             if (maxRadioButton2.Checked)
             {
+                FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
+
+                try
+                {
+                    MathCalculation.ZerosElimanating(linearMatrix, stringBuilder);
+                }
+                catch (Exception ex)
+                {
+                    stringBuilder.AppendLine(ex.Message);
+                }
+
+
                 FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
                 MaxSolutionScript(linearMatrix, stringBuilder);
             }
@@ -436,6 +456,17 @@ namespace AlgoritmiSystemPPR_Lab1
                 for (int j = 0; j < matrix.GetLength(1) - 1; j++)
                 {
                     matrix[matrix.GetLength(0) - 1, j] *= -1;
+                }
+
+                FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
+
+                try
+                {
+                    MathCalculation.ZerosElimanating(linearMatrix, stringBuilder);
+                }
+                catch (Exception ex)
+                {
+                    stringBuilder.AppendLine(ex.Message);
                 }
 
                 FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);

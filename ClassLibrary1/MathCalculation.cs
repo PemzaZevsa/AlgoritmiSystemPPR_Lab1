@@ -458,7 +458,7 @@ namespace ClassLibrary1
             //негативні - ігрики
             for (int i = 0; i < matrix.GetLength(0) - 1; i++)
             {
-                rowsHeading[i] = 1 + i * -1;
+                rowsHeading[i] = (1 + i) * -1;
             }
 
             for (int i = 0; i < matrix.GetLength(1) - 1; i++)
@@ -533,7 +533,7 @@ namespace ClassLibrary1
                 }
 
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
-                FormStaff.PrintProtocol(matrix, stringBuilder, iteration, pickedRow, pickedCol);
+                FormStaff.PrintProtocol(matrix, rowsHeading, colsHeading, stringBuilder, iteration, pickedRow, pickedCol);
 
                 //negative numer search
                 firstNegativeNumber = 0;
@@ -662,7 +662,7 @@ namespace ClassLibrary1
                 // Применение метода Жордана
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwap(ref rowsHeading, pickedRow, ref colsHeading, pickedCol);
-                FormStaff.PrintProtocol(matrix, stringBuilder, iteration, pickedRow, pickedCol);
+                FormStaff.PrintProtocol(matrix, rowsHeading, colsHeading, stringBuilder, iteration, pickedRow, pickedCol);
                 iteration++;
 
                 // Поиск следующего отрицательного числа
@@ -752,7 +752,8 @@ namespace ClassLibrary1
             //Z-рядок
             for (int j = 0; j < variables.Length; j++)
             {
-                matrix[rows.Length, j] = variables[j];//* -1
+                //чёто не так с з рядком - мб его нужно умножать на -1 только когда задача min
+                matrix[rows.Length, j] = variables[j] * -1;
             }
 
             return new LinearMatrix(matrix, rowHeadings, variables.Length);
@@ -766,72 +767,72 @@ namespace ClassLibrary1
             int matrixWidth = matrix.GetLength(1);
 
             //пошук нульової строки
-            bool zeroFlag = false;
             int zeroRow = -1;
             for (int i = 0; i < matrixHeight - 1; i++)
             {
                 if (rowsHeading[i] == 0)
                 {
-                    zeroFlag = true;
                     zeroRow = i;
                     break;
                 }
             }
 
             int iteration = 0;
-            while (zeroFlag) 
+            while (zeroRow != -1) 
             {
                 stringBuilder.AppendLine("Переніс нуля увверх");
                 //пошук додатного елемента
-                bool positiveElement = false;
+                int pickedCol = -1;
                 for (int j = 0; j < matrixWidth -1; j++)
                 {
                     if (matrix[zeroRow,j] > 0)
                     {
-                        positiveElement = true;
+                        pickedCol = j;
                         break;
                     }
                 }
 
-                if (!positiveElement)
+                if (pickedCol == -1)
                 {
                     stringBuilder.AppendLine("Система обмежень є суперечливою");
                     return false;
                 }
 
-                //Пошук мінімального невід'ємного
-                int minimalPositiveColumn = -1;
-                double minimalPositiveValue = double.MaxValue;
-                for (int j = 0; j < matrixWidth - 1; j++)
+                //Пошук мінімального невід'ємного у одиничному стовпці
+                int pickedRow = -1;
+                double minimalNonNegative = double.MaxValue;
+                for (int i = 0; i < matrixHeight - 1; i++)
                 {
-                    if (matrix[zeroRow, j] > 0)
+                    double dividedElement = matrix[i, matrixWidth - 1] / matrix[i, pickedCol];
+
+                    if (dividedElement >= 0)
                     {
-                        if (matrix[zeroRow, j] < minimalPositiveValue)
+                        if (dividedElement < minimalNonNegative)
                         {
-                            minimalPositiveValue = matrix[zeroRow, j];
-                            minimalPositiveColumn = j;
+                            minimalNonNegative = dividedElement;
+                            pickedRow = i;
                         }
                     }
                 }
 
-                matrix = ModifiedZhordansExeptions(matrix, zeroRow, minimalPositiveColumn);
-                MatrixElementsSwap(ref rowsHeading, zeroRow,ref linearMatrix.colsHeading, minimalPositiveColumn);
+                matrix = ModifiedZhordansExeptions(linearMatrix.matrix, pickedRow, pickedCol);
+                MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
                 //викреслення нульового стовпця
                 ZeroColumnElimination(linearMatrix);
                 //Оновлення посилання на нову матрицю
                 matrix = linearMatrix.matrix;
                 rowsHeading = linearMatrix.rowsHeading;
+                matrixHeight = matrix.GetLength(0);
+                matrixWidth = matrix.GetLength(1);
 
-                FormStaff.FancyMatrixPrint(linearMatrix, iteration, zeroRow, minimalPositiveColumn, stringBuilder);
+                FormStaff.FancyMatrixPrint(linearMatrix, iteration, zeroRow, pickedRow, stringBuilder);
 
                 //пошук нульової строки
-                zeroFlag = false;
                 zeroRow = -1;
                 for (int i = 0; i < matrixHeight - 1; i++)
                 {
                     if (rowsHeading[i] == 0)
                     {
-                        zeroFlag = true;
                         zeroRow = i;
                         break;
                     }
@@ -879,22 +880,20 @@ namespace ClassLibrary1
                         newCol++;
                     }
                 }
-            }
 
-            linearMatrix.matrix = newMatrix;
-            linearMatrix.colsHeading = newHeaders;
+                linearMatrix.matrix = newMatrix;
+                linearMatrix.colsHeading = newHeaders;
+            }
         }
 
         public static double[] SupportSolution(LinearMatrix linearMatrix, StringBuilder stringBuilder)
         {
             double[,] matrix = linearMatrix.matrix;
-            int[] rowsHeading = linearMatrix.rowsHeading;
-            int[] colsHeading = linearMatrix.colsHeading;
             double[] res = new double[linearMatrix.variablesCount];
             int matrixHeight = matrix.GetLength(0);
             int matrixWidth = matrix.GetLength(1);
 
-            //negative numer search
+            //пошук першого негативного числа у одиничному стовпцю
             int pickedRow = -1;
             for (int i = 0; i < matrixHeight - 1; i++) //matrixHeight - 1 => until rigth-bottom zero  
             {
@@ -908,7 +907,7 @@ namespace ClassLibrary1
             int iteration = 0;
             while (pickedRow != -1)
             {
-                //negative number search in picked row
+                //пошук першого негативного числа у рядку
                 double rowNegativeNumber = 0;
                 int pickedCol = -1;
 
@@ -918,7 +917,6 @@ namespace ClassLibrary1
                     {
                         rowNegativeNumber = matrix[pickedRow, j];
                         pickedCol = j;
-                        //MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, j);
                         break;
                     }
                 }
@@ -929,21 +927,23 @@ namespace ClassLibrary1
                     throw new ArgumentException("Система обмежень є суперечливою");
                 }
 
-                //redo
-                //minimal non-negative number search
+                //мінімальне позитивне число в одиничному стовпці
                 double minimalNonNegative = double.MaxValue;
                 for (int i = 0; i < matrixHeight - 1; i++)
                 {
-                    if (matrix[i, matrixWidth - 1] / matrix[i, pickedCol] >= 0)
+                    double dividedElement = matrix[i, matrixWidth - 1] / matrix[i, pickedCol];
+
+                    if (dividedElement >= 0)
                     {
-                        if ((matrix[i, matrixWidth - 1] < minimalNonNegative))
+                        if(dividedElement < minimalNonNegative)
                         {
-                            minimalNonNegative = matrix[i, matrixWidth - 1] / matrix[i, pickedCol];//
+                            minimalNonNegative = dividedElement;
                             pickedRow = i;
                         }
                     }
                 }
 
+                //МЖВ
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
                 FormStaff.FancyMatrixPrint(linearMatrix , iteration, pickedRow, pickedCol, stringBuilder);
@@ -966,9 +966,9 @@ namespace ClassLibrary1
             //если rowsHeading есть позитивные (тоесть иксы), то мы умножаем там чёто
             for (int i = 0; i < matrixHeight - 1; i++)
             {
-                if (rowsHeading[i] > 0)
+                if (linearMatrix.rowsHeading[i] > 0)
                 {
-                    res[rowsHeading[i] - 1] = matrix[i, matrixWidth - 1];//res = X(x1,x2,...)
+                    res[linearMatrix.rowsHeading[i] - 1] = matrix[i, matrixWidth - 1];//res = X(x1,x2,...)
                 }
             }
 
@@ -978,8 +978,6 @@ namespace ClassLibrary1
         public static double[] OptimalSolution(LinearMatrix linearMatrix, StringBuilder stringBuilder)
         {
             double[,] matrix = linearMatrix.matrix;
-            int[] rowsHeading = linearMatrix.rowsHeading;
-            int[] colsHeading = linearMatrix.colsHeading;
             double[] res = new double[linearMatrix.variablesCount];
             int matrixHeight = matrix.GetLength(0);
             int matrixWidth = matrix.GetLength(1);
@@ -1023,7 +1021,7 @@ namespace ClassLibrary1
 
                 //МЖВ
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
-                MatrixElementsSwap(ref rowsHeading, pickedRow, ref colsHeading, pickedCol);
+                MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
                 FormStaff.FancyMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, stringBuilder);
                 iteration++;
 
@@ -1042,9 +1040,9 @@ namespace ClassLibrary1
             //Отримання результатыв, якщо збоку у нас є ікси (вони більше нуля)
             for (int i = 0; i < matrixHeight - 1; i++)
             {
-                if (rowsHeading[i] > 0)
+                if (linearMatrix.rowsHeading[i] > 0)
                 {
-                    res[rowsHeading[i] - 1] = matrix[i, matrixWidth - 1];
+                    res[linearMatrix.rowsHeading[i] - 1] = matrix[i, matrixWidth - 1];
                 }
             }
 
