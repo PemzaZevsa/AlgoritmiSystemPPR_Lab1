@@ -752,7 +752,7 @@ namespace ClassLibrary1
             //Z-рядок
             for (int j = 0; j < variables.Length; j++)
             {
-                //чёто не так с з рядком - мб его нужно умножать на -1 только когда задача min
+                //мб не так с з рядком - мб его нужно умножать на -1 только когда задача min
                 matrix[rows.Length, j] = variables[j] * -1;
             }
 
@@ -780,7 +780,6 @@ namespace ClassLibrary1
             int iteration = 0;
             while (zeroRow != -1) 
             {
-                stringBuilder.AppendLine("Переніс нуля увверх");
                 //пошук додатного елемента
                 int pickedCol = -1;
                 for (int j = 0; j < matrixWidth -1; j++)
@@ -805,7 +804,7 @@ namespace ClassLibrary1
                 {
                     double dividedElement = matrix[i, matrixWidth - 1] / matrix[i, pickedCol];
 
-                    if (dividedElement >= 0)
+                    if (dividedElement > 0)// (dividedElement >= 0)
                     {
                         if (dividedElement < minimalNonNegative)
                         {
@@ -815,6 +814,7 @@ namespace ClassLibrary1
                     }
                 }
 
+                double solvingElement = matrix[pickedRow, pickedCol];
                 matrix = ModifiedZhordansExeptions(linearMatrix.matrix, pickedRow, pickedCol);
                 MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
                 //викреслення нульового стовпця
@@ -825,7 +825,7 @@ namespace ClassLibrary1
                 matrixHeight = matrix.GetLength(0);
                 matrixWidth = matrix.GetLength(1);
 
-                FormStaff.FancyMatrixPrint(linearMatrix, iteration, zeroRow, pickedRow, stringBuilder);
+                FormStaff.FancyMatrixPrint(linearMatrix, iteration, zeroRow, pickedCol, solvingElement, stringBuilder);
 
                 //пошук нульової строки
                 zeroRow = -1;
@@ -933,7 +933,7 @@ namespace ClassLibrary1
                 {
                     double dividedElement = matrix[i, matrixWidth - 1] / matrix[i, pickedCol];
 
-                    if (dividedElement >= 0)
+                    if (dividedElement > 0) //(dividedElement >= 0)
                     {
                         if(dividedElement < minimalNonNegative)
                         {
@@ -944,9 +944,10 @@ namespace ClassLibrary1
                 }
 
                 //МЖВ
+                double solvingElement = matrix[pickedRow, pickedCol];
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
-                FormStaff.FancyMatrixPrint(linearMatrix , iteration, pickedRow, pickedCol, stringBuilder);
+                FormStaff.FancyMatrixPrint(linearMatrix , iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
 
                 //negative numer search
                 pickedRow = -1;
@@ -1000,7 +1001,6 @@ namespace ClassLibrary1
                 //Мінімальне невід'ємне
                 int pickedRow = -1;
                 double minimalNonNegative = double.MaxValue;
-
                 for (int i = 0; i < matrixHeight - 1; i++)
                 {
                     if (matrix[i, pickedCol] > 0)
@@ -1020,9 +1020,10 @@ namespace ClassLibrary1
                 }
 
                 //МЖВ
+                double solvingElement = matrix[pickedRow, pickedCol];
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
-                FormStaff.FancyMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, stringBuilder);
+                FormStaff.FancyMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
                 iteration++;
 
                 //Пошук наступного негативного числа

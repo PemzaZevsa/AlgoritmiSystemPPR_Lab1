@@ -394,8 +394,8 @@ namespace AlgoritmiSystemPPR_Lab1
 
             //Варіант
             StringBuilder limitations = new();
-            limitations.AppendLine("x1+x2-x3-2x4=6");
-            limitations.AppendLine("x1+x2+x3-x4<=5");
+            limitations.AppendLine("x1+x2-x3-2x4<=6");
+            limitations.AppendLine("x1+x2+x3-x4=5");
             limitations.AppendLine("2x1-x2+3x3+4x4<=10");
             restrictionsRichTextBox2.Text = limitations.ToString();
 
@@ -430,8 +430,6 @@ namespace AlgoritmiSystemPPR_Lab1
             double[,] matrix = linearMatrix.matrix;
             StringBuilder stringBuilder = new StringBuilder();
 
-            
-
             if (maxRadioButton2.Checked)
             {
                 FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
@@ -439,15 +437,12 @@ namespace AlgoritmiSystemPPR_Lab1
                 try
                 {
                     MathCalculation.ZerosElimanating(linearMatrix, stringBuilder);
+                    MaxSolutionScript(linearMatrix, stringBuilder);
                 }
                 catch (Exception ex)
                 {
                     stringBuilder.AppendLine(ex.Message);
                 }
-
-
-                FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
-                MaxSolutionScript(linearMatrix, stringBuilder);
             }
 
             if (minRadioButton2.Checked)
@@ -463,14 +458,12 @@ namespace AlgoritmiSystemPPR_Lab1
                 try
                 {
                     MathCalculation.ZerosElimanating(linearMatrix, stringBuilder);
+                    MinSolutionScript(linearMatrix, stringBuilder);
                 }
                 catch (Exception ex)
                 {
                     stringBuilder.AppendLine(ex.Message);
                 }
-
-                FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
-                MinSolutionScript(linearMatrix, stringBuilder);
             }
 
             protocolRichTextBox.Text += stringBuilder.ToString();

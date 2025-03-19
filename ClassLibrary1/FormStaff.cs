@@ -136,10 +136,10 @@ namespace ClassLibrary1
             }
         }
 
-        public static void FancyMatrixPrint(LinearMatrix linearMatrix, int step, int itaya, int jitaya, StringBuilder protocolBuilder)
+        public static void FancyMatrixPrint(LinearMatrix linearMatrix, int step, int itaya, int jitaya, double solvingElement, StringBuilder protocolBuilder)
         {
             double[,] matrix = linearMatrix.matrix;
-            double solvingElement = matrix[itaya, jitaya];
+            //double solvingElement = matrix[itaya, jitaya];
 
             protocolBuilder.AppendLine($"Крок №{step + 1}");
             protocolBuilder.AppendLine($"Розв'язувальний елемент: A[{itaya},{jitaya}] = {Math.Round(solvingElement, 3)}");
