@@ -88,7 +88,7 @@
             freeVariablesTextBox2 = new TextBox();
             label9 = new Label();
             tabPage4 = new TabPage();
-            intVariablesTextBox3 = new TextBox();
+            integerVariablesTextBox3 = new TextBox();
             label18 = new Label();
             panel5 = new Panel();
             minRadioButton3 = new RadioButton();
@@ -708,7 +708,7 @@
             // 
             // tabPage4
             // 
-            tabPage4.Controls.Add(intVariablesTextBox3);
+            tabPage4.Controls.Add(integerVariablesTextBox3);
             tabPage4.Controls.Add(label18);
             tabPage4.Controls.Add(panel5);
             tabPage4.Controls.Add(label12);
@@ -733,12 +733,12 @@
             tabPage4.Text = "Лаб 1.4";
             tabPage4.UseVisualStyleBackColor = true;
             // 
-            // intVariablesTextBox3
+            // integerVariablesTextBox3
             // 
-            intVariablesTextBox3.Location = new Point(472, 366);
-            intVariablesTextBox3.Name = "intVariablesTextBox3";
-            intVariablesTextBox3.Size = new Size(181, 27);
-            intVariablesTextBox3.TabIndex = 44;
+            integerVariablesTextBox3.Location = new Point(472, 366);
+            integerVariablesTextBox3.Name = "integerVariablesTextBox3";
+            integerVariablesTextBox3.Size = new Size(181, 27);
+            integerVariablesTextBox3.TabIndex = 44;
             // 
             // label18
             // 
@@ -1052,7 +1052,7 @@
         private Label label16;
         private TextBox freeVariablesTextBox3;
         private Label label17;
-        private TextBox intVariablesTextBox3;
+        private TextBox integerVariablesTextBox3;
         private Label label18;
     }
 }

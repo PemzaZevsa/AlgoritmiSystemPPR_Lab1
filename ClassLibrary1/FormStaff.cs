@@ -103,8 +103,7 @@ namespace ClassLibrary1
             protocolBuilder.Append($"\t");
             for (int j = 0; j < matrix.GetLength(1) - 1; j++)
             {
-                string varible = linearMatrix.colsHeading[j] > 0 ? "x" : linearMatrix.colsHeading[j] < 0 ? "y" : "";
-                protocolBuilder.Append($"{varible}{Math.Abs(linearMatrix.colsHeading[j])}\t");
+                protocolBuilder.Append($"-{linearMatrix.colsHeading[j]}\t");
             }
             protocolBuilder.AppendLine($"1");
 
@@ -118,8 +117,7 @@ namespace ClassLibrary1
             {
                 if (i < matrix.GetLength(0) - 1)
                 {
-                    string varible = linearMatrix.rowsHeading[i] > 0 ? "x" : linearMatrix.rowsHeading[i] < 0 ? "y" : "";
-                    protocolBuilder.Append($"{varible}{Math.Abs(linearMatrix.rowsHeading[i])} = \t");
+                    protocolBuilder.Append($"{linearMatrix.rowsHeading[i]} = \t");
                 }
                 else
                 {
@@ -147,8 +145,7 @@ namespace ClassLibrary1
             protocolBuilder.Append($"\t");
             for (int j = 0; j < matrix.GetLength(1) - 1; j++)
             {
-                string varible = linearMatrix.colsHeading[j] > 0 ? "x" : linearMatrix.colsHeading[j] < 0 ? "y" : "";
-                protocolBuilder.Append($"{varible}{Math.Abs(linearMatrix.colsHeading[j])}\t");
+                protocolBuilder.Append($"-{linearMatrix.colsHeading[j]}\t");
             }
             protocolBuilder.AppendLine($"1");
 
@@ -162,8 +159,7 @@ namespace ClassLibrary1
             {
                 if (i < matrix.GetLength(0) - 1)
                 {
-                    string varible = linearMatrix.rowsHeading[i] > 0 ? "x" : linearMatrix.rowsHeading[i] < 0 ? "y" : "";
-                    protocolBuilder.Append($"{varible}{Math.Abs(linearMatrix.rowsHeading[i])} = \t");
+                    protocolBuilder.Append($"{linearMatrix.rowsHeading[i]} = \t");
                 }
                 else
                 {

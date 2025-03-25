@@ -341,6 +341,15 @@ namespace ClassLibrary1
                 }
             }
 
+            ////round
+            //for (int i = 0; i < insertMatrix.GetLength(0); i++)
+            //{
+            //    for (int j = 0; j < insertMatrix.GetLength(1); j++)
+            //    {
+            //        insertMatrix[i, j] = Math.Round(insertMatrix[i, j], 2); 
+            //    }
+            //}
+
             return insertMatrix;
         }
 
@@ -506,7 +515,7 @@ namespace ClassLibrary1
                     {
                         rowNegativeNumber = matrix[pickedRow, j];
                         pickedCol = j;
-                        MatrixElementsSwap(ref rowsHeading, pickedRow, ref colsHeading, j);
+                        MatrixElementsSwapOLD(ref rowsHeading, pickedRow, ref colsHeading, j);
                         break;
                     }
                 }
@@ -661,7 +670,7 @@ namespace ClassLibrary1
 
                 // Применение метода Жордана
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
-                MatrixElementsSwap(ref rowsHeading, pickedRow, ref colsHeading, pickedCol);
+                MatrixElementsSwapOLD(ref rowsHeading, pickedRow, ref colsHeading, pickedCol);
                 FormStaff.PrintProtocol(matrix, rowsHeading, colsHeading, stringBuilder, iteration, pickedRow, pickedCol);
                 iteration++;
 
@@ -688,9 +697,16 @@ namespace ClassLibrary1
             return res;
         }
 
-        public static void MatrixElementsSwap(ref int[] array1, int index1, ref int[] array2, int index2)
+        public static void MatrixElementsSwapOLD(ref int[] array1, int index1, ref int[] array2, int index2)
         {
             int temp = array1[index1];
+            array1[index1] = array2[index2];
+            array2[index2] = temp;
+        }
+
+        public static void MatrixElementsSwap(ref string[] array1, int index1, ref string[] array2, int index2)
+        {
+            string temp = array1[index1];
             array1[index1] = array2[index2];
             array2[index2] = temp;
         }
@@ -699,10 +715,10 @@ namespace ClassLibrary1
         public static LinearMatrix MatrixFill2(int[] variables, string[] rows)
         {
             double[,] matrix = new double[rows.Length + 1, variables.Length + 1];// rows.Length + 1 => restictions + zRow, variables.Length + 1 => varables + ones column
-            int[] rowHeadings = new int[rows.Length];
+            string[] rowHeadings = new string[rows.Length];
 
             //Основна матриця
-            for (int i = 0, x = -1; i < rows.Length; i++)
+            for (int i = 0, x = 1; i < rows.Length; i++)
             {
                 int indexMoreOrEqual = rows[i].IndexOf(">=");
                 int indexLessOrEqual = rows[i].IndexOf("<=");
@@ -719,7 +735,7 @@ namespace ClassLibrary1
                     }
 
                     matrix[i, variables.Length] = int.Parse(rowParts[1]) * -1;
-                    rowHeadings[i] = x--; 
+                    rowHeadings[i] = $"y{x++}"; 
                 }
                 else if (indexLessOrEqual != -1)
                 {
@@ -732,7 +748,7 @@ namespace ClassLibrary1
                     }
 
                     matrix[i, variables.Length] = int.Parse(rowParts[1]);
-                    rowHeadings[i] = x--;
+                    rowHeadings[i] = $"y{x++}";
                 }
                 else
                 {
@@ -745,7 +761,7 @@ namespace ClassLibrary1
                     }
 
                     matrix[i, variables.Length] = int.Parse(rowParts[1]);
-                    rowHeadings[i] = 0;
+                    rowHeadings[i] = "0";
                 }
             }
 
@@ -762,7 +778,7 @@ namespace ClassLibrary1
         public static bool ZerosElimanating(LinearMatrix linearMatrix, StringBuilder stringBuilder)
         {
             double[,] matrix = linearMatrix.matrix;
-            int[] rowsHeading = linearMatrix.rowsHeading;
+            string[] rowsHeading = linearMatrix.rowsHeading;
             int matrixHeight = matrix.GetLength(0);
             int matrixWidth = matrix.GetLength(1);
 
@@ -770,7 +786,7 @@ namespace ClassLibrary1
             int zeroRow = -1;
             for (int i = 0; i < matrixHeight - 1; i++)
             {
-                if (rowsHeading[i] == 0)
+                if (rowsHeading[i] == "0")
                 {
                     zeroRow = i;
                     break;
@@ -831,7 +847,7 @@ namespace ClassLibrary1
                 zeroRow = -1;
                 for (int i = 0; i < matrixHeight - 1; i++)
                 {
-                    if (rowsHeading[i] == 0)
+                    if (rowsHeading[i] == "0")
                     {
                         zeroRow = i;
                         break;
@@ -850,12 +866,12 @@ namespace ClassLibrary1
             int matrixHeight = matrix.GetLength(0);
             int matrixWidth = matrix.GetLength(1);
             double[,] newMatrix = new double[matrixHeight, matrixWidth - 1];
-            int[] newHeaders = new int[matrixWidth - 2];
+            string[] newHeaders = new string[matrixWidth - 2];
 
             int zeroColumn = -1;
             for (int i = 0; i < matrixWidth - 1; i++)
             {
-                if (linearMatrix.colsHeading[i] == 0)
+                if (linearMatrix.colsHeading[i] == "0")
                 {
                     zeroColumn = i; 
                     break;
@@ -961,15 +977,15 @@ namespace ClassLibrary1
                 }
 
                 iteration++;
-            } 
+            }
 
-            //if no negative values in одиничному стовпці
-            //если rowsHeading есть позитивные (тоесть иксы), то мы умножаем там чёто
+            //Отримання результатів
             for (int i = 0; i < matrixHeight - 1; i++)
             {
-                if (linearMatrix.rowsHeading[i] > 0)
+                if (linearMatrix.rowsHeading[i].Contains('x'))
                 {
-                    res[linearMatrix.rowsHeading[i] - 1] = matrix[i, matrixWidth - 1];//res = X(x1,x2,...)
+                    string temp = linearMatrix.rowsHeading[i].Substring(1);
+                    res[int.Parse(temp)-1] = matrix[i, matrixWidth - 1];//res = X(x1,x2,...)
                 }
             }
 
@@ -1039,12 +1055,13 @@ namespace ClassLibrary1
                 }
             }
 
-            //Отримання результатыв, якщо збоку у нас є ікси (вони більше нуля)
+            //Отримання результатів
             for (int i = 0; i < matrixHeight - 1; i++)
             {
-                if (linearMatrix.rowsHeading[i] > 0)
+                if (linearMatrix.rowsHeading[i].Contains('x'))
                 {
-                    res[linearMatrix.rowsHeading[i] - 1] = matrix[i, matrixWidth - 1];
+                    string temp = linearMatrix.rowsHeading[i].Substring(1);
+                    res[int.Parse(temp)-1] = matrix[i, matrixWidth - 1];//res = X(x1,x2,...)
                 }
             }
 
@@ -1060,12 +1077,12 @@ namespace ClassLibrary1
             {
                 if (number % 1 != 0)
                 {
-                    stringBuilder.AppendLine("Не всі ікси є цілими");
+                    stringBuilder.AppendLine("Знайдено розв’язок, у якому змінні мають дробову частину");
                     return false;
                 }
             }
 
-            stringBuilder.AppendLine("Всі ікси є цілими");
+            stringBuilder.AppendLine("Знайдено розв’язок, у якому змінні є цілими");
             return true; 
         }
         
@@ -1088,7 +1105,7 @@ namespace ClassLibrary1
             return index;
         }
 
-        public static bool PrintFractionalPartsOfRow(LinearMatrix linearMatrix, int rowIndex, StringBuilder stringBuilder)
+        public static bool CheckFractionals(LinearMatrix linearMatrix, int rowIndex, StringBuilder stringBuilder)
         {
             double[,] matrix = linearMatrix.matrix;
             int matrixWidth = matrix.GetLength(1);
@@ -1107,24 +1124,43 @@ namespace ClassLibrary1
                 sum += restrictions[i];
             }
 
-            if (sum == 0) 
+            if (sum == 0)
             {
                 return false;
             }
 
+            return true;
+        }
 
-            //уведення додаткового обмеження
+        public static double[] GetRestrictions(LinearMatrix linearMatrix, int rowIndex, StringBuilder stringBuilder)
+        {
+            double[,] matrix = linearMatrix.matrix;
+            int matrixWidth = matrix.GetLength(1);
+            double[] restrictions = new double[matrixWidth];
+
+            for (int i = 0; i < matrixWidth; i++)
+            {
+                double fractionalPart = matrix[rowIndex, i] - Math.Floor(matrix[rowIndex, i]);
+                restrictions[i] = fractionalPart;
+            }
+
+            return restrictions;
+        }
+
+        public static void AddRestriction(LinearMatrix linearMatrix, int xIndex, double[] restrictions, StringBuilder stringBuilder)
+        {
+            double[,] matrix = linearMatrix.matrix;
+            int matrixWidth = matrix.GetLength(1);
+
             for (int i = 0; i < matrixWidth; i++)
             {
                 restrictions[i] = -restrictions[i];
             }
 
             linearMatrix.matrix = IncertRestrictionInMatrix(matrix, restrictions);
-            linearMatrix.rowsHeading = IncertRestrictionInArray(linearMatrix.rowsHeading, (rowIndex + 1)* 1000);
+            linearMatrix.rowsHeading = IncertRestrictionInArray(linearMatrix.rowsHeading, $"s{xIndex}");
 
             FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
-
-            return true;
         }
 
         public static double[,] IncertRestrictionInMatrix(double[,] matrix, double[] restrictions)
@@ -1149,9 +1185,9 @@ namespace ClassLibrary1
             return newMatrix;
         }
 
-        public static int[] IncertRestrictionInArray(int[] array, int restriction)
+        public static string[] IncertRestrictionInArray(string[] array, string restriction)
         {
-            int[] newArray = new int[array.Length + 1];
+            string[] newArray = new string[array.Length + 1];
 
             newArray[0] = restriction;
 
