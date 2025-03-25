@@ -12,40 +12,43 @@ namespace ClassLibrary1
         public int[] colsHeading; //top headings
         public double[,] matrix;
         public int variablesCount;
+        public double[] res;      //calculated x`s
 
         public LinearMatrix(double[,] vmatrix, int variables)
         {
-            matrix = vmatrix;
-            rowsHeading = new int[matrix.GetLength(0) - 1];
-            colsHeading = new int[matrix.GetLength(1) - 1];
+            this.matrix = vmatrix;
+            this.rowsHeading = new int[matrix.GetLength(0) - 1];
+            this.colsHeading = new int[matrix.GetLength(1) - 1];
 
             //тобто, я придумав таку систему: позитивні числа серед rowsHeading та rowsHeading - це икси,
             //негативні - ігрики
             for (int i = 0; i < matrix.GetLength(0) - 1; i++)
             {
-                rowsHeading[i] = 1 + i * -1;
+                this.rowsHeading[i] = 1 + i * -1;
             }
 
             for (int i = 0; i < matrix.GetLength(1) - 1; i++)
             {
-                colsHeading[i] = 1 + i * 1;
+                this.colsHeading[i] = 1 + i * 1;
             }
 
             this.variablesCount = variables;
+            this.res = null;
         }
 
         public LinearMatrix(double[,] vmatrix, int[] vrowsHeading, int variables)
         {
-            matrix = vmatrix;
-            rowsHeading = vrowsHeading;
-            colsHeading = new int[matrix.GetLength(1) - 1];
+            this.matrix = vmatrix;
+            this.rowsHeading = vrowsHeading;
+            this.colsHeading = new int[matrix.GetLength(1) - 1];
 
             for (int i = 0; i < matrix.GetLength(1) - 1; i++)
             {
-                colsHeading[i] = 1 + i * 1;
+                this.colsHeading[i] = 1 + i * 1;
             }
 
             this.variablesCount = variables;
+            this.res = null;
         }
     }
 }

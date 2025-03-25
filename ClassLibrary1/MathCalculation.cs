@@ -973,6 +973,7 @@ namespace ClassLibrary1
                 }
             }
 
+            linearMatrix.res = res;
             return res;
         }
 
@@ -1047,8 +1048,119 @@ namespace ClassLibrary1
                 }
             }
 
+            linearMatrix.res = res;
             return res;
         }
 
+        //lab 1.4
+
+        public static bool AreXsInteger(LinearMatrix linearMatrix, StringBuilder stringBuilder)
+        {
+            foreach (var number in linearMatrix.res)
+            {
+                if (number % 1 != 0)
+                {
+                    stringBuilder.AppendLine("Не всі ікси є цілими");
+                    return false;
+                }
+            }
+
+            stringBuilder.AppendLine("Всі ікси є цілими");
+            return true; 
+        }
+        
+        public static int FindMaxFractionalPart(double[] array)
+        {
+            double maxFraction = 0;
+            int index = -1;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                double fractionalPart = array[i] - Math.Floor(array[i]);
+
+                if (fractionalPart > maxFraction)
+                {
+                    maxFraction = fractionalPart;
+                    index = i;
+                }
+            }
+
+            return index;
+        }
+
+        public static bool PrintFractionalPartsOfRow(LinearMatrix linearMatrix, int rowIndex, StringBuilder stringBuilder)
+        {
+            double[,] matrix = linearMatrix.matrix;
+            int matrixWidth = matrix.GetLength(1);
+            double[] restrictions = new double[matrixWidth];
+
+            for (int i = 0; i < matrixWidth; i++)
+            {
+                double fractionalPart = matrix[rowIndex, i] - Math.Floor(matrix[rowIndex, i]);
+                restrictions[i] = fractionalPart;
+            }
+
+            //перевірка значень рядку
+            double sum = 0;
+            for (int i = 0; i < matrixWidth - 1; i++)
+            {
+                sum += restrictions[i];
+            }
+
+            if (sum == 0) 
+            {
+                return false;
+            }
+
+
+            //уведення додаткового обмеження
+            for (int i = 0; i < matrixWidth; i++)
+            {
+                restrictions[i] = -restrictions[i];
+            }
+
+            linearMatrix.matrix = IncertRestrictionInMatrix(matrix, restrictions);
+            linearMatrix.rowsHeading = IncertRestrictionInArray(linearMatrix.rowsHeading, (rowIndex + 1)* 1000);
+
+            FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
+
+            return true;
+        }
+
+        public static double[,] IncertRestrictionInMatrix(double[,] matrix, double[] restrictions)
+        {
+            int oldRows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            double[,] newMatrix = new double[oldRows + 1, cols];
+
+            for (int j = 0; j < cols; j++)
+            {
+                newMatrix[0, j] = restrictions[j];
+            }
+
+            for (int i = 0; i < oldRows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    newMatrix[i + 1, j] = matrix[i, j];
+                }
+            }
+
+            return newMatrix;
+        }
+
+        public static int[] IncertRestrictionInArray(int[] array, int restriction)
+        {
+            int[] newArray = new int[array.Length + 1];
+
+            newArray[0] = restriction;
+
+            for (int i = 0; i < array.Length; i++)
+            {
+                newArray[i + 1] = array[i];
+            }
+
+            return newArray;
+        }
     }
 }
