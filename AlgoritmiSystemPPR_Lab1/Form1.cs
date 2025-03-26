@@ -515,6 +515,8 @@ namespace AlgoritmiSystemPPR_Lab1
                 double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1], 2);
                 zResult.Clear();
                 zResult.AppendLine($"{zRes}");
+                protocolBuilder.AppendLine($"Z:{zRes}\n");
+
             }
             catch (Exception ex)
             {
@@ -551,9 +553,11 @@ namespace AlgoritmiSystemPPR_Lab1
                 xResult.AppendLine($"{str}");
 
                 //min Z = -(max Z')
-                double zRes = linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1] * -1;
+                double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1] * -1,2);
                 zResult.Clear();
                 zResult.AppendLine($"{zRes}");
+                protocolBuilder.AppendLine($"Z:{zRes}\n");
+
             }
             catch (Exception ex)
             {
@@ -601,7 +605,6 @@ namespace AlgoritmiSystemPPR_Lab1
         {
             LinearMatrix linearMatrix = MatrixFillSkript((int)variablesNumericUpDown3.Value, zTextBox3.Text, restrictionsRichTextBox3.Text);
             linearMatrix.integerVariables = integerVariablesTextBox3.Text.Trim().Split(' ');
-            double[,] matrix = linearMatrix.matrix;
             StringBuilder stringBuilder = new StringBuilder();
             StringBuilder xResult = new StringBuilder();
             StringBuilder zResult = new StringBuilder();
@@ -619,13 +622,13 @@ namespace AlgoritmiSystemPPR_Lab1
                     stringBuilder.AppendLine(ex.Message);
                 }
             }
-            //todo
+            
             if (minRadioButton3.Checked)
             {
                 //приведення Z до Z'
-                for (int j = 0; j < matrix.GetLength(1) - 1; j++)
+                for (int j = 0; j < linearMatrix.matrix.GetLength(1) - 1; j++)
                 {
-                    matrix[matrix.GetLength(0) - 1, j] *= -1;
+                    linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, j] *= -1;
                 }
 
                 FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
@@ -648,35 +651,25 @@ namespace AlgoritmiSystemPPR_Lab1
         public void MaxSolutionScriptWithIntegers(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
         {
             MaxSolutionScript(linearMatrix, xResult, zResult, protocolBuilder);
-            int iterations = 0;
 
-            while (true)
+            for (int iterations = 0; iterations < 10; iterations++)
             {
-                if (iterations>10)
-                {
-                    return;
-                }
-
-                iterations++;
-
                 if (!MathCalculation.AreXsInteger(linearMatrix, protocolBuilder))
                 {
-                    int idexOfMaxFraction = MathCalculation.FindMaxFractionalPart(linearMatrix.res);
-                    protocolBuilder.AppendLine($"Вибраний індекс {idexOfMaxFraction}");
+                    (string maxFractionVariable, int index) = MathCalculation.MaxFractionVariable(linearMatrix);
+                    protocolBuilder.AppendLine($"Обрана змінна {maxFractionVariable}");
+                    protocolBuilder.AppendLine($"Обраний індекс {index}");
 
-                    if (!MathCalculation.CheckFractionals(linearMatrix, idexOfMaxFraction, protocolBuilder))
+                    if (!MathCalculation.CheckFractionals(linearMatrix, index, protocolBuilder))
                     {
                         protocolBuilder.AppendLine("Задача не має цілочислового рішення");
                         return;
                     }
 
-                    double[] restrictions = MathCalculation.GetRestrictions(linearMatrix, idexOfMaxFraction, protocolBuilder);
-                    int rowIndex = 1;
-                    MathCalculation.AddRestriction(linearMatrix, rowIndex, restrictions, protocolBuilder);
-                    for (int j = 0; j < linearMatrix.matrix.GetLength(1) - 1; j++)
-                    {
-                        linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, j] *= -1;
-                    }
+                    double[] restrictions = MathCalculation.GetRestrictions(linearMatrix, index, protocolBuilder);
+                    int xName = int.Parse(maxFractionVariable.Substring(1));
+                    MathCalculation.AddRestriction(linearMatrix, xName, restrictions, protocolBuilder);
+                    
                     MaxSolutionScript(linearMatrix, xResult, zResult, protocolBuilder);
                 }
                 else
@@ -690,31 +683,28 @@ namespace AlgoritmiSystemPPR_Lab1
         public void MinSolutionScriptWithIntegers(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
         {
             MinSolutionScript(linearMatrix, xResult, zResult, protocolBuilder);
-            int iterations = 0;
 
-            while (true)
+            for (int iterations = 0; iterations < 10; iterations++) 
             {
-                if (iterations > 10)
-                {
-                    return;
-                }
-
-                iterations++;
-
                 if (!MathCalculation.AreXsInteger(linearMatrix, protocolBuilder))
                 {
-                    int idexOfMaxFraction = MathCalculation.FindMaxFractionalPart(linearMatrix.res);
-                    protocolBuilder.AppendLine($"Вибраний індекс {idexOfMaxFraction}");
+                    (string maxFractionVariable, int index) = MathCalculation.MaxFractionVariable(linearMatrix);
+                    protocolBuilder.AppendLine($"Обрана змінна {maxFractionVariable}");
+                    protocolBuilder.AppendLine($"Обраний індекс {index}");
 
-                    if (!MathCalculation.CheckFractionals(linearMatrix, idexOfMaxFraction, protocolBuilder))
+                    if (!MathCalculation.CheckFractionals(linearMatrix, index, protocolBuilder))
                     {
                         protocolBuilder.AppendLine("Задача не має цілочислового рішення");
                         return;
                     }
 
-                    double[] restrictions = MathCalculation.GetRestrictions(linearMatrix, idexOfMaxFraction, protocolBuilder);
-                    int rowIndex = 1;
-                    MathCalculation.AddRestriction(linearMatrix, rowIndex, restrictions, protocolBuilder);
+                    double[] restrictions = MathCalculation.GetRestrictions(linearMatrix, index, protocolBuilder);
+                    int xName = int.Parse(maxFractionVariable.Substring(1));
+                    MathCalculation.AddRestriction(linearMatrix, xName, restrictions, protocolBuilder);
+                    for (int j = 0; j < linearMatrix.matrix.GetLength(1) - 1; j++)
+                    {
+                        linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, j] *= -1;
+                    }
                     MinSolutionScript(linearMatrix, xResult, zResult, protocolBuilder);
                 }
                 else

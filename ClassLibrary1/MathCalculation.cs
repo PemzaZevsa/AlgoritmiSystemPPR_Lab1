@@ -341,14 +341,14 @@ namespace ClassLibrary1
                 }
             }
 
-            ////round
-            //for (int i = 0; i < insertMatrix.GetLength(0); i++)
-            //{
-            //    for (int j = 0; j < insertMatrix.GetLength(1); j++)
-            //    {
-            //        insertMatrix[i, j] = Math.Round(insertMatrix[i, j], 2); 
-            //    }
-            //}
+            //round
+            for (int i = 0; i < insertMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < insertMatrix.GetLength(1); j++)
+                {
+                    insertMatrix[i, j] = Math.Round(insertMatrix[i, j], 10);
+                }
+            }
 
             return insertMatrix;
         }
@@ -1004,7 +1004,10 @@ namespace ClassLibrary1
             int pickedCol = -1;
             for (int j = 0; j < matrixWidth - 1; j++)
             {
-                if (matrix[matrixHeight - 1, j] < 0)
+                string str = $"{matrix[matrixHeight - 1, j]}";
+                //if (matrix[matrixHeight - 1, j] < 0 && Math.Round(matrix[matrixHeight - 1, j], 2) == -0)
+
+                if (matrix[matrixHeight - 1, j] < 0 )
                 {
                     pickedCol = j;
                     break;
@@ -1073,12 +1076,19 @@ namespace ClassLibrary1
 
         public static bool AreXsInteger(LinearMatrix linearMatrix, StringBuilder stringBuilder)
         {
-            foreach (var number in linearMatrix.res)
+            double[] res = linearMatrix.res;
+
+            //todo
+            //linearMatrix.integerVariables
+            for (int i = 0; i < res.Length; i++)
             {
-                if (number % 1 != 0)
+                if (linearMatrix.integerVariables.Contains($"x{i + 1}"))//redo
                 {
-                    stringBuilder.AppendLine("Знайдено розв’язок, у якому змінні мають дробову частину");
-                    return false;
+                    if (res[i] % 1 != 0)
+                    {
+                        stringBuilder.AppendLine("Знайдено розв’язок, у якому змінні мають дробову частину");
+                        return false;
+                    }
                 }
             }
 
@@ -1086,23 +1096,40 @@ namespace ClassLibrary1
             return true; 
         }
         
-        public static int FindMaxFractionalPart(double[] array)
+        public static (string,int) MaxFractionVariable(LinearMatrix linearMatrix)
         {
-            double maxFraction = 0;
-            int index = -1;
+            double[] res = linearMatrix.res;
+            double maxFraction = -1;
+            int variableId = -1;
+            //todo
+            //linearMatrix.integerVariables
 
-            for (int i = 0; i < array.Length; i++)
+            //пошук ікса
+            for (int i = 0; i < res.Length; i++)
             {
-                double fractionalPart = array[i] - Math.Floor(array[i]);
-
-                if (fractionalPart > maxFraction)
+                if (linearMatrix.integerVariables.Contains($"x{i+1}"))//redo
                 {
-                    maxFraction = fractionalPart;
-                    index = i;
+                    double fractionalPart = res[i] - Math.Floor(res[i]);
+
+                    if (fractionalPart > maxFraction)
+                    {
+                        maxFraction = fractionalPart;
+                        variableId = i;
+                    }
                 }
             }
 
-            return index;
+            //пошук індекса матриці
+            int headingIndexOfVariable = -1;
+            for (int i = 0; i < linearMatrix.rowsHeading.Length; i++)
+            {
+                if (linearMatrix.rowsHeading[i] == $"x{variableId+1}")
+                {
+                    headingIndexOfVariable = i ;
+                }
+            }
+
+            return ($"x{variableId+1}", headingIndexOfVariable);
         }
 
         public static bool CheckFractionals(LinearMatrix linearMatrix, int rowIndex, StringBuilder stringBuilder)
@@ -1147,7 +1174,7 @@ namespace ClassLibrary1
             return restrictions;
         }
 
-        public static void AddRestriction(LinearMatrix linearMatrix, int xIndex, double[] restrictions, StringBuilder stringBuilder)
+        public static void AddRestriction(LinearMatrix linearMatrix, int xName, double[] restrictions, StringBuilder stringBuilder)
         {
             double[,] matrix = linearMatrix.matrix;
             int matrixWidth = matrix.GetLength(1);
@@ -1158,7 +1185,7 @@ namespace ClassLibrary1
             }
 
             linearMatrix.matrix = IncertRestrictionInMatrix(matrix, restrictions);
-            linearMatrix.rowsHeading = IncertRestrictionInArray(linearMatrix.rowsHeading, $"s{xIndex}");
+            linearMatrix.rowsHeading = IncertRestrictionInArray(linearMatrix.rowsHeading, $"s{xName}");
 
             FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
         }
