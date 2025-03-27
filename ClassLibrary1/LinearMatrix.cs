@@ -8,27 +8,52 @@ namespace ClassLibrary1
 {
     public class LinearMatrix
     {
-        public string[] rowsHeading; //left headings
+        public string[] rowsHeading; //left headings 
+        public string[] rowsHeading2; //left headings2 - the most left one - anti task
         public string[] colsHeading; //top headings
+        public string[] colsHeading2; //top headings2 - the most top one - anti task
         public double[,] matrix;
         public int variablesCount;
         public double[] res;      //calculated x`s
         public string[] integerVariables;
 
-        public LinearMatrix(double[,] vmatrix, string[] vrowsHeading, int variables)
+        public LinearMatrix(double[,] matrix, string[] rowsHeading, int variablesCount)
         {
-            this.matrix = vmatrix;
-            this.rowsHeading = vrowsHeading;
-            this.colsHeading = new string[matrix.GetLength(1) - 1];
+            ArgumentNullException.ThrowIfNull(matrix);
+            ArgumentNullException.ThrowIfNull(rowsHeading);
+            ArgumentNullException.ThrowIfNull(variablesCount);
 
-            for (int i = 0; i < matrix.GetLength(1) - 1; i++)
+            this.matrix = matrix;
+            this.rowsHeading = rowsHeading;
+            this.colsHeading = new string[this.matrix.GetLength(1) - 1];
+
+            for (int i = 0; i < this.matrix.GetLength(1) - 1; i++)
             {
                 this.colsHeading[i] = $"x{1 + i * 1}";
             }
 
-            this.variablesCount = variables;
-            this.res = null;
-            this.integerVariables = null;
+            this.variablesCount = variablesCount;
+            this.res = new double[this.variablesCount];
+        }
+
+        public LinearMatrix(double[,] matrix, string[] rowsHeading, int variables, string[] integerVariables) : this(matrix, rowsHeading, variables)
+        {
+            ArgumentNullException.ThrowIfNull(integerVariables);
+            this.integerVariables = integerVariables;
+        }
+
+        public LinearMatrix(double[,] matrix, string[] rowsHeading, string[] rowsHeading2, int variables) : this(matrix, rowsHeading, variables)
+        {
+            ArgumentNullException.ThrowIfNull(rowsHeading2);
+
+            this.rowsHeading2 = rowsHeading2;
+            this.colsHeading2 = new string[this.matrix.GetLength(1) ];
+            for (int i = 0; i < this.matrix.GetLength(1) - 1; i++)
+            {
+                this.colsHeading2[i] = $"v{1 + i}";
+            }
+
+            this.colsHeading2[(this.matrix.GetLength(1) - 1)] = $"W";
         }
     }
 }
