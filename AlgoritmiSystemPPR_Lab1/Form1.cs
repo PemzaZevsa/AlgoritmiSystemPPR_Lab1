@@ -4,7 +4,6 @@ using System.Drawing.Drawing2D;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace AlgoritmiSystemPPR_Lab1
 {
@@ -354,28 +353,28 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleButton2_Click(object sender, EventArgs e)
         {
-            //Приклад
-            StringBuilder limitations = new();
-            limitations.AppendLine("-2x1+x2+x3+3x4=2");
-            limitations.AppendLine("-3x1+2x2-3x3=7");
-            limitations.AppendLine("-3x1+x2+4x3+x4<=1");
-            limitations.AppendLine("-3x1+2x2-2x3+2x4>=9");
-            restrictionsRichTextBox2.Text = limitations.ToString();
-
-            maxRadioButton2.Checked = true;
-            variablesNumericUpDown2.Value = 4;
-            zTextBox2.Text = "10x1-x2-42x3-52x4";
-
-            ////Варіант
+            ////Приклад
             //StringBuilder limitations = new();
-            //limitations.AppendLine("x1+x2-x3-2x4<=6");
-            //limitations.AppendLine("x1+x2+x3-x4=5");
-            //limitations.AppendLine("2x1-x2+3x3+4x4<=10");
+            //limitations.AppendLine("-2x1+x2+x3+3x4=2");
+            //limitations.AppendLine("-3x1+2x2-3x3=7");
+            //limitations.AppendLine("-3x1+x2+4x3+x4<=1");
+            //limitations.AppendLine("-3x1+2x2-2x3+2x4>=9");
             //restrictionsRichTextBox2.Text = limitations.ToString();
 
-            //minRadioButton2.Checked = true;
+            //maxRadioButton2.Checked = true;
             //variablesNumericUpDown2.Value = 4;
-            //zTextBox2.Text = "x1-x3+x4";
+            //zTextBox2.Text = "10x1-x2-42x3-52x4";
+
+            //Варіант
+            StringBuilder limitations = new();
+            limitations.AppendLine("x1+x2-x3-2x4<=6");
+            limitations.AppendLine("x1+x2+x3-x4=5");
+            limitations.AppendLine("2x1-x2+3x3+4x4<=10");
+            restrictionsRichTextBox2.Text = limitations.ToString();
+
+            minRadioButton2.Checked = true;
+            variablesNumericUpDown2.Value = 4;
+            zTextBox2.Text = "x1-x3+x4";
 
             ////Приклад з вільними змінними
             //StringBuilder limitations = new();
@@ -534,31 +533,31 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleButton3_Click(object sender, EventArgs e)
         {
-            ////Приклад
-            //StringBuilder limitations = new();
-            //limitations.AppendLine("3x1+2x2<=10");
-            //limitations.AppendLine("x1+4x2<=11");
-            //limitations.AppendLine("3x1+3x2+x3<=13");
-            //restrictionsRichTextBox3.Text = limitations.ToString();
-
-            //maxRadioButton3.Checked = true;
-            //variablesNumericUpDown3.Value = 3;
-            //zTextBox3.Text = "4x1+5x2+x3";
-
-            //integerVariablesTextBox3.Text = "x1 x2 x3";
-
-            //Варіант
+            //Приклад
             StringBuilder limitations = new();
-            limitations.AppendLine("x1+x2-x3-2x4<=6");
-            limitations.AppendLine("x1+x2+x3-x4<=5");
-            limitations.AppendLine("2x1-x2+3x3+4x4>=10");
+            limitations.AppendLine("3x1+2x2<=10");
+            limitations.AppendLine("x1+4x2<=11");
+            limitations.AppendLine("3x1+3x2+x3<=13");
             restrictionsRichTextBox3.Text = limitations.ToString();
 
-            minRadioButton3.Checked = true;
-            variablesNumericUpDown3.Value = 4;
-            zTextBox3.Text = "x1-x3+x4";
+            maxRadioButton3.Checked = true;
+            variablesNumericUpDown3.Value = 3;
+            zTextBox3.Text = "4x1+5x2+x3";
 
-            integerVariablesTextBox3.Text = "x1 x2 x3 x4";
+            integerVariablesTextBox3.Text = "x1 x2 x3";
+
+            ////Варіант
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("x1+x2-x3-2x4<=6");
+            //limitations.AppendLine("x1+x2+x3-x4<=5");
+            //limitations.AppendLine("2x1-x2+3x3+4x4>=10");
+            //restrictionsRichTextBox3.Text = limitations.ToString();
+
+            //minRadioButton3.Checked = true;
+            //variablesNumericUpDown3.Value = 4;
+            //zTextBox3.Text = "x1-x3+x4";
+
+            //integerVariablesTextBox3.Text = "x1 x2 x3 x4";
         }
 
         private void calculateOptimalSolutionButton3_Click(object sender, EventArgs e)
@@ -697,7 +696,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleLab2Button_Click(object sender, EventArgs e)
         {
-            //Приклад
+            //Приклад 1
             StringBuilder limitations = new();
             limitations.AppendLine("x1+x2-x3-2x4<=6");
             limitations.AppendLine("x1+x2+x3-x4>=5");
@@ -707,6 +706,18 @@ namespace AlgoritmiSystemPPR_Lab1
             maxLab2RadioButton.Checked = true;
             variablesLab2NumericUpDown.Value = 4;
             zLab2TextBox.Text = "x1+2x2-x3-x4";
+
+            ////Приклад 2
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("-3x1+x2+4x3+x4<=1");
+            //limitations.AppendLine("3x1-2x2+2x3-2x4<=-9");
+            //limitations.AppendLine("-2x1+x2+x3+3x4=2");
+            //limitations.AppendLine("-3x1+2x2-3x3=7");
+            //restrictionsLab2RichTextBox.Text = limitations.ToString();
+
+            //maxLab2RadioButton.Checked = true;
+            //variablesLab2NumericUpDown.Value = 4;
+            //zLab2TextBox.Text = "10x1-x2-42x3-52x4";
         }
 
         private void calculateOptimalSolutionLab2Button_Click(object sender, EventArgs e)
@@ -726,9 +737,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
                 try
                 {
-                    //todo по факту нужно сделать копию которая будет также изменять вторые заголовки или прееделать эту
-                    //также нужно пофиксить вывод результатов + добавить обчисление двойственной задачи
-                    MaxSolutionScript(linearMatrix, solutionsResult, solutionsResult, protocolBuilder);
+                    MaxSolutionScriptDoubleMatrix(linearMatrix, solutionsResult, solutionsResult, protocolBuilder);
                 }
                 catch (Exception ex)
                 {
@@ -748,9 +757,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
                 try
                 {
-                    //todo по факту нужно сделать копию которая будет также изменять вторые заголовки или прееделать эту
-                    //также нужно пофиксить вывод результатов + добавить обчисление двойственной задачи
-                    MinSolutionScript(linearMatrix, solutionsResult, solutionsResult, protocolBuilder);
+                    MinSolutionScriptDoubleMatrix(linearMatrix, solutionsResult, solutionsResult, protocolBuilder);
                 }
                 catch (Exception ex)
                 {
@@ -761,5 +768,111 @@ namespace AlgoritmiSystemPPR_Lab1
             solutionsLab2richTextBox.Text = solutionsResult.ToString();
             protocolRichTextBox.Text += protocolBuilder.ToString();
         }
+
+        private void MaxSolutionScriptDoubleMatrix(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
+        {
+            try
+            {
+                //Support solution
+                protocolBuilder.AppendLine("Знаходження опорного рішення:");
+                double[] result = MathCalculation.SupportSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+                protocolBuilder.AppendLine("Опорний розв'язок знайдено:");
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = Math.Round(result[i], 2);
+                }
+                string str = string.Join("; ", result);
+                protocolBuilder.AppendLine($"X:({str})\n");
+
+                //Optimal solution
+                protocolBuilder.AppendLine("Знаходження оптимального рішення:");
+                result = MathCalculation.OptimalSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+                protocolBuilder.AppendLine("Оптимальний розв'язок знайдено:");
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = Math.Round(result[i], 2);
+                }
+                str = string.Join("; ", result);
+                protocolBuilder.AppendLine($"X:({str})\n");
+                xResult.AppendLine($"Розв'язки прямої задачі:");
+                xResult.AppendLine($"X = ({str})");
+
+                result = MathCalculation.DoubleLinearTask(linearMatrix, protocolBuilder);
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = Math.Round(result[i], 2);
+                }
+                str = string.Join("; ", result);
+                protocolBuilder.AppendLine($"U:({str})\n");
+                xResult.AppendLine($"Розв'язки двоічної задачі:");
+                xResult.AppendLine($"U = ({str})");
+
+                double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1], 2);
+                zResult.AppendLine($"MAX (Z) = {zRes}");
+                zResult.AppendLine($"MIN (W) = {zRes}");
+                protocolBuilder.AppendLine($"Z:{zRes}\n");
+                protocolBuilder.AppendLine($"W:{zRes}\n");
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine(ex.Message);
+                throw new ArgumentException("При пошуку максимального значення функції Z відбулася помилка", ex);
+            }
+        }
+
+        private void MinSolutionScriptDoubleMatrix(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
+        {
+            try
+            {
+                //Support solution
+                protocolBuilder.AppendLine("Знаходження опорного рішення:");
+                double[] result = MathCalculation.SupportSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+                protocolBuilder.AppendLine("Опорний розв'язок знайдено:");
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = Math.Round(result[i], 2);
+                }
+                string str = string.Join("; ", result);
+                protocolBuilder.AppendLine($"X:({str})\n");
+
+                //Optimal solution
+                protocolBuilder.AppendLine("Знаходження оптимального рішення:");
+                result = MathCalculation.OptimalSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+                protocolBuilder.AppendLine("Оптимальний розв'язок знайдено:");
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = Math.Round(result[i], 2);
+                }
+                str = string.Join("; ", result);
+                protocolBuilder.AppendLine($"X:({str})\n");
+                xResult.AppendLine($"Розв'язки прямої задачі:");
+                xResult.AppendLine($"X = ({str})");
+
+                result = MathCalculation.DoubleLinearTask(linearMatrix, protocolBuilder);
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = Math.Round(result[i], 2);
+                }
+                str = string.Join("; ", result);
+                protocolBuilder.AppendLine($"U:({str})\n");
+                xResult.AppendLine($"Розв'язки двоічної задачі:");
+                xResult.AppendLine($"U = ({str})");
+
+                //min Z = -(max Z')
+                double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1] * -1, 2);
+                zResult.AppendLine($"{zRes}");
+                zResult.AppendLine($"MAX (Z) = {zRes}");
+                zResult.AppendLine($"MIN (W) = {zRes}");
+                protocolBuilder.AppendLine($"Z:{zRes}\n");
+                protocolBuilder.AppendLine($"W:{zRes}\n");
+
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine(ex.Message);
+                throw new ArgumentException("При пошуку мінімального значення функції Z відбулася помилка", ex);
+            }
+        }
+
     }
 }

@@ -372,90 +372,33 @@ namespace ClassLibrary1
                 colsHeading[i] = 1 + i * 1;
             }
 
-            //negative numer search
-            double firstNegativeNumber = 0;
-            int pickedRow = -1;
-            for (int i = 0; i < matrix.GetLength(0) - 1; i++) //GetLength(0) - 1 => until rigth-bottom zero  
-            {
-                if (matrix[i, matrix.GetLength(1) - 1] < 0)
-                {
-                    firstNegativeNumber = matrix[i, matrix.GetLength(1) - 1];
-                    pickedRow = i;
-                    break;
-                }
-            }
-
-            //if no negative values in одиничному стовпці
-            if (firstNegativeNumber == 0)
-            {
-                for (int i = 0; i < matrix.GetLength(0) - 1; i++)
-                {
-                    if (rowsHeading[i] > 0)
-                    {
-                        res[rowsHeading[i] - 1] = matrix[i, matrix.GetLength(1) - 1];
-                    }
-                }
-
-                return res;
-            }
+            //пошук першого негативного числа у одиничному стовпцю
+            int pickedRow = IndexOfFirstNegativeNumberInOnesColumn(matrix);
 
             int iteration = 0;
-            do
+            while(pickedRow != -1 && iteration < 20)
             {
-                //negative number search in picked row
-                double rowNegativeNumber = 0;
-                int pickedCol = -1;
+                //пошук першого негативного числа у рядку
+                int pickedCol = IndexOfFirstNegativeNumberInPicedRow(matrix, pickedRow);
 
-                for (int j = 0; j < matrix.GetLength(1) - 1; j++)
-                {
-                    if (matrix[pickedRow, j] < 0)
-                    {
-                        rowNegativeNumber = matrix[pickedRow, j];
-                        pickedCol = j;
-                        MatrixElementsSwapOLD(ref rowsHeading, pickedRow, ref colsHeading, j);
-                        break;
-                    }
-                }
-
-                if (rowNegativeNumber == 0)
+                if (pickedCol == -1)
                 {
                     //вообще вписывать исключения в логику кода это плохо
                     throw new ArgumentException("Система обмежень є суперечливою");
                 }
 
-                //redo
-                //minimal non-negative number search
-                double minimalNonNegative = double.MaxValue;
-                for (int i = 0; i < matrix.GetLength(0) - 1; i++)
-                {
-                    if (matrix[i, matrix.GetLength(1) - 1] / matrix[i, pickedCol] >= 0)
-                    {
-                        if ((matrix[i, matrix.GetLength(1) - 1] < minimalNonNegative))
-                        {
-                            minimalNonNegative = matrix[i, matrix.GetLength(1) - 1] / matrix[i, pickedCol];//
-                            pickedRow = i;
-                        }
-                    }
-                }
+                //мінімальне позитивне число в одиничному стовпці
+                pickedRow = IndexOfMinimalPositiveNumberInOnesColumn(matrix, pickedCol);
 
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
+                MatrixElementsSwapOLD(ref rowsHeading, pickedRow, ref colsHeading, pickedCol);
                 FormStaff.PrintProtocol(matrix, rowsHeading, colsHeading, stringBuilder, iteration, pickedRow, pickedCol);
 
-                //negative numer search
-                firstNegativeNumber = 0;
-                pickedRow = -1;
-                for (int i = 0; i < matrix.GetLength(0) - 1; i++) //GetLength(0) - 1 => until rigth-bottom zero  
-                {
-                    if (matrix[i, matrix.GetLength(1) - 1] < 0)
-                    {
-                        firstNegativeNumber = matrix[i, matrix.GetLength(1) - 1];
-                        pickedRow = i;
-                        break;
-                    }
-                }
+                //пошук першого негативного числа у одиничному стовпцю
+                pickedRow = IndexOfFirstNegativeNumberInOnesColumn(matrix);
 
                 iteration++;
-            } while (firstNegativeNumber != 0);
+            }
 
             //if no negative values in одиничному стовпці
             //если rowsHeading есть позитивные (тоесть иксы), то мы умножаем там чёто
@@ -530,18 +473,10 @@ namespace ClassLibrary1
             double[] res = new double[matrix.GetLength(1) - 1];
             
             // Поиск отрицательного числа в последней строке
-            int pickedCol = -1;
-            for (int j = 0; j < matrix.GetLength(1) - 1; j++)
-            {
-                if (matrix[matrix.GetLength(0) - 1, j] < 0)
-                {
-                    pickedCol = j;
-                    break;
-                }
-            }
+            int pickedCol = IndexOfFirstNegativeColumnInZRow(matrix);
 
             int iteration = 0;
-            while (pickedCol != -1 && iteration < 10)
+            while (pickedCol != -1 && iteration < 20)
             {
                 // Поиск минимального положительного отношения
                 int pickedRow = -1;
@@ -572,15 +507,7 @@ namespace ClassLibrary1
                 iteration++;
 
                 // Поиск следующего отрицательного числа
-                pickedCol = -1;
-                for (int j = 0; j < matrix.GetLength(1) - 1; j++)
-                {
-                    if (matrix[matrix.GetLength(0) - 1, j] < 0)
-                    {
-                        pickedCol = j;
-                        break;
-                    }
-                }
+                pickedCol = IndexOfFirstNegativeColumnInZRow(matrix);
             }
 
             for (int i = 0; i < matrix.GetLength(0) - 1; i++)
@@ -601,14 +528,14 @@ namespace ClassLibrary1
             array2[index2] = temp;
         }
 
+        //lab 1.3
+
         public static void MatrixElementsSwap(ref string[] array1, int index1, ref string[] array2, int index2)
         {
             string temp = array1[index1];
             array1[index1] = array2[index2];
             array2[index2] = temp;
         }
-
-        //lab 1.3
 
         public static bool ZerosElimanating(LinearMatrix linearMatrix, StringBuilder stringBuilder)
         {
@@ -649,21 +576,7 @@ namespace ClassLibrary1
                 }
 
                 //Пошук мінімального невід'ємного у одиничному стовпці
-                int pickedRow = -1;
-                double minimalNonNegative = double.MaxValue;
-                for (int i = 0; i < matrixHeight - 1; i++)
-                {
-                    double dividedElement = matrix[i, matrixWidth - 1] / matrix[i, pickedCol];
-
-                    if (dividedElement > 0)// (dividedElement >= 0)
-                    {
-                        if (dividedElement < minimalNonNegative)
-                        {
-                            minimalNonNegative = dividedElement;
-                            pickedRow = i;
-                        }
-                    }
-                }
+                int pickedRow = IndexOfMinimalPositiveNumberInOnesColumn(matrix, pickedCol);
 
                 double solvingElement = matrix[pickedRow, pickedCol];
                 matrix = ModifiedZhordansExeptions(linearMatrix.matrix, pickedRow, pickedCol);
@@ -741,58 +654,24 @@ namespace ClassLibrary1
         {
             double[,] matrix = linearMatrix.matrix;
             double[] res = new double[linearMatrix.variablesCount];
-            int matrixHeight = matrix.GetLength(0);
-            int matrixWidth = matrix.GetLength(1);
 
             //пошук першого негативного числа у одиничному стовпцю
-            int pickedRow = -1;
-            for (int i = 0; i < matrixHeight - 1; i++) //matrixHeight - 1 => until rigth-bottom zero  
-            {
-                if (matrix[i, matrixWidth - 1] < 0)
-                {
-                    pickedRow = i;
-                    break;
-                }
-            }
+            int pickedRow = IndexOfFirstNegativeNumberInOnesColumn(matrix);
 
             int iteration = 0;
             while (pickedRow != -1)
             {
                 //пошук першого негативного числа у рядку
-                double rowNegativeNumber = 0;
-                int pickedCol = -1;
+                int pickedCol = IndexOfFirstNegativeNumberInPicedRow(matrix, pickedRow);
 
-                for (int j = 0; j < matrixWidth - 1; j++)
-                {
-                    if (matrix[pickedRow, j] < 0)
-                    {
-                        rowNegativeNumber = matrix[pickedRow, j];
-                        pickedCol = j;
-                        break;
-                    }
-                }
-
-                if (rowNegativeNumber == 0)
+                if (pickedCol == -1)
                 {
                     //вообще вписывать исключения в логику кода это плохо
                     throw new ArgumentException("Система обмежень є суперечливою");
                 }
 
                 //мінімальне позитивне число в одиничному стовпці
-                double minimalNonNegative = double.MaxValue;
-                for (int i = 0; i < matrixHeight - 1; i++)
-                {
-                    double dividedElement = matrix[i, matrixWidth - 1] / matrix[i, pickedCol];
-
-                    if (dividedElement > 0) //(dividedElement >= 0)
-                    {
-                        if(dividedElement < minimalNonNegative)
-                        {
-                            minimalNonNegative = dividedElement;
-                            pickedRow = i;
-                        }
-                    }
-                }
+                pickedRow = IndexOfMinimalPositiveNumberInOnesColumn(matrix, pickedCol);
 
                 //МЖВ
                 double solvingElement = matrix[pickedRow, pickedCol];
@@ -800,30 +679,14 @@ namespace ClassLibrary1
                 MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
                 FormStaff.FancyMatrixPrint(linearMatrix , iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
 
-                //negative numer search
-                pickedRow = -1;
-                for (int i = 0; i < matrixHeight - 1; i++) //matrixHeight - 1 => until rigth-bottom zero  
-                {
-                    if (matrix[i, matrixWidth - 1] < 0)
-                    {
-                        pickedRow = i;
-                        break;
-                    }
-                }
+                //пошук першого негативного числа у одиничному стовпцю
+                pickedRow = IndexOfFirstNegativeNumberInOnesColumn(matrix);
 
                 iteration++;
             }
 
             //Отримання результатів
-            for (int i = 0; i < matrixHeight - 1; i++)
-            {
-                if (linearMatrix.rowsHeading[i].Contains('x'))
-                {
-                    string temp = linearMatrix.rowsHeading[i].Substring(1);
-                    res[int.Parse(temp)-1] = matrix[i, matrixWidth - 1];//res = X(x1,x2,...)
-                }
-            }
-
+            res = GetResult(linearMatrix);
             linearMatrix.res = res;
             return res;
         }
@@ -832,43 +695,17 @@ namespace ClassLibrary1
         {
             double[,] matrix = linearMatrix.matrix;
             double[] res = new double[linearMatrix.variablesCount];
-            int matrixHeight = matrix.GetLength(0);
-            int matrixWidth = matrix.GetLength(1);
 
             //Пошук негативного числа у z-рядку
-            int pickedCol = -1;
-            for (int j = 0; j < matrixWidth - 1; j++)
-            {
-                string str = $"{matrix[matrixHeight - 1, j]}";
-                //if (matrix[matrixHeight - 1, j] < 0 && Math.Round(matrix[matrixHeight - 1, j], 2) == -0)
-
-                if (matrix[matrixHeight - 1, j] < 0 )
-                {
-                    pickedCol = j;
-                    break;
-                }
-            }
+            int pickedCol = IndexOfFirstNegativeColumnInZRow(matrix);
 
             //Основний цикл
             int iteration = 0;
             while (pickedCol != -1 && iteration < 10)
             {
                 //Мінімальне невід'ємне
-                int pickedRow = -1;
-                double minimalNonNegative = double.MaxValue;
-                for (int i = 0; i < matrixHeight - 1; i++)
-                {
-                    if (matrix[i, pickedCol] > 0)
-                    {
-                        double ratio = matrix[i, matrixWidth - 1] / matrix[i, pickedCol];
-                        if (ratio >= 0 && ratio < minimalNonNegative)
-                        {
-                            minimalNonNegative = ratio;
-                            pickedRow = i;
-                        }
-                    }
-                }
-
+                int pickedRow = IndexOfMinimalPositiveNumberInOnesColumn(matrix, pickedCol);
+                
                 if (pickedRow == -1)
                 {
                     throw new ArgumentException("Функція мети не обмежена зверху");
@@ -882,27 +719,11 @@ namespace ClassLibrary1
                 iteration++;
 
                 //Пошук наступного негативного числа
-                pickedCol = -1;
-                for (int j = 0; j < matrixWidth - 1; j++)
-                {
-                    if (matrix[matrixHeight - 1, j] < 0)
-                    {
-                        pickedCol = j;
-                        break;
-                    }
-                }
+                pickedCol = IndexOfFirstNegativeColumnInZRow(matrix);
             }
 
             //Отримання результатів
-            for (int i = 0; i < matrixHeight - 1; i++)
-            {
-                if (linearMatrix.rowsHeading[i].Contains('x'))
-                {
-                    string temp = linearMatrix.rowsHeading[i].Substring(1);
-                    res[int.Parse(temp)-1] = matrix[i, matrixWidth - 1];//res = X(x1,x2,...)
-                }
-            }
-
+            res = GetResult(linearMatrix);
             linearMatrix.res = res;
             return res;
         }
@@ -1055,6 +876,207 @@ namespace ClassLibrary1
             }
 
             return newArray;
+        }
+
+        //Lab 2
+        public static double[] SupportSolutionDoubleMatrix(LinearMatrix linearMatrix, StringBuilder stringBuilder)
+        {
+            double[,] matrix = linearMatrix.matrix;
+            double[] res = new double[linearMatrix.variablesCount];
+
+            //пошук першого негативного числа у одиничному стовпцю
+            int pickedRow = IndexOfFirstNegativeNumberInOnesColumn(matrix);
+
+            int iteration = 0;
+            while (pickedRow != -1)
+            {
+                //пошук першого негативного числа у рядку
+                int pickedCol = IndexOfFirstNegativeNumberInPicedRow(matrix, pickedRow);
+
+                if (pickedCol == -1)// (pickedCol != -1) мб проблема будет
+                {
+                    //вообще вписывать исключения в логику кода это плохо
+                    throw new ArgumentException("Система обмежень є суперечливою");
+                }
+
+                //мінімальне позитивне число в одиничному стовпці
+                pickedRow = IndexOfMinimalPositiveNumberInOnesColumn(matrix, pickedCol);
+
+                //МЖВ
+                double solvingElement = matrix[pickedRow, pickedCol];
+                matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
+                MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
+                MatrixElementsSwap(ref linearMatrix.rowsHeading2, pickedRow, ref linearMatrix.colsHeading2, pickedCol);
+                FormStaff.FancyDoubleMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
+
+                //пошук першого негативного числа у одиничному стовпцю
+                pickedRow = IndexOfFirstNegativeNumberInOnesColumn(matrix);
+
+                iteration++;
+            }
+
+            //Отримання результатів
+            res = GetResult(linearMatrix);
+            linearMatrix.res = res;
+            return res;
+        }
+        
+        public static double[] OptimalSolutionDoubleMatrix(LinearMatrix linearMatrix, StringBuilder stringBuilder)
+        {
+            double[,] matrix = linearMatrix.matrix;
+            double[] res = new double[linearMatrix.variablesCount];
+
+            //Пошук негативного числа у z-рядку
+            int pickedCol = IndexOfFirstNegativeColumnInZRow(matrix);
+
+            //Основний цикл
+            int iteration = 0;
+            while (pickedCol != -1 && iteration < 10)
+            {
+                //Мінімальне невід'ємне
+                int pickedRow = IndexOfMinimalPositiveNumberInOnesColumn(matrix, pickedCol);
+
+                if (pickedRow == -1)
+                {
+                    throw new ArgumentException("Функція мети не обмежена зверху");
+                }
+
+                //МЖВ
+                double solvingElement = matrix[pickedRow, pickedCol];
+                matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
+                MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
+                MatrixElementsSwap(ref linearMatrix.rowsHeading2, pickedRow, ref linearMatrix.colsHeading2, pickedCol);
+                FormStaff.FancyDoubleMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
+                iteration++;
+
+                //Пошук наступного негативного числа
+                pickedCol = IndexOfFirstNegativeColumnInZRow(matrix);
+            }
+
+            //Отримання результатів
+            res = GetResult(linearMatrix);
+            linearMatrix.res = res;
+            return res;
+        }
+
+        public static double[] DoubleLinearTask(LinearMatrix linearMatrix, StringBuilder protocolBuilder)
+        {
+            double[,] matrix = linearMatrix.matrix;
+            int matrixHeight = matrix.GetLength(0);
+            int matrixWidth = matrix.GetLength(1);
+            double[] res = new double[matrixHeight - 1];//мб сдесь проблема будет
+
+            //Отримання результатів
+            for (int j = 0; j < matrixWidth - 1; j++)
+            {
+                if (linearMatrix.colsHeading2[j].Contains('u'))
+                {
+                    string temp = linearMatrix.colsHeading2[j].Substring(1);
+                    res[int.Parse(temp) - 1] = matrix[matrixHeight - 1, j];//res = U(u1,u2,...)
+                }
+            }
+
+            return res;
+        }
+
+        private static int IndexOfFirstNegativeNumberInOnesColumn(double[,] matrix)
+        {
+            int matrixHeight = matrix.GetLength(0);
+            int matrixWidth = matrix.GetLength(1);
+
+            //пошук першого негативного числа у одиничному стовпцю
+            int pickedRow = -1;
+            for (int i = 0; i < matrixHeight - 1; i++) //matrixHeight - 1 => until rigth-bottom zero  
+            {
+                if (matrix[i, matrixWidth - 1] < 0)
+                {
+                    pickedRow = i;
+                    break;
+                }
+            }
+
+            return pickedRow;
+        }
+
+        private static int IndexOfMinimalPositiveNumberInOnesColumn(double[,] matrix, int pickedCol)
+        {
+            int matrixHeight = matrix.GetLength(0);
+            int matrixWidth = matrix.GetLength(1);
+            int pickedRow = -1;
+
+            //мінімальне позитивне число в одиничному стовпці
+            double minimalNonNegative = double.MaxValue;
+            for (int i = 0; i < matrixHeight - 1; i++)
+            {
+                double dividedElement = matrix[i, matrixWidth - 1] / matrix[i, pickedCol];
+
+                if (dividedElement > 0)
+                {
+                    if (dividedElement < minimalNonNegative)
+                    {
+                        minimalNonNegative = dividedElement;
+                        pickedRow = i;
+                    }
+                }
+            }
+
+            return pickedRow;
+        }
+
+        private static int IndexOfFirstNegativeNumberInPicedRow(double[,] matrix, int pickedRow)
+        {
+            int matrixWidth = matrix.GetLength(1);
+            int pickedCol = -1;
+
+            //пошук першого негативного числа у рядку
+            for (int j = 0; j < matrixWidth - 1; j++)
+            {
+                if (matrix[pickedRow, j] < 0)
+                {
+                    pickedCol = j;
+                    break;
+                }
+            }
+
+            return pickedCol;
+        }
+
+        private static double[] GetResult(LinearMatrix linearMatrix)
+        {
+            double[] res = new double[linearMatrix.variablesCount];
+            int matrixHeight = linearMatrix.matrix.GetLength(0);
+            int matrixWidth = linearMatrix.matrix.GetLength(1);
+
+            //Отримання результатів
+            for (int i = 0; i < matrixHeight - 1; i++)
+            {
+                if (linearMatrix.rowsHeading[i].Contains('x'))
+                {
+                    string temp = linearMatrix.rowsHeading[i].Substring(1);
+                    res[int.Parse(temp) - 1] = linearMatrix.matrix[i, matrixWidth - 1];//res = X(x1,x2,...)
+                }
+            }
+
+            return res;
+        }
+
+        private static int IndexOfFirstNegativeColumnInZRow(double[,] matrix)
+        {
+            int matrixHeight = matrix.GetLength(0);
+            int matrixWidth = matrix.GetLength(1);
+            int pickedCol = -1;
+
+            //Пошук негативного числа у z-рядку
+            for (int j = 0; j < matrixWidth - 1; j++)
+            {
+                if (matrix[matrixHeight - 1, j] < 0)
+                {
+                    pickedCol = j;
+                    break;
+                }
+            }
+
+            return pickedCol;
         }
     }
 }

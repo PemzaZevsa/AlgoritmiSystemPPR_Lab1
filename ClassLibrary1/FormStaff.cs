@@ -236,7 +236,7 @@ namespace ClassLibrary1
             }
             protocolBuilder.AppendLine($"W");
 
-            protocolBuilder.Append($"\t");
+            protocolBuilder.Append($"\t\t");
             for (int j = 0; j < matrix.GetLength(1) - 1; j++)
             {
                 protocolBuilder.Append($"-{linearMatrix.colsHeading[j]}\t");
@@ -257,7 +257,7 @@ namespace ClassLibrary1
                 }
                 else
                 {
-                    protocolBuilder.Append($"Z = \t");
+                    protocolBuilder.Append($"1\tZ = \t");
                 }
 
                 for (int j = 0; j < matrix.GetLength(1); j++)

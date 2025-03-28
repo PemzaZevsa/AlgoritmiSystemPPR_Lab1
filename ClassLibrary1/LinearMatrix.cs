@@ -47,13 +47,11 @@ namespace ClassLibrary1
             ArgumentNullException.ThrowIfNull(rowsHeading2);
 
             this.rowsHeading2 = rowsHeading2;
-            this.colsHeading2 = new string[this.matrix.GetLength(1) ];
+            this.colsHeading2 = new string[this.matrix.GetLength(1) - 1];
             for (int i = 0; i < this.matrix.GetLength(1) - 1; i++)
             {
                 this.colsHeading2[i] = $"v{1 + i}";
             }
-
-            this.colsHeading2[(this.matrix.GetLength(1) - 1)] = $"W";
         }
     }
 }

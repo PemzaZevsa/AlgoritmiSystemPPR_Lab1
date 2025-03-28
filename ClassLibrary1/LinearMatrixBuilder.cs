@@ -220,7 +220,7 @@ namespace ClassLibrary1
             string[] rowsHeadings2 = new string[rowsHeadings.Length];
             for (int i = 0; i < rowsHeadings2.Length; i++)
             {
-                rowsHeadings2[i] = $"u{i}";
+                rowsHeadings2[i] = $"u{i + 1}";
             }
 
             return new LinearMatrix(matrix, rowsHeadings, rowsHeadings2, variables.Length);
