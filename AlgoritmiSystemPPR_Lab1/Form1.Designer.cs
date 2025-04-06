@@ -121,6 +121,20 @@
             exampleLab2Button = new Button();
             zLab2TextBox = new TextBox();
             label24 = new Label();
+            tabPage6 = new TabPage();
+            exampleLab3_1Button = new Button();
+            label27 = new Label();
+            gamePriceLab3_1TextBox = new TextBox();
+            label26 = new Label();
+            player2StrategiesLab3_1TextBox = new TextBox();
+            label21 = new Label();
+            player1StrategiesLab3_1TextBox = new TextBox();
+            label22 = new Label();
+            modelGameLab3_1Button = new Button();
+            gamesAmountNumericUpDown = new NumericUpDown();
+            label25 = new Label();
+            gameMatrixLab3_1RichTextBox = new RichTextBox();
+            calculateOptimalSolutionLab3_1Button = new Button();
             clearProtocolButton = new Button();
             protocolTextIncreaseButton = new Button();
             protocolTextDecreaseButton = new Button();
@@ -142,6 +156,8 @@
             tabPage5.SuspendLayout();
             panel6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)variablesLab2NumericUpDown).BeginInit();
+            tabPage6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)gamesAmountNumericUpDown).BeginInit();
             SuspendLayout();
             // 
             // matrixLabel
@@ -263,7 +279,7 @@
             protocolRichTextBox.Location = new Point(689, 32);
             protocolRichTextBox.Name = "protocolRichTextBox";
             protocolRichTextBox.ScrollBars = RichTextBoxScrollBars.ForcedBoth;
-            protocolRichTextBox.Size = new Size(610, 372);
+            protocolRichTextBox.Size = new Size(466, 372);
             protocolRichTextBox.TabIndex = 11;
             protocolRichTextBox.Text = "";
             // 
@@ -362,6 +378,7 @@
             zTextLab2Box.Controls.Add(tabPage3);
             zTextLab2Box.Controls.Add(tabPage4);
             zTextLab2Box.Controls.Add(tabPage5);
+            zTextLab2Box.Controls.Add(tabPage6);
             zTextLab2Box.Location = new Point(2, 3);
             zTextLab2Box.Name = "zTextLab2Box";
             zTextLab2Box.SelectedIndex = 0;
@@ -1057,12 +1074,148 @@
             label24.TabIndex = 47;
             label24.Text = "Z =";
             // 
+            // tabPage6
+            // 
+            tabPage6.Controls.Add(exampleLab3_1Button);
+            tabPage6.Controls.Add(label27);
+            tabPage6.Controls.Add(gamePriceLab3_1TextBox);
+            tabPage6.Controls.Add(label26);
+            tabPage6.Controls.Add(player2StrategiesLab3_1TextBox);
+            tabPage6.Controls.Add(label21);
+            tabPage6.Controls.Add(player1StrategiesLab3_1TextBox);
+            tabPage6.Controls.Add(label22);
+            tabPage6.Controls.Add(modelGameLab3_1Button);
+            tabPage6.Controls.Add(gamesAmountNumericUpDown);
+            tabPage6.Controls.Add(label25);
+            tabPage6.Controls.Add(gameMatrixLab3_1RichTextBox);
+            tabPage6.Controls.Add(calculateOptimalSolutionLab3_1Button);
+            tabPage6.Location = new Point(4, 29);
+            tabPage6.Name = "tabPage6";
+            tabPage6.Padding = new Padding(3);
+            tabPage6.Size = new Size(677, 421);
+            tabPage6.TabIndex = 5;
+            tabPage6.Text = "Лаб 3.1";
+            tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // exampleLab3_1Button
+            // 
+            exampleLab3_1Button.Location = new Point(386, 235);
+            exampleLab3_1Button.Name = "exampleLab3_1Button";
+            exampleLab3_1Button.Size = new Size(267, 51);
+            exampleLab3_1Button.TabIndex = 79;
+            exampleLab3_1Button.Text = "Приклад";
+            exampleLab3_1Button.UseVisualStyleBackColor = true;
+            exampleLab3_1Button.Click += exampleLab3_1Button_Click;
+            // 
+            // label27
+            // 
+            label27.AutoSize = true;
+            label27.Location = new Point(386, 122);
+            label27.Name = "label27";
+            label27.Size = new Size(69, 20);
+            label27.TabIndex = 78;
+            label27.Text = "Ціна гри";
+            // 
+            // gamePriceLab3_1TextBox
+            // 
+            gamePriceLab3_1TextBox.Location = new Point(386, 145);
+            gamePriceLab3_1TextBox.Name = "gamePriceLab3_1TextBox";
+            gamePriceLab3_1TextBox.Size = new Size(267, 27);
+            gamePriceLab3_1TextBox.TabIndex = 77;
+            // 
+            // label26
+            // 
+            label26.AutoSize = true;
+            label26.Location = new Point(386, 69);
+            label26.Name = "label26";
+            label26.Size = new Size(212, 20);
+            label26.TabIndex = 76;
+            label26.Text = "Змішані стратегії 2-го гравця";
+            // 
+            // player2StrategiesLab3_1TextBox
+            // 
+            player2StrategiesLab3_1TextBox.Location = new Point(386, 92);
+            player2StrategiesLab3_1TextBox.Name = "player2StrategiesLab3_1TextBox";
+            player2StrategiesLab3_1TextBox.Size = new Size(267, 27);
+            player2StrategiesLab3_1TextBox.TabIndex = 75;
+            // 
+            // label21
+            // 
+            label21.AutoSize = true;
+            label21.Location = new Point(386, 16);
+            label21.Name = "label21";
+            label21.Size = new Size(212, 20);
+            label21.TabIndex = 74;
+            label21.Text = "Змішані стратегії 1-го гравця";
+            // 
+            // player1StrategiesLab3_1TextBox
+            // 
+            player1StrategiesLab3_1TextBox.Location = new Point(386, 39);
+            player1StrategiesLab3_1TextBox.Name = "player1StrategiesLab3_1TextBox";
+            player1StrategiesLab3_1TextBox.Size = new Size(267, 27);
+            player1StrategiesLab3_1TextBox.TabIndex = 73;
+            // 
+            // label22
+            // 
+            label22.AutoSize = true;
+            label22.Location = new Point(14, 16);
+            label22.Name = "label22";
+            label22.Size = new Size(102, 20);
+            label22.TabIndex = 69;
+            label22.Text = "Матриця гри:";
+            // 
+            // modelGameLab3_1Button
+            // 
+            modelGameLab3_1Button.Location = new Point(386, 325);
+            modelGameLab3_1Button.Name = "modelGameLab3_1Button";
+            modelGameLab3_1Button.Size = new Size(267, 51);
+            modelGameLab3_1Button.TabIndex = 68;
+            modelGameLab3_1Button.Text = "Змоделювати гру";
+            modelGameLab3_1Button.UseVisualStyleBackColor = true;
+            modelGameLab3_1Button.Click += modelGameLab3_1Button_Click;
+            // 
+            // gamesAmountNumericUpDown
+            // 
+            gamesAmountNumericUpDown.Location = new Point(551, 292);
+            gamesAmountNumericUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            gamesAmountNumericUpDown.Name = "gamesAmountNumericUpDown";
+            gamesAmountNumericUpDown.Size = new Size(102, 27);
+            gamesAmountNumericUpDown.TabIndex = 67;
+            gamesAmountNumericUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label25
+            // 
+            label25.AutoSize = true;
+            label25.Location = new Point(386, 294);
+            label25.Name = "label25";
+            label25.Size = new Size(119, 20);
+            label25.TabIndex = 66;
+            label25.Text = "Кількість партій";
+            // 
+            // gameMatrixLab3_1RichTextBox
+            // 
+            gameMatrixLab3_1RichTextBox.Location = new Point(14, 39);
+            gameMatrixLab3_1RichTextBox.Name = "gameMatrixLab3_1RichTextBox";
+            gameMatrixLab3_1RichTextBox.Size = new Size(353, 337);
+            gameMatrixLab3_1RichTextBox.TabIndex = 65;
+            gameMatrixLab3_1RichTextBox.Text = "";
+            // 
+            // calculateOptimalSolutionLab3_1Button
+            // 
+            calculateOptimalSolutionLab3_1Button.Location = new Point(386, 178);
+            calculateOptimalSolutionLab3_1Button.Name = "calculateOptimalSolutionLab3_1Button";
+            calculateOptimalSolutionLab3_1Button.Size = new Size(267, 51);
+            calculateOptimalSolutionLab3_1Button.TabIndex = 64;
+            calculateOptimalSolutionLab3_1Button.Text = "Знайти розв'язки";
+            calculateOptimalSolutionLab3_1Button.UseVisualStyleBackColor = true;
+            calculateOptimalSolutionLab3_1Button.Click += calculateOptimalSolutionLab3_1Button_Click;
+            // 
             // clearProtocolButton
             // 
             clearProtocolButton.BackColor = Color.LightCoral;
             clearProtocolButton.Location = new Point(693, 417);
             clearProtocolButton.Name = "clearProtocolButton";
-            clearProtocolButton.Size = new Size(137, 36);
+            clearProtocolButton.Size = new Size(150, 36);
             clearProtocolButton.TabIndex = 23;
             clearProtocolButton.Text = "Очистити";
             clearProtocolButton.UseVisualStyleBackColor = false;
@@ -1070,9 +1223,9 @@
             // 
             // protocolTextIncreaseButton
             // 
-            protocolTextIncreaseButton.Location = new Point(836, 417);
+            protocolTextIncreaseButton.Location = new Point(849, 417);
             protocolTextIncreaseButton.Name = "protocolTextIncreaseButton";
-            protocolTextIncreaseButton.Size = new Size(130, 36);
+            protocolTextIncreaseButton.Size = new Size(150, 36);
             protocolTextIncreaseButton.TabIndex = 24;
             protocolTextIncreaseButton.Text = "Збільшити";
             protocolTextIncreaseButton.UseVisualStyleBackColor = true;
@@ -1080,9 +1233,9 @@
             // 
             // protocolTextDecreaseButton
             // 
-            protocolTextDecreaseButton.Location = new Point(972, 417);
+            protocolTextDecreaseButton.Location = new Point(1005, 417);
             protocolTextDecreaseButton.Name = "protocolTextDecreaseButton";
-            protocolTextDecreaseButton.Size = new Size(117, 36);
+            protocolTextDecreaseButton.Size = new Size(150, 36);
             protocolTextDecreaseButton.TabIndex = 25;
             protocolTextDecreaseButton.Text = "Зменшити";
             protocolTextDecreaseButton.UseVisualStyleBackColor = true;
@@ -1092,7 +1245,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1311, 469);
+            ClientSize = new Size(1171, 469);
             Controls.Add(protocolTextDecreaseButton);
             Controls.Add(protocolTextIncreaseButton);
             Controls.Add(clearProtocolButton);
@@ -1100,7 +1253,7 @@
             Controls.Add(protocolRichTextBox);
             Controls.Add(label5);
             Name = "Form1";
-            Text = "Хвостовець АСППР Лаб1.1, 1.2, 1.3, 1.4";
+            Text = "Хвостовець АСППР Лаб1.1-4, 2, 3.1";
             ((System.ComponentModel.ISupportInitialize)matrixCols).EndInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).EndInit();
             panel1.ResumeLayout(false);
@@ -1130,6 +1283,9 @@
             panel6.ResumeLayout(false);
             panel6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)variablesLab2NumericUpDown).EndInit();
+            tabPage6.ResumeLayout(false);
+            tabPage6.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)gamesAmountNumericUpDown).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1231,5 +1387,19 @@
         private TextBox zLab2TextBox;
         private Label label24;
         private RichTextBox solutionsLab2richTextBox;
+        private TabPage tabPage6;
+        private Label label27;
+        private TextBox gamePriceLab3_1TextBox;
+        private Label label26;
+        private TextBox player2StrategiesLab3_1TextBox;
+        private Label label21;
+        private TextBox player1StrategiesLab3_1TextBox;
+        private Label label22;
+        private Button modelGameLab3_1Button;
+        private NumericUpDown gamesAmountNumericUpDown;
+        private Label label25;
+        private RichTextBox gameMatrixLab3_1RichTextBox;
+        private Button calculateOptimalSolutionLab3_1Button;
+        private Button exampleLab3_1Button;
     }
 }

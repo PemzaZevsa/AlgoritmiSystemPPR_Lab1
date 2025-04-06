@@ -3,8 +3,116 @@ using System.Text;
 
 namespace ClassLibrary1
 {
-    public static class FormStaff
+    public static class FormPrint
     {
+        //Lab 1.1
+
+        public static double[,] ReadMatrixFromRichTextBox(string inputRichTextBox, StringBuilder protocolText)
+        {
+            //string[] rows = inputRichTextBox.Text.Trim().Split('\n');
+            string[] rows = inputRichTextBox.Trim().Split('\n');
+            string[] firstRowElements = rows[0].Trim().Split(' ');
+
+            int rowCount = rows.Length;
+            int colCount = firstRowElements.Length;
+            double[,] matrix = new double[rowCount, colCount];
+
+            try
+            {
+                for (int i = 0; i < rowCount; i++)
+                {
+                    string[] elements = rows[i].Trim().Split(' ');
+
+                    for (int j = 0; j < colCount; j++)
+                    {
+                        matrix[i, j] = double.Parse(elements[j]);
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                protocolText.AppendLine($"{ex.Message}");
+            }
+
+            return matrix;
+        }
+
+        public static double[] ReadMatrixBFromRichTextBox(string inputRichTextBox, StringBuilder protocolText)
+        {
+            //string[] elements = inputRichTextBox.Text.Trim().Split('\n');
+            string[] elements = inputRichTextBox.Trim().Split('\n');
+            double[] array = new double[elements.Length];
+
+            try
+            {
+                for (int i = 0; i < elements.Length; i++)
+                {
+                    array[i] = double.Parse(elements[i]);
+                }
+            }
+            catch (Exception ex)
+            {
+                protocolText.AppendLine($"{ex.Message}");
+            }
+
+            return array;
+        }
+
+        public static void MatrixPrint(double[,] incertMatrix, StringBuilder protocolText)
+        {
+            //protocolText.Clear();
+
+            for (int i = 0; i < incertMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < incertMatrix.GetLength(1); j++)
+                {
+                    protocolText.Append(Math.Round(incertMatrix[i, j], 3));
+                    protocolText.Append(" ");
+                }
+
+                protocolText.AppendLine();
+            }
+        }
+
+        public static void ProtocolMatrixPrint(double[,] incertMatrix, StringBuilder protocolText)
+        {
+            for (int i = 0; i < incertMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < incertMatrix.GetLength(1); j++)
+                {
+                    protocolText.Append(Math.Round(incertMatrix[i, j], 3));
+                    protocolText.Append("\t");
+                }
+
+                protocolText.AppendLine();
+            }
+        }
+
+        public static void ArrayPrint(double[] incertMatrix, StringBuilder protocolText)
+        {
+            for (int i = 0; i < incertMatrix.GetLength(0); i++)
+            {
+                protocolText.Append(Math.Round(incertMatrix[i], 3));
+                protocolText.AppendLine();
+            }
+        }
+
+        public static void FancyPrintMatrixOnRichTextBox(double[,] incertMatrix, StringBuilder protocolText)
+        {
+            for (int i = 0; i < incertMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < incertMatrix.GetLength(1); j++)
+                {
+                    protocolText.Append(Math.Round(incertMatrix[i, j], 3));
+                    protocolText.Append("\t");
+                }
+                protocolText.AppendLine();
+            }
+        }
+
+        //Lab 1.2
+
         public static void PrintProtocol(double[,] insertMatrix, StringBuilder protocolText, int step)
         {
             double solvingElement = insertMatrix[step, step];
@@ -95,6 +203,8 @@ namespace ClassLibrary1
             protocolText.AppendLine("\n");
         }
 
+        //Lab 1.3
+
         public static void FancyMatrixPrint(LinearMatrix linearMatrix, StringBuilder protocolBuilder)
         {
             double[,] matrix = linearMatrix.matrix;
@@ -175,6 +285,8 @@ namespace ClassLibrary1
                 protocolBuilder.AppendLine();
             }
         }
+
+        //Lab 1.4
 
         public static void FancyDoubleMatrixPrint(LinearMatrix linearMatrix, StringBuilder protocolBuilder)
         {

@@ -198,7 +198,7 @@ namespace ClassLibrary1
                     {
                         throw;
                     }
-                    FormStaff.PrintProtocol(rankMatrix, stringBuilder, i, itaya, jitaya);
+                    FormPrint.PrintProtocol(rankMatrix, stringBuilder, i, itaya, jitaya);
                     rank++;
                 }
             }
@@ -238,7 +238,7 @@ namespace ClassLibrary1
                 {
                     throw;
                 }
-                FormStaff.PrintProtocol(inverseMatrix, stringBuilder, i);
+                FormPrint.PrintProtocol(inverseMatrix, stringBuilder, i);
             }
 
             return inverseMatrix;
@@ -392,7 +392,7 @@ namespace ClassLibrary1
 
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwapOLD(ref rowsHeading, pickedRow, ref colsHeading, pickedCol);
-                FormStaff.PrintProtocol(matrix, rowsHeading, colsHeading, stringBuilder, iteration, pickedRow, pickedCol);
+                FormPrint.PrintProtocol(matrix, rowsHeading, colsHeading, stringBuilder, iteration, pickedRow, pickedCol);
 
                 //пошук першого негативного числа у одиничному стовпцю
                 pickedRow = IndexOfFirstNegativeNumberInOnesColumn(matrix);
@@ -450,7 +450,7 @@ namespace ClassLibrary1
                 }
 
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
-                FormStaff.PrintProtocol(matrix, stringBuilder, iteration, pickedRow, pickedCol);
+                FormPrint.PrintProtocol(matrix, stringBuilder, iteration, pickedRow, pickedCol);
                 iteration++;
 
                 //negative number search
@@ -503,7 +503,7 @@ namespace ClassLibrary1
                 // Применение метода Жордана
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwapOLD(ref rowsHeading, pickedRow, ref colsHeading, pickedCol);
-                FormStaff.PrintProtocol(matrix, rowsHeading, colsHeading, stringBuilder, iteration, pickedRow, pickedCol);
+                FormPrint.PrintProtocol(matrix, rowsHeading, colsHeading, stringBuilder, iteration, pickedRow, pickedCol);
                 iteration++;
 
                 // Поиск следующего отрицательного числа
@@ -589,7 +589,7 @@ namespace ClassLibrary1
                 matrixHeight = matrix.GetLength(0);
                 matrixWidth = matrix.GetLength(1);
 
-                FormStaff.FancyMatrixPrint(linearMatrix, iteration, zeroRow, pickedCol, solvingElement, stringBuilder);
+                FormPrint.FancyMatrixPrint(linearMatrix, iteration, zeroRow, pickedCol, solvingElement, stringBuilder);
 
                 //пошук нульової строки
                 zeroRow = -1;
@@ -677,7 +677,7 @@ namespace ClassLibrary1
                 double solvingElement = matrix[pickedRow, pickedCol];
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
-                FormStaff.FancyMatrixPrint(linearMatrix , iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
+                FormPrint.FancyMatrixPrint(linearMatrix , iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
 
                 //пошук першого негативного числа у одиничному стовпцю
                 pickedRow = IndexOfFirstNegativeNumberInOnesColumn(matrix);
@@ -715,7 +715,7 @@ namespace ClassLibrary1
                 double solvingElement = matrix[pickedRow, pickedCol];
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
-                FormStaff.FancyMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
+                FormPrint.FancyMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
                 iteration++;
 
                 //Пошук наступного негативного числа
@@ -839,7 +839,7 @@ namespace ClassLibrary1
             linearMatrix.matrix = IncertRestrictionInMatrix(matrix, restrictions);
             linearMatrix.rowsHeading = IncertRestrictionInArray(linearMatrix.rowsHeading, $"s{xName}");
 
-            FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
+            FormPrint.FancyMatrixPrint(linearMatrix, stringBuilder);
         }
 
         public static double[,] IncertRestrictionInMatrix(double[,] matrix, double[] restrictions)
@@ -879,6 +879,7 @@ namespace ClassLibrary1
         }
 
         //Lab 2
+
         public static double[] SupportSolutionDoubleMatrix(LinearMatrix linearMatrix, StringBuilder stringBuilder)
         {
             double[,] matrix = linearMatrix.matrix;
@@ -907,7 +908,7 @@ namespace ClassLibrary1
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
                 MatrixElementsSwap(ref linearMatrix.rowsHeading2, pickedRow, ref linearMatrix.colsHeading2, pickedCol);
-                FormStaff.FancyDoubleMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
+                FormPrint.FancyDoubleMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
 
                 //пошук першого негативного числа у одиничному стовпцю
                 pickedRow = IndexOfFirstNegativeNumberInOnesColumn(matrix);
@@ -946,7 +947,7 @@ namespace ClassLibrary1
                 matrix = ModifiedZhordansExeptions(matrix, pickedRow, pickedCol);
                 MatrixElementsSwap(ref linearMatrix.rowsHeading, pickedRow, ref linearMatrix.colsHeading, pickedCol);
                 MatrixElementsSwap(ref linearMatrix.rowsHeading2, pickedRow, ref linearMatrix.colsHeading2, pickedCol);
-                FormStaff.FancyDoubleMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
+                FormPrint.FancyDoubleMatrixPrint(linearMatrix, iteration, pickedRow, pickedCol, solvingElement, stringBuilder);
                 iteration++;
 
                 //Пошук наступного негативного числа
@@ -1078,5 +1079,9 @@ namespace ClassLibrary1
 
             return pickedCol;
         }
+
+        //Lab 3.1
+
+
     }
 }
