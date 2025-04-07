@@ -179,33 +179,6 @@ namespace AlgoritmiSystemPPR_Lab1
                 protocolRichTextBox.Text += protocol.ToString();
         }
 
-        //private void CalculateOptimalSolution()
-        //{
-        //    double[,] matrix = LinearMatrixBuilder.CreateMatrix((int)variablesNumericUpDown.Value, zTextBox.Text, restrictionsRichTextBox.Text);
-        //    StringBuilder stringBuilder = new StringBuilder();
-
-        //    if (maxRadioButton.Checked)
-        //    {
-        //        FancyPrintMatrixOnRichTextBox(matrix, protocolRichTextBox);
-        //        MaxSolutionScript(matrix, stringBuilder);
-        //    }
-
-        //    if (minRadioButton.Checked)
-        //    {
-        //        //приведення до Z'
-        //        for (int j = 0; j < matrix.GetLength(1) - 1; j++)
-        //        {
-        //            matrix[matrix.GetLength(0) - 1, j] *= -1;
-        //        }
-
-        //        FancyPrintMatrixOnRichTextBox(matrix, protocolRichTextBox);
-        //        MinSolutionScript(matrix, stringBuilder);
-        //    }
-
-        //    //protocol
-        //    protocolRichTextBox.Text += stringBuilder.ToString();
-        //}
-
         private void exampleButton_Click(object sender, EventArgs e)
         {
             //Приклад
@@ -296,54 +269,6 @@ namespace AlgoritmiSystemPPR_Lab1
             protocolRichTextBox.Text += protocol.ToString();
         }
 
-        //private void CalculateOptimalSolution2()
-        //{
-        //    LinearMatrix linearMatrix = LinearMatrixBuilder.CreateLinearMatrix((int)variablesNumericUpDown2.Value, zTextBox2.Text, restrictionsRichTextBox2.Text);
-        //    double[,] matrix = linearMatrix.matrix;
-        //    StringBuilder stringBuilder = new StringBuilder();
-        //    StringBuilder xResult = new StringBuilder();
-        //    StringBuilder zResult = new StringBuilder();
-
-        //    if (maxRadioButton2.Checked)
-        //    {
-        //        FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
-
-        //        try
-        //        {
-        //            MathCalculation.ZerosElimanating(linearMatrix, stringBuilder);
-        //            MaxSolutionScript(linearMatrix, xResult, zResult, stringBuilder);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            stringBuilder.AppendLine(ex.Message);
-        //        }
-        //    }
-
-        //    if (minRadioButton2.Checked)
-        //    {
-        //        //приведення Z до Z'
-        //        for (int j = 0; j < matrix.GetLength(1) - 1; j++)
-        //        {
-        //            matrix[matrix.GetLength(0) - 1, j] *= -1;
-        //        }
-
-        //        FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
-
-        //        try
-        //        {
-        //            MathCalculation.ZerosElimanating(linearMatrix, stringBuilder);
-        //            MinSolutionScript(linearMatrix, xResult, zResult, stringBuilder);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            stringBuilder.AppendLine(ex.Message);
-        //        }
-        //    }
-
-        //    xResultTextBox2.Text = xResult.ToString();
-        //    zResultTextBox2.Text = zResult.ToString();
-        //    protocolRichTextBox.Text += stringBuilder.ToString();
-        //}
 
         //lab 1.4
 
@@ -398,52 +323,6 @@ namespace AlgoritmiSystemPPR_Lab1
             zResultTextBox3.Text = zResult.ToString();
             protocolRichTextBox.Text += protocol.ToString();
         }
-
-        //private void CalculateOptimalSolution3()
-        //{
-        //    LinearMatrix linearMatrix = LinearMatrixBuilder.CreateLinearMatrix((int)variablesNumericUpDown3.Value, zTextBox3.Text, restrictionsRichTextBox3.Text, integerVariablesTextBox3.Text);
-        //    StringBuilder stringBuilder = new StringBuilder();
-        //    StringBuilder xResult = new StringBuilder();
-        //    StringBuilder zResult = new StringBuilder();
-
-        //    if (maxRadioButton3.Checked)
-        //    {
-        //        FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
-
-        //        try
-        //        {
-        //            MaxSolutionScriptWithIntegers(linearMatrix, xResult, zResult, stringBuilder);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            stringBuilder.AppendLine(ex.Message);
-        //        }
-        //    }
-
-        //    if (minRadioButton3.Checked)
-        //    {
-        //        //приведення Z до Z'
-        //        for (int j = 0; j < linearMatrix.matrix.GetLength(1) - 1; j++)
-        //        {
-        //            linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, j] *= -1;
-        //        }
-
-        //        FormStaff.FancyMatrixPrint(linearMatrix, stringBuilder);
-
-        //        try
-        //        {
-        //            MinSolutionScriptWithIntegers(linearMatrix, xResult, zResult, stringBuilder);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            stringBuilder.AppendLine(ex.Message);
-        //        }
-        //    }
-
-        //    xResultTextBox3.Text = xResult.ToString();
-        //    zResultTextBox3.Text = zResult.ToString();
-        //    protocolRichTextBox.Text += stringBuilder.ToString();
-        //}
 
         //Lab 2
 
@@ -513,65 +392,95 @@ namespace AlgoritmiSystemPPR_Lab1
             protocolRichTextBox.Text += protocol.ToString();
         }
 
-        //private void CalculateOptimalSolutionLab2()
-        //{
-        //    LinearMatrix linearMatrix =  LinearMatrixBuilder.CreateDoubleLinearMatrix((int)variablesLab2NumericUpDown.Value, zLab2TextBox.Text, restrictionsLab2RichTextBox.Text);
-        //    StringBuilder protocolBuilder = new StringBuilder();
-        //    StringBuilder solutionsResult = new StringBuilder();
-
-        //    if (maxLab2RadioButton.Checked)
-        //    {
-        //        FormStaff.FancyDoubleMatrixPrint(linearMatrix, protocolBuilder);
-
-        //        try
-        //        {
-        //            MaxSolutionScriptDoubleMatrix(linearMatrix, solutionsResult, solutionsResult, protocolBuilder);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            protocolBuilder.AppendLine(ex.Message);
-        //        }
-        //    }
-
-        //    if (minLab2RadioButton.Checked)
-        //    {
-        //        //приведення Z до Z'
-        //        for (int j = 0; j < linearMatrix.matrix.GetLength(1) - 1; j++)
-        //        {
-        //            linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, j] *= -1;
-        //        }
-
-        //        FormStaff.FancyDoubleMatrixPrint(linearMatrix, protocolBuilder);
-
-        //        try
-        //        {
-        //            MinSolutionScriptDoubleMatrix(linearMatrix, solutionsResult, solutionsResult, protocolBuilder);
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            protocolBuilder.AppendLine(ex.Message);
-        //        }
-        //    }
-
-        //    solutionsLab2richTextBox.Text = solutionsResult.ToString();
-        //    protocolRichTextBox.Text += protocolBuilder.ToString();
-        //}
-
         //Lab 3.1
 
         private void exampleLab3_1Button_Click(object sender, EventArgs e)
         {
+            //Приклад 1
+            StringBuilder limitations = new();
+            limitations.AppendLine("5 2 7");
+            limitations.AppendLine("1 4 3");
+            limitations.AppendLine("6 1 5");
+            gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
 
+            gamesAmountNumericUpDown.Value = 10;
+
+            ////Приклад 2
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("2 -1 3 3");
+            //limitations.AppendLine("-1 2 2 7");
+            //limitations.AppendLine("1 1 1 2");
+            //gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
+
+            //gamesAmountNumericUpDown.Value = 10;
+
+            ////Варіант 1
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("1 1 2");
+            //limitations.AppendLine("-1 -1 5");
+            //limitations.AppendLine("2 3 -3");
+            //gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
+
+            //gamesAmountNumericUpDown.Value = 100;
+
+            ////Варіант 2
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("13 17");
+            //limitations.AppendLine("15 7");
+            //gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
+
+            //gamesAmountNumericUpDown.Value = 100;
+
+            ////Варіант 3
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("4 5 7 10");
+            //limitations.AppendLine("6 9 1 5");
+            //gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
+
+            //gamesAmountNumericUpDown.Value = 100;
         }
 
         private void calculateOptimalSolutionLab3_1Button_Click(object sender, EventArgs e)
         {
+            StringBuilder firstPlayerBuilder = new StringBuilder();
+            StringBuilder secondPlayerBuilder = new StringBuilder();
+            StringBuilder gamePriceBuilder = new StringBuilder();
+            StringBuilder protocolBuilder = new StringBuilder();
 
+            CalculationScenarios.CalculateOptimalSolutionLab3_1(
+                matrix: gameMatrixLab3_1RichTextBox.Text,
+                firstPlayer: firstPlayerBuilder, 
+                secondPlayer: secondPlayerBuilder,
+                gamePrice: gamePriceBuilder,
+                protocolBuilder: protocolBuilder
+                );//gamesAmount = 0
+
+            player1StrategiesLab3_1TextBox.Text = firstPlayerBuilder.ToString();
+            player2StrategiesLab3_1TextBox.Text = secondPlayerBuilder.ToString();
+            gamePriceLab3_1TextBox.Text = gamePriceBuilder.ToString();
+            protocolRichTextBox.Text += protocolBuilder.ToString();
         }
 
         private void modelGameLab3_1Button_Click(object sender, EventArgs e)
         {
+            StringBuilder firstPlayerBuilder = new StringBuilder();
+            StringBuilder secondPlayerBuilder = new StringBuilder();
+            StringBuilder gamePriceBuilder = new StringBuilder();
+            StringBuilder protocolBuilder = new StringBuilder();
 
+            CalculationScenarios.CalculateOptimalSolutionLab3_1(
+                matrix: gameMatrixLab3_1RichTextBox.Text,
+                firstPlayer: firstPlayerBuilder,
+                secondPlayer: secondPlayerBuilder,
+                gamePrice: gamePriceBuilder,
+                protocolBuilder: protocolBuilder,
+                gamesAmount: (int)gamesAmountNumericUpDown.Value
+                );
+
+            player1StrategiesLab3_1TextBox.Text = firstPlayerBuilder.ToString();
+            player2StrategiesLab3_1TextBox.Text = secondPlayerBuilder.ToString();
+            gamePriceLab3_1TextBox.Text = gamePriceBuilder.ToString();
+            protocolRichTextBox.Text += protocolBuilder.ToString();
         }
     }
 }

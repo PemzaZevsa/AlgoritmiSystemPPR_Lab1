@@ -1,6 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ClassLibrary1
 {
@@ -280,6 +281,7 @@ namespace ClassLibrary1
         }
 
         //lab 1.2
+
         public static double[,] ModifiedZhordansExeptions(double[,] insertMatrix, int row, int col)
         {
             double[,] tempMatrix = CopyMatrix(insertMatrix);
@@ -1082,6 +1084,63 @@ namespace ClassLibrary1
 
         //Lab 3.1
 
+        public static void GameSimulation(double[,] matrix, double[] firstStrategies, double[] secondStrategies, int gamesAmount, double k, StringBuilder protocolBuilder)
+        {
+            protocolBuilder.Append("№\t");
+            protocolBuilder.Append("Rand 1\t");
+            protocolBuilder.Append("Strat 1\t");
+            protocolBuilder.Append("Rand 2\t");
+            protocolBuilder.Append("Strat 2\t");
+            protocolBuilder.Append("Reward\t");
+            protocolBuilder.Append("Sum\t");
+            protocolBuilder.AppendLine("Avarage\t");
 
+            Random random = new Random();
+            double sumOfRewards = 0;
+            for (int i = 0; i < gamesAmount; i++)
+            {
+                double[] session = GameSession(matrix, firstStrategies, secondStrategies, sumOfRewards, i,k);
+                sumOfRewards = session[6];
+                protocolBuilder.AppendLine(string.Join("\t", session));
+            }
+        }
+
+        private static double[] GameSession(double[,] matrix, double[] firstStrategies, double[] secondStrategies, double sumOfRewards, int iteration, double k)
+        {
+            Random random = new Random();
+            double randomA = random.NextDouble();
+            double sumA = 0;
+            int chosenStratA = firstStrategies.Length - 1;
+            for (int j = 0; j < firstStrategies.Length; j++)
+            {
+                sumA += firstStrategies[j];
+                //sumA += firstStrategies[iteration];
+                if (randomA < sumA)
+                {
+                    chosenStratA = j;
+                    break;
+                }
+            }
+
+            double randomB = random.NextDouble();
+            double sumB = 0;
+            int chosenStratB = secondStrategies.Length-1;
+            for (int j = 0; j < secondStrategies.Length; j++)
+            {
+                sumB += secondStrategies[j];
+                //sumB += secondStrategies[iteration];
+                if (randomB < sumB)
+                {
+                    chosenStratB = j;
+                    break;
+                }
+            }
+
+            double revard = matrix[chosenStratA, chosenStratB] - k;
+            sumOfRewards += revard;
+            double avarage = sumOfRewards / (iteration + 1);
+
+            return new double[] { iteration, Math.Round(randomA, 2), chosenStratA, Math.Round(randomB, 2), chosenStratB, Math.Round(revard, 2), Math.Round(sumOfRewards, 2), Math.Round(avarage, 2) };
+        }
     }
 }

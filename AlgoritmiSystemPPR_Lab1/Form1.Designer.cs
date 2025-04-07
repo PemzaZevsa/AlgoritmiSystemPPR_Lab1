@@ -279,7 +279,7 @@
             protocolRichTextBox.Location = new Point(689, 32);
             protocolRichTextBox.Name = "protocolRichTextBox";
             protocolRichTextBox.ScrollBars = RichTextBoxScrollBars.ForcedBoth;
-            protocolRichTextBox.Size = new Size(466, 372);
+            protocolRichTextBox.Size = new Size(581, 372);
             protocolRichTextBox.TabIndex = 11;
             protocolRichTextBox.Text = "";
             // 
@@ -1177,6 +1177,7 @@
             // gamesAmountNumericUpDown
             // 
             gamesAmountNumericUpDown.Location = new Point(551, 292);
+            gamesAmountNumericUpDown.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
             gamesAmountNumericUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             gamesAmountNumericUpDown.Name = "gamesAmountNumericUpDown";
             gamesAmountNumericUpDown.Size = new Size(102, 27);
@@ -1245,13 +1246,14 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1171, 469);
+            ClientSize = new Size(1282, 473);
             Controls.Add(protocolTextDecreaseButton);
             Controls.Add(protocolTextIncreaseButton);
             Controls.Add(clearProtocolButton);
             Controls.Add(zTextLab2Box);
             Controls.Add(protocolRichTextBox);
             Controls.Add(label5);
+            MinimumSize = new Size(1300, 520);
             Name = "Form1";
             Text = "Хвостовець АСППР Лаб1.1-4, 2, 3.1";
             ((System.ComponentModel.ISupportInitialize)matrixCols).EndInit();

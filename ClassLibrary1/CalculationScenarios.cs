@@ -553,5 +553,143 @@ namespace ClassLibrary1
             }
         }
 
+        //Lab 3.1
+
+        public static void CalculateOptimalSolutionLab3_1(string matrix, StringBuilder firstPlayer, StringBuilder secondPlayer, StringBuilder gamePrice, StringBuilder protocolBuilder, int gamesAmount = 0)
+        {
+            LinearMatrix linearMatrix = LinearMatrixBuilder.CreateDoubleLinearMatrixLab3_1(matrix);
+            FormPrint.FancyDoubleMatrixPrint(linearMatrix, protocolBuilder);
+            try
+            {
+                MaxSolutionScriptDoubleMatrixLab3_1(linearMatrix, firstPlayer, secondPlayer, gamePrice, protocolBuilder);
+
+                if (gamesAmount > 0)
+                {
+                    MathCalculation.GameSimulation(linearMatrix.startMatrix, linearMatrix.firstP, linearMatrix.secondP, gamesAmount, linearMatrix.k, protocolBuilder);
+                    //double[,] matrix, double[] firstStrategies, double[] secondStrategies, int gamesAmount, StringBuilder protocolBuilder
+                }
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine(ex.Message);
+            }
+        }
+
+        private static void MaxSolutionScriptDoubleMatrixLab3_1(LinearMatrix linearMatrix, StringBuilder firstPlayer, StringBuilder secondPlayer, StringBuilder gamePrice, StringBuilder protocolBuilder)
+        {
+            try
+            {
+                //Support solution
+                protocolBuilder.AppendLine("Знаходження опорного рішення:");
+                double[] result = MathCalculation.SupportSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+                protocolBuilder.AppendLine("Опорний розв'язок знайдено:");
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = Math.Round(result[i], 2);
+                }
+                string str = string.Join("; ", result);
+                protocolBuilder.AppendLine($"X:({str})\n");
+
+                //Optimal solution
+                protocolBuilder.AppendLine("Знаходження оптимального рішення:");
+                result = MathCalculation.OptimalSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+                protocolBuilder.AppendLine("Оптимальний розв'язок знайдено:");
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = Math.Round(result[i], 2);
+                }
+                str = string.Join("; ", result);
+                protocolBuilder.AppendLine($"X:({str})\n");
+                //xResult.AppendLine($"Розв'язки прямої задачі:");
+                //xResult.AppendLine($"X = ({str})");
+
+                //second player
+                double v = linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1];
+                double[] secondP = new double[result.Length];
+                for (int i = 0; i < secondP.Length; i++)
+                {
+                    secondP[i] = Math.Round(result[i] / v, 2);
+                }
+                linearMatrix.secondP = secondP;
+                str = string.Join("; ", secondP);
+                secondPlayer.AppendLine(str);
+                
+                result = MathCalculation.DoubleLinearTask(linearMatrix, protocolBuilder);
+                for (int i = 0; i < result.Length; i++)
+                {
+                    result[i] = Math.Round(result[i], 2);
+                }
+                str = string.Join("; ", result);
+                protocolBuilder.AppendLine($"U:({str})\n");
+                //xResult.AppendLine($"Розв'язки двоічної задачі:");
+                //xResult.AppendLine($"U = ({str})");
+
+                //first player
+                double[] firstP = new double[result.Length];
+                for (int i = 0; i < firstP.Length; i++)
+                {
+                    firstP[i] = Math.Round(result[i] / v, 2);
+                }
+                linearMatrix.firstP = firstP;
+                str = string.Join("; ", firstP);
+                firstPlayer.AppendLine(str);
+
+                //gamep price
+                v = (1 / v) - linearMatrix.k;
+                gamePrice.AppendLine($"{Math.Round(v, 2)}");
+
+                double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1], 2);
+                protocolBuilder.AppendLine($"Z:{zRes}\n");
+                protocolBuilder.AppendLine($"W:{zRes}\n");
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine(ex.Message);
+                throw new ArgumentException("При пошуку максимального значення функції Z відбулася помилка", ex);
+            }
+        }
+
+        //private static void GameSimulation(double[,] matrix, double[] firstStrategies, double[] secondStrategies, int gamesAmount, StringBuilder protocolBuilder)
+        //{
+        //    //TODO headings
+        //    Random random = new Random();
+        //    double sumOfRewards = 0;
+        //    for (int i = 0; i < gamesAmount; i++)
+        //    {
+        //        double randomA = random.NextDouble();
+        //        double sumA = 0;
+        //        int chosenStratA = -1;
+        //        //double[] arraA = new double[firstStrategies.Length];
+        //        for (int j = 0; j < firstStrategies.Length; j++)
+        //        {
+        //            sumA += firstStrategies[i];
+        //            //arraA[i] = sumA;
+
+        //            if (randomA < sumA)
+        //            {
+        //                chosenStratA = j;
+        //                break;
+        //            }
+        //        }
+
+        //        double randomB = random.NextDouble();
+        //        double sumB = 0;
+        //        int chosenStratB = -1;
+        //        for (int j = 0; j < secondStrategies.Length; j++)
+        //        {
+        //            sumB += secondStrategies[i];
+        //            if (randomB < sumB)
+        //            {
+        //                chosenStratB = j;
+        //                break;
+        //            }
+        //        }
+
+        //        double revard = matrix[chosenStratA, chosenStratB];
+        //        sumOfRewards += revard;
+        //        double avarage = sumOfRewards / (i + 1);
+        //    }
+        //}
+        
     }
 }

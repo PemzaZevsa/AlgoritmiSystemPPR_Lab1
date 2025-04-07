@@ -16,6 +16,11 @@ namespace ClassLibrary1
         public int variablesCount;
         public double[] res;      //calculated x`s
         public string[] integerVariables;
+        //Lab 3_1
+        public double k; //absolute value of minimal number in matrix
+        public double[] firstP;
+        public double[] secondP;
+        public double[,] startMatrix;
 
         public LinearMatrix(double[,] matrix, string[] rowsHeading, int variablesCount)
         {
@@ -52,6 +57,29 @@ namespace ClassLibrary1
             {
                 this.colsHeading2[i] = $"v{1 + i}";
             }
+        }
+
+        public LinearMatrix(double[,] matrix, string[] rowsHeading, string[] rowsHeading2, int variables, double k): this(matrix, rowsHeading, rowsHeading2, variables)
+        {
+            this.k = k;
+            this.startMatrix = CloneMatrix(matrix);
+        }
+
+        private double[,] CloneMatrix(double[,] original)
+        {
+            int rows = original.GetLength(0);
+            int cols = original.GetLength(1);
+            double[,] clone = new double[rows, cols];
+
+            for (int i = 0; i < rows; i++)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    clone[i, j] = original[i, j];
+                }
+            }
+
+            return clone;
         }
     }
 }

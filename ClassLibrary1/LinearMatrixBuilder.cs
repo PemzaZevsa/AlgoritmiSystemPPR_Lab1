@@ -226,5 +226,79 @@ namespace ClassLibrary1
             return new LinearMatrix(matrix, rowsHeadings, rowsHeadings2, variables.Length);
         }
 
+        //Lab 3_1
+
+        public static LinearMatrix CreateDoubleLinearMatrixLab3_1(string matrixText)
+        {
+            (double[,] matrix, string[] rowsHeadings, double k) = CreateMatrixLab3_1(matrixText);
+
+            string[] rowsHeadings2 = new string[rowsHeadings.Length];
+            for (int i = 0; i < rowsHeadings2.Length; i++)
+            {
+                rowsHeadings2[i] = $"u{i + 1}";
+            }
+
+            return new LinearMatrix(matrix, rowsHeadings, rowsHeadings2, matrix.GetLength(1) - 1, k);
+        }
+
+        public static (double[,], string[], double) CreateMatrixLab3_1(string matrixText)
+        {
+            string[] lines = matrixText.Trim().Split('\n');
+            string[] rowHeadings = new string[lines.Length];
+            int rowCount = lines.Length;
+            
+            int columnCount = lines[0].Split(' ').Length;
+            double[,] matrix = new double[rowCount + 1, columnCount + 1];
+            for (int i = 0; i < rowCount; i++)
+            {
+                string[] columns = lines[i].Trim().Split(' '); 
+                for (int j = 0; j < columnCount; j++)
+                {
+                    matrix[i, j] = int.Parse(columns[j]);
+                }
+            }
+
+            //calculating k
+            double minimal = double.MaxValue;
+            int matrixHeight = matrix.GetLength(0);
+            int matrixWidth = matrix.GetLength(1);
+            for (int i = 0; i < matrixHeight; i++)
+            {
+                for (int j = 0; j < matrixWidth; j++)
+                {
+                    if (matrix[i,j] < minimal)
+                    {
+                        minimal = matrix[i, j];
+                    }
+                }
+            }
+
+            if (minimal < 0) 
+            {
+                for (int i = 0; i < matrixHeight - 1; i++)
+                {
+                    for (int j = 0; j < matrixWidth - 1; j++)
+                    {
+                        matrix[i, j] += Math.Abs(minimal);
+                    }
+                }
+            }
+
+
+            //row headings 1
+            for (int i = 0; i < rowCount; i++)
+            {
+                matrix[i, columnCount] = 1;
+                rowHeadings[i] = $"y{i+1}";
+            }
+
+            //row headings 2
+            for (int j = 0; j < columnCount; j++)
+            {
+                matrix[rowCount, j] = -1;
+            }
+
+            return (matrix, rowHeadings, Math.Abs(minimal));
+        }
     }
 }
