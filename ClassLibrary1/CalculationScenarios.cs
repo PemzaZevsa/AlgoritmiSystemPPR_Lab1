@@ -404,7 +404,8 @@ namespace ClassLibrary1
 
         //Lab 2
 
-        public static void CalculateOptimalSolutionLab2(int variablesAmount, string zFunction, string restrictions, bool maxSolution, bool minSolution, StringBuilder solutionsResult, StringBuilder protocolBuilder)
+        public static void CalculateOptimalSolutionLab2(int variablesAmount, string zFunction, string restrictions, bool maxSolution, 
+            bool minSolution, StringBuilder solutionsResult, StringBuilder protocolBuilder)
         {
             LinearMatrix linearMatrix = LinearMatrixBuilder.CreateDoubleLinearMatrix(variablesAmount, zFunction, restrictions);
             //StringBuilder protocolBuilder = new StringBuilder();
@@ -448,7 +449,8 @@ namespace ClassLibrary1
             //protocolRichTextBox.Text += protocolBuilder.ToString();
         }
 
-        private static void MaxSolutionScriptDoubleMatrix(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
+        private static void MaxSolutionScriptDoubleMatrix(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, 
+            StringBuilder protocolBuilder)
         {
             try
             {
@@ -499,7 +501,8 @@ namespace ClassLibrary1
             }
         }
 
-        private static void MinSolutionScriptDoubleMatrix(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
+        private static void MinSolutionScriptDoubleMatrix(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, 
+            StringBuilder protocolBuilder)
         {
             try
             {
@@ -555,7 +558,8 @@ namespace ClassLibrary1
 
         //Lab 3.1
 
-        public static void CalculateOptimalSolutionLab3_1(string matrix, StringBuilder firstPlayer, StringBuilder secondPlayer, StringBuilder gamePrice, StringBuilder protocolBuilder, int gamesAmount = 0)
+        public static void CalculateOptimalSolutionLab3_1(string matrix, StringBuilder firstPlayer, StringBuilder secondPlayer, 
+            StringBuilder gamePrice, StringBuilder protocolBuilder, int gamesAmount = 0)
         {
             LinearMatrix linearMatrix = LinearMatrixBuilder.CreateDoubleLinearMatrixLab3_1(matrix);
             FormPrint.FancyDoubleMatrixPrint(linearMatrix, protocolBuilder);
@@ -575,7 +579,50 @@ namespace ClassLibrary1
             }
         }
 
-        private static void MaxSolutionScriptDoubleMatrixLab3_1(LinearMatrix linearMatrix, StringBuilder firstPlayer, StringBuilder secondPlayer, StringBuilder gamePrice, StringBuilder protocolBuilder)
+        //private static void GameSimulation(double[,] matrix, double[] firstStrategies, double[] secondStrategies, int gamesAmount, StringBuilder protocolBuilder)
+        //{
+        //    //TODO headings
+        //    Random random = new Random();
+        //    double sumOfRewards = 0;
+        //    for (int i = 0; i < gamesAmount; i++)
+        //    {
+        //        double randomA = random.NextDouble();
+        //        double sumA = 0;
+        //        int chosenStratA = -1;
+        //        //double[] arraA = new double[firstStrategies.Length];
+        //        for (int j = 0; j < firstStrategies.Length; j++)
+        //        {
+        //            sumA += firstStrategies[i];
+        //            //arraA[i] = sumA;
+
+        //            if (randomA < sumA)
+        //            {
+        //                chosenStratA = j;
+        //                break;
+        //            }
+        //        }
+
+        //        double randomB = random.NextDouble();
+        //        double sumB = 0;
+        //        int chosenStratB = -1;
+        //        for (int j = 0; j < secondStrategies.Length; j++)
+        //        {
+        //            sumB += secondStrategies[i];
+        //            if (randomB < sumB)
+        //            {
+        //                chosenStratB = j;
+        //                break;
+        //            }
+        //        }
+
+        //        double revard = matrix[chosenStratA, chosenStratB];
+        //        sumOfRewards += revard;
+        //        double avarage = sumOfRewards / (i + 1);
+        //    }
+        //}
+
+        private static void MaxSolutionScriptDoubleMatrixLab3_1(LinearMatrix linearMatrix, StringBuilder firstPlayer, 
+            StringBuilder secondPlayer, StringBuilder gamePrice, StringBuilder protocolBuilder)
         {
             try
             {
@@ -649,47 +696,36 @@ namespace ClassLibrary1
             }
         }
 
-        //private static void GameSimulation(double[,] matrix, double[] firstStrategies, double[] secondStrategies, int gamesAmount, StringBuilder protocolBuilder)
-        //{
-        //    //TODO headings
-        //    Random random = new Random();
-        //    double sumOfRewards = 0;
-        //    for (int i = 0; i < gamesAmount; i++)
-        //    {
-        //        double randomA = random.NextDouble();
-        //        double sumA = 0;
-        //        int chosenStratA = -1;
-        //        //double[] arraA = new double[firstStrategies.Length];
-        //        for (int j = 0; j < firstStrategies.Length; j++)
-        //        {
-        //            sumA += firstStrategies[i];
-        //            //arraA[i] = sumA;
+        //Lab 3.2
 
-        //            if (randomA < sumA)
-        //            {
-        //                chosenStratA = j;
-        //                break;
-        //            }
-        //        }
+        public static void CalculateOptimalSolutionLab3_2(string matrixText, double coeff, string percentageText, StringBuilder valdBuilder, 
+            StringBuilder gurvitsBuilder, StringBuilder maxiMaxBuilder, StringBuilder baesBuilder, StringBuilder savageBuilder, 
+            StringBuilder laplaceBuilder, StringBuilder theMostCommonBuilder, StringBuilder protocolBuilder)
+        {
+            double[,] matrix = LinearMatrixBuilder.CreateMatrixLab3_2(matrixText);
+            double[] percentage = LinearMatrixBuilder.CreateArrayLab3_2(percentageText);
+            FormPrint.ProtocolMatrixPrint(matrix, protocolBuilder);
+            try
+            {
+                MathCalculation.NatureSimulation(
+                    matrix: matrix,
+                    coeff: coeff,
+                    percentage: percentage,
+                    valdBuilder: valdBuilder,
+                    gurvitsBuilder: gurvitsBuilder,
+                    maxiMaxBuilder: maxiMaxBuilder,
+                    baesBuilder: baesBuilder,
+                    savageBuilder: savageBuilder,
+                    laplaceBuilder: laplaceBuilder,
+                    theMostCommonBuilder: theMostCommonBuilder,
+                    protocolBuilder: protocolBuilder
+                    );
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine(ex.Message);
+            }
+        }
 
-        //        double randomB = random.NextDouble();
-        //        double sumB = 0;
-        //        int chosenStratB = -1;
-        //        for (int j = 0; j < secondStrategies.Length; j++)
-        //        {
-        //            sumB += secondStrategies[i];
-        //            if (randomB < sumB)
-        //            {
-        //                chosenStratB = j;
-        //                break;
-        //            }
-        //        }
-
-        //        double revard = matrix[chosenStratA, chosenStratB];
-        //        sumOfRewards += revard;
-        //        double avarage = sumOfRewards / (i + 1);
-        //    }
-        //}
-        
     }
 }

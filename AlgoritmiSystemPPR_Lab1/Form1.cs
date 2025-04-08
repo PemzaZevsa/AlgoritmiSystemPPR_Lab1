@@ -174,9 +174,9 @@ namespace AlgoritmiSystemPPR_Lab1
                     protocolBuilder: protocol
                 );
 
-                xResultTextBox.Text = xResult.ToString();
-                zResultTextBox.Text = zResult.ToString();
-                protocolRichTextBox.Text += protocol.ToString();
+            xResultTextBox.Text = xResult.ToString();
+            zResultTextBox.Text = zResult.ToString();
+            protocolRichTextBox.Text += protocol.ToString();
         }
 
         private void exampleButton_Click(object sender, EventArgs e)
@@ -449,7 +449,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
             CalculationScenarios.CalculateOptimalSolutionLab3_1(
                 matrix: gameMatrixLab3_1RichTextBox.Text,
-                firstPlayer: firstPlayerBuilder, 
+                firstPlayer: firstPlayerBuilder,
                 secondPlayer: secondPlayerBuilder,
                 gamePrice: gamePriceBuilder,
                 protocolBuilder: protocolBuilder
@@ -480,6 +480,54 @@ namespace AlgoritmiSystemPPR_Lab1
             player1StrategiesLab3_1TextBox.Text = firstPlayerBuilder.ToString();
             player2StrategiesLab3_1TextBox.Text = secondPlayerBuilder.ToString();
             gamePriceLab3_1TextBox.Text = gamePriceBuilder.ToString();
+            protocolRichTextBox.Text += protocolBuilder.ToString();
+        }
+
+        //Lab 3.2
+
+        private void exampleLab3_2Button_Click(object sender, EventArgs e)
+        {
+            //Приклад 1
+            StringBuilder limitations = new();
+            limitations.AppendLine("-1 1 1 4");
+            limitations.AppendLine("-1 -2 2 3");
+            limitations.AppendLine("3 -1 3 2");
+            gameMatrixLab3_2RichTextBox.Text = limitations.ToString();
+            yCoefficientNumericUpDown.Value = 0.3m;
+        }
+
+        private void findOptimalStrategiesLab3_2Button_Click(object sender, EventArgs e)
+        {
+            StringBuilder valdBuilder = new StringBuilder();
+            StringBuilder gurvitsBuilder = new StringBuilder();
+            StringBuilder maxiMaxBuilder = new StringBuilder();
+            StringBuilder baesBuilder = new StringBuilder();
+            StringBuilder savageBuilder = new StringBuilder();
+            StringBuilder laplaceBuilder = new StringBuilder();
+            StringBuilder theMostCommonBuilder = new StringBuilder();
+            StringBuilder protocolBuilder = new StringBuilder();
+
+            CalculationScenarios.CalculateOptimalSolutionLab3_2(
+                matrixText: gameMatrixLab3_2RichTextBox.Text,
+                coeff: (double)yCoefficientNumericUpDown.Value,
+                percentageText: natureStrategiesLab3_2TextBox.Text,
+                valdBuilder: valdBuilder,
+                gurvitsBuilder: gurvitsBuilder,
+                maxiMaxBuilder: maxiMaxBuilder,
+                baesBuilder: baesBuilder,
+                savageBuilder: savageBuilder,
+                laplaceBuilder: laplaceBuilder,
+                theMostCommonBuilder: theMostCommonBuilder,
+                protocolBuilder: protocolBuilder
+                );
+
+            valdLab3_2TextBox.Text = valdBuilder.ToString();
+            gurvitsLab3_2TextBox.Text = gurvitsBuilder.ToString();
+            maxiMaxLab3_2TextBox.Text = maxiMaxBuilder.ToString();
+            baesLab3_2TextBox.Text = baesBuilder.ToString();
+            savageLab3_2TextBox.Text = savageBuilder.ToString();
+            laplaceLab3_2TextBox.Text = laplaceBuilder.ToString();
+            theMostCommonStrategyLab3_2TextBox.Text = theMostCommonBuilder.ToString();
             protocolRichTextBox.Text += protocolBuilder.ToString();
         }
     }

@@ -226,7 +226,7 @@ namespace ClassLibrary1
             return new LinearMatrix(matrix, rowsHeadings, rowsHeadings2, variables.Length);
         }
 
-        //Lab 3_1
+        //Lab 3.1
 
         public static LinearMatrix CreateDoubleLinearMatrixLab3_1(string matrixText)
         {
@@ -284,7 +284,6 @@ namespace ClassLibrary1
                 }
             }
 
-
             //row headings 1
             for (int i = 0; i < rowCount; i++)
             {
@@ -299,6 +298,41 @@ namespace ClassLibrary1
             }
 
             return (matrix, rowHeadings, Math.Abs(minimal));
+        }
+
+        //Lab 3.2
+
+        public static double[,] CreateMatrixLab3_2(string matrixText)
+        {
+            string[] lines = matrixText.Trim().Split('\n');
+            int rowCount = lines.Length;
+
+            int columnCount = lines[0].Split(' ').Length;
+            double[,] matrix = new double[rowCount + 1, columnCount + 1];
+            for (int i = 0; i < rowCount; i++)
+            {
+                string[] columns = lines[i].Trim().Split(' ');
+                for (int j = 0; j < columnCount; j++)
+                {
+                    matrix[i, j] = int.Parse(columns[j]);
+                }
+            }
+
+            return matrix;
+        }
+
+        public static double[] CreateArrayLab3_2(string arrayText)
+        {
+            int elementsCount = arrayText.Split(' ').Length;
+            string[] elements = arrayText.Trim().Split(' ');
+
+            double[] array = new double[elements.Length];
+            for (int i = 0; i < elementsCount; i++)
+            {
+                array[i] = int.Parse(elements[i]);
+            }            
+
+            return array;
         }
     }
 }

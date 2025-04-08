@@ -135,6 +135,29 @@
             label25 = new Label();
             gameMatrixLab3_1RichTextBox = new RichTextBox();
             calculateOptimalSolutionLab3_1Button = new Button();
+            tabPage7 = new TabPage();
+            label37 = new Label();
+            natureStrategiesLab3_2TextBox = new TextBox();
+            label36 = new Label();
+            gurvitsLab3_2TextBox = new TextBox();
+            label35 = new Label();
+            baesLab3_2TextBox = new TextBox();
+            label34 = new Label();
+            laplaceLab3_2TextBox = new TextBox();
+            label33 = new Label();
+            theMostCommonStrategyLab3_2TextBox = new TextBox();
+            exampleLab3_2Button = new Button();
+            label28 = new Label();
+            savageLab3_2TextBox = new TextBox();
+            label29 = new Label();
+            maxiMaxLab3_2TextBox = new TextBox();
+            label30 = new Label();
+            valdLab3_2TextBox = new TextBox();
+            label31 = new Label();
+            yCoefficientNumericUpDown = new NumericUpDown();
+            label32 = new Label();
+            gameMatrixLab3_2RichTextBox = new RichTextBox();
+            findOptimalStrategiesLab3_2Button = new Button();
             clearProtocolButton = new Button();
             protocolTextIncreaseButton = new Button();
             protocolTextDecreaseButton = new Button();
@@ -158,6 +181,8 @@
             ((System.ComponentModel.ISupportInitialize)variablesLab2NumericUpDown).BeginInit();
             tabPage6.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)gamesAmountNumericUpDown).BeginInit();
+            tabPage7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)yCoefficientNumericUpDown).BeginInit();
             SuspendLayout();
             // 
             // matrixLabel
@@ -379,6 +404,7 @@
             zTextLab2Box.Controls.Add(tabPage4);
             zTextLab2Box.Controls.Add(tabPage5);
             zTextLab2Box.Controls.Add(tabPage6);
+            zTextLab2Box.Controls.Add(tabPage7);
             zTextLab2Box.Location = new Point(2, 3);
             zTextLab2Box.Name = "zTextLab2Box";
             zTextLab2Box.SelectedIndex = 0;
@@ -1211,6 +1237,223 @@
             calculateOptimalSolutionLab3_1Button.UseVisualStyleBackColor = true;
             calculateOptimalSolutionLab3_1Button.Click += calculateOptimalSolutionLab3_1Button_Click;
             // 
+            // tabPage7
+            // 
+            tabPage7.Controls.Add(label37);
+            tabPage7.Controls.Add(natureStrategiesLab3_2TextBox);
+            tabPage7.Controls.Add(label36);
+            tabPage7.Controls.Add(gurvitsLab3_2TextBox);
+            tabPage7.Controls.Add(label35);
+            tabPage7.Controls.Add(baesLab3_2TextBox);
+            tabPage7.Controls.Add(label34);
+            tabPage7.Controls.Add(laplaceLab3_2TextBox);
+            tabPage7.Controls.Add(label33);
+            tabPage7.Controls.Add(theMostCommonStrategyLab3_2TextBox);
+            tabPage7.Controls.Add(exampleLab3_2Button);
+            tabPage7.Controls.Add(label28);
+            tabPage7.Controls.Add(savageLab3_2TextBox);
+            tabPage7.Controls.Add(label29);
+            tabPage7.Controls.Add(maxiMaxLab3_2TextBox);
+            tabPage7.Controls.Add(label30);
+            tabPage7.Controls.Add(valdLab3_2TextBox);
+            tabPage7.Controls.Add(label31);
+            tabPage7.Controls.Add(yCoefficientNumericUpDown);
+            tabPage7.Controls.Add(label32);
+            tabPage7.Controls.Add(gameMatrixLab3_2RichTextBox);
+            tabPage7.Controls.Add(findOptimalStrategiesLab3_2Button);
+            tabPage7.Location = new Point(4, 29);
+            tabPage7.Name = "tabPage7";
+            tabPage7.Padding = new Padding(3);
+            tabPage7.Size = new Size(677, 421);
+            tabPage7.TabIndex = 6;
+            tabPage7.Text = "Лаб 3.2";
+            tabPage7.UseVisualStyleBackColor = true;
+            // 
+            // label37
+            // 
+            label37.AutoSize = true;
+            label37.Location = new Point(386, 67);
+            label37.Name = "label37";
+            label37.Size = new Size(135, 20);
+            label37.TabIndex = 102;
+            label37.Text = "Стратегії природи";
+            // 
+            // natureStrategiesLab3_2TextBox
+            // 
+            natureStrategiesLab3_2TextBox.Location = new Point(386, 90);
+            natureStrategiesLab3_2TextBox.Name = "natureStrategiesLab3_2TextBox";
+            natureStrategiesLab3_2TextBox.Size = new Size(267, 27);
+            natureStrategiesLab3_2TextBox.TabIndex = 101;
+            // 
+            // label36
+            // 
+            label36.AutoSize = true;
+            label36.Location = new Point(217, 234);
+            label36.Name = "label36";
+            label36.Size = new Size(128, 20);
+            label36.TabIndex = 100;
+            label36.Text = "Критерій Гурвіца";
+            // 
+            // gurvitsLab3_2TextBox
+            // 
+            gurvitsLab3_2TextBox.Location = new Point(217, 257);
+            gurvitsLab3_2TextBox.Name = "gurvitsLab3_2TextBox";
+            gurvitsLab3_2TextBox.Size = new Size(150, 27);
+            gurvitsLab3_2TextBox.TabIndex = 99;
+            // 
+            // label35
+            // 
+            label35.AutoSize = true;
+            label35.Location = new Point(217, 287);
+            label35.Name = "label35";
+            label35.Size = new Size(115, 20);
+            label35.TabIndex = 98;
+            label35.Text = "Критерій Баєса";
+            // 
+            // baesLab3_2TextBox
+            // 
+            baesLab3_2TextBox.Location = new Point(217, 310);
+            baesLab3_2TextBox.Name = "baesLab3_2TextBox";
+            baesLab3_2TextBox.Size = new Size(150, 27);
+            baesLab3_2TextBox.TabIndex = 97;
+            // 
+            // label34
+            // 
+            label34.AutoSize = true;
+            label34.Location = new Point(217, 340);
+            label34.Name = "label34";
+            label34.Size = new Size(134, 20);
+            label34.TabIndex = 96;
+            label34.Text = "Критерій Лапласа";
+            // 
+            // laplaceLab3_2TextBox
+            // 
+            laplaceLab3_2TextBox.Location = new Point(217, 363);
+            laplaceLab3_2TextBox.Name = "laplaceLab3_2TextBox";
+            laplaceLab3_2TextBox.Size = new Size(150, 27);
+            laplaceLab3_2TextBox.TabIndex = 95;
+            // 
+            // label33
+            // 
+            label33.AutoSize = true;
+            label33.Location = new Point(386, 340);
+            label33.Name = "label33";
+            label33.Size = new Size(156, 20);
+            label33.TabIndex = 94;
+            label33.Text = "Найчастіша стратегія";
+            // 
+            // theMostCommonStrategyLab3_2TextBox
+            // 
+            theMostCommonStrategyLab3_2TextBox.Location = new Point(386, 363);
+            theMostCommonStrategyLab3_2TextBox.Name = "theMostCommonStrategyLab3_2TextBox";
+            theMostCommonStrategyLab3_2TextBox.Size = new Size(267, 27);
+            theMostCommonStrategyLab3_2TextBox.TabIndex = 93;
+            // 
+            // exampleLab3_2Button
+            // 
+            exampleLab3_2Button.Location = new Point(386, 123);
+            exampleLab3_2Button.Name = "exampleLab3_2Button";
+            exampleLab3_2Button.Size = new Size(267, 51);
+            exampleLab3_2Button.TabIndex = 92;
+            exampleLab3_2Button.Text = "Приклад";
+            exampleLab3_2Button.UseVisualStyleBackColor = true;
+            exampleLab3_2Button.Click += exampleLab3_2Button_Click;
+            // 
+            // label28
+            // 
+            label28.AutoSize = true;
+            label28.Location = new Point(14, 340);
+            label28.Name = "label28";
+            label28.Size = new Size(132, 20);
+            label28.TabIndex = 91;
+            label28.Text = "Критерій Севіджа";
+            // 
+            // savageLab3_2TextBox
+            // 
+            savageLab3_2TextBox.Location = new Point(14, 363);
+            savageLab3_2TextBox.Name = "savageLab3_2TextBox";
+            savageLab3_2TextBox.Size = new Size(150, 27);
+            savageLab3_2TextBox.TabIndex = 90;
+            // 
+            // label29
+            // 
+            label29.AutoSize = true;
+            label29.Location = new Point(14, 287);
+            label29.Name = "label29";
+            label29.Size = new Size(153, 20);
+            label29.TabIndex = 89;
+            label29.Text = "Критерій максімаксу";
+            // 
+            // maxiMaxLab3_2TextBox
+            // 
+            maxiMaxLab3_2TextBox.Location = new Point(14, 310);
+            maxiMaxLab3_2TextBox.Name = "maxiMaxLab3_2TextBox";
+            maxiMaxLab3_2TextBox.Size = new Size(150, 27);
+            maxiMaxLab3_2TextBox.TabIndex = 88;
+            // 
+            // label30
+            // 
+            label30.AutoSize = true;
+            label30.Location = new Point(14, 234);
+            label30.Name = "label30";
+            label30.Size = new Size(124, 20);
+            label30.TabIndex = 87;
+            label30.Text = "Критерій Вальду";
+            // 
+            // valdLab3_2TextBox
+            // 
+            valdLab3_2TextBox.Location = new Point(14, 257);
+            valdLab3_2TextBox.Name = "valdLab3_2TextBox";
+            valdLab3_2TextBox.Size = new Size(150, 27);
+            valdLab3_2TextBox.TabIndex = 86;
+            // 
+            // label31
+            // 
+            label31.AutoSize = true;
+            label31.Location = new Point(14, 16);
+            label31.Name = "label31";
+            label31.Size = new Size(257, 20);
+            label31.TabIndex = 85;
+            label31.Text = "Матриця користності результатів U:";
+            // 
+            // yCoefficientNumericUpDown
+            // 
+            yCoefficientNumericUpDown.DecimalPlaces = 2;
+            yCoefficientNumericUpDown.Increment = new decimal(new int[] { 1, 0, 0, 65536 });
+            yCoefficientNumericUpDown.Location = new Point(551, 37);
+            yCoefficientNumericUpDown.Maximum = new decimal(new int[] { 1, 0, 0, 0 });
+            yCoefficientNumericUpDown.Name = "yCoefficientNumericUpDown";
+            yCoefficientNumericUpDown.Size = new Size(102, 27);
+            yCoefficientNumericUpDown.TabIndex = 83;
+            yCoefficientNumericUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // label32
+            // 
+            label32.AutoSize = true;
+            label32.Location = new Point(386, 39);
+            label32.Name = "label32";
+            label32.Size = new Size(99, 20);
+            label32.TabIndex = 82;
+            label32.Text = "Коефіцієнт Y:";
+            // 
+            // gameMatrixLab3_2RichTextBox
+            // 
+            gameMatrixLab3_2RichTextBox.Location = new Point(14, 39);
+            gameMatrixLab3_2RichTextBox.Name = "gameMatrixLab3_2RichTextBox";
+            gameMatrixLab3_2RichTextBox.Size = new Size(353, 192);
+            gameMatrixLab3_2RichTextBox.TabIndex = 81;
+            gameMatrixLab3_2RichTextBox.Text = "";
+            // 
+            // findOptimalStrategiesLab3_2Button
+            // 
+            findOptimalStrategiesLab3_2Button.Location = new Point(386, 180);
+            findOptimalStrategiesLab3_2Button.Name = "findOptimalStrategiesLab3_2Button";
+            findOptimalStrategiesLab3_2Button.Size = new Size(267, 51);
+            findOptimalStrategiesLab3_2Button.TabIndex = 80;
+            findOptimalStrategiesLab3_2Button.Text = "Знайти оптимальні стратегії";
+            findOptimalStrategiesLab3_2Button.UseVisualStyleBackColor = true;
+            findOptimalStrategiesLab3_2Button.Click += findOptimalStrategiesLab3_2Button_Click;
+            // 
             // clearProtocolButton
             // 
             clearProtocolButton.BackColor = Color.LightCoral;
@@ -1288,6 +1531,9 @@
             tabPage6.ResumeLayout(false);
             tabPage6.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)gamesAmountNumericUpDown).EndInit();
+            tabPage7.ResumeLayout(false);
+            tabPage7.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)yCoefficientNumericUpDown).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1403,5 +1649,28 @@
         private RichTextBox gameMatrixLab3_1RichTextBox;
         private Button calculateOptimalSolutionLab3_1Button;
         private Button exampleLab3_1Button;
+        private TabPage tabPage7;
+        private Button exampleLab3_2Button;
+        private Label label28;
+        private TextBox savageLab3_2TextBox;
+        private Label label29;
+        private TextBox maxiMaxLab3_2TextBox;
+        private Label label30;
+        private TextBox valdLab3_2TextBox;
+        private Label label31;
+        private NumericUpDown yCoefficientNumericUpDown;
+        private Label label32;
+        private RichTextBox gameMatrixLab3_2RichTextBox;
+        private Button findOptimalStrategiesLab3_2Button;
+        private Label label36;
+        private TextBox gurvitsLab3_2TextBox;
+        private Label label35;
+        private TextBox baesLab3_2TextBox;
+        private Label label34;
+        private TextBox laplaceLab3_2TextBox;
+        private Label label33;
+        private TextBox theMostCommonStrategyLab3_2TextBox;
+        private Label label37;
+        private TextBox natureStrategiesLab3_2TextBox;
     }
 }
