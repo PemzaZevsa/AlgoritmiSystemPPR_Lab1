@@ -1498,7 +1498,7 @@
             Controls.Add(label5);
             MinimumSize = new Size(1300, 520);
             Name = "Form1";
-            Text = "Хвостовець АСППР Лаб1.1-4, 2, 3.1";
+            Text = "Хвостовець АСППР Лаб1.1-4, 2, 3.1-2";
             ((System.ComponentModel.ISupportInitialize)matrixCols).EndInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).EndInit();
             panel1.ResumeLayout(false);

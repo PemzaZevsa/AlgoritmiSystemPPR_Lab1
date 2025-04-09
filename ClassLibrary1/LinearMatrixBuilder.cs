@@ -308,7 +308,7 @@ namespace ClassLibrary1
             int rowCount = lines.Length;
 
             int columnCount = lines[0].Split(' ').Length;
-            double[,] matrix = new double[rowCount + 1, columnCount + 1];
+            double[,] matrix = new double[rowCount, columnCount];
             for (int i = 0; i < rowCount; i++)
             {
                 string[] columns = lines[i].Trim().Split(' ');
@@ -329,8 +329,8 @@ namespace ClassLibrary1
             double[] array = new double[elements.Length];
             for (int i = 0; i < elementsCount; i++)
             {
-                array[i] = int.Parse(elements[i]);
-            }            
+                array[i] = double.Parse(elements[i]);
+            }
 
             return array;
         }

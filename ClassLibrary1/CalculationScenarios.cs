@@ -579,48 +579,6 @@ namespace ClassLibrary1
             }
         }
 
-        //private static void GameSimulation(double[,] matrix, double[] firstStrategies, double[] secondStrategies, int gamesAmount, StringBuilder protocolBuilder)
-        //{
-        //    //TODO headings
-        //    Random random = new Random();
-        //    double sumOfRewards = 0;
-        //    for (int i = 0; i < gamesAmount; i++)
-        //    {
-        //        double randomA = random.NextDouble();
-        //        double sumA = 0;
-        //        int chosenStratA = -1;
-        //        //double[] arraA = new double[firstStrategies.Length];
-        //        for (int j = 0; j < firstStrategies.Length; j++)
-        //        {
-        //            sumA += firstStrategies[i];
-        //            //arraA[i] = sumA;
-
-        //            if (randomA < sumA)
-        //            {
-        //                chosenStratA = j;
-        //                break;
-        //            }
-        //        }
-
-        //        double randomB = random.NextDouble();
-        //        double sumB = 0;
-        //        int chosenStratB = -1;
-        //        for (int j = 0; j < secondStrategies.Length; j++)
-        //        {
-        //            sumB += secondStrategies[i];
-        //            if (randomB < sumB)
-        //            {
-        //                chosenStratB = j;
-        //                break;
-        //            }
-        //        }
-
-        //        double revard = matrix[chosenStratA, chosenStratB];
-        //        sumOfRewards += revard;
-        //        double avarage = sumOfRewards / (i + 1);
-        //    }
-        //}
-
         private static void MaxSolutionScriptDoubleMatrixLab3_1(LinearMatrix linearMatrix, StringBuilder firstPlayer, 
             StringBuilder secondPlayer, StringBuilder gamePrice, StringBuilder protocolBuilder)
         {
@@ -647,8 +605,6 @@ namespace ClassLibrary1
                 }
                 str = string.Join("; ", result);
                 protocolBuilder.AppendLine($"X:({str})\n");
-                //xResult.AppendLine($"Розв'язки прямої задачі:");
-                //xResult.AppendLine($"X = ({str})");
 
                 //second player
                 double v = linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1];
@@ -660,7 +616,8 @@ namespace ClassLibrary1
                 linearMatrix.secondP = secondP;
                 str = string.Join("; ", secondP);
                 secondPlayer.AppendLine(str);
-                
+                protocolBuilder.AppendLine("Стратегії другого гравця: " + str + "\n");
+
                 result = MathCalculation.DoubleLinearTask(linearMatrix, protocolBuilder);
                 for (int i = 0; i < result.Length; i++)
                 {
@@ -668,8 +625,6 @@ namespace ClassLibrary1
                 }
                 str = string.Join("; ", result);
                 protocolBuilder.AppendLine($"U:({str})\n");
-                //xResult.AppendLine($"Розв'язки двоічної задачі:");
-                //xResult.AppendLine($"U = ({str})");
 
                 //first player
                 double[] firstP = new double[result.Length];
@@ -680,10 +635,12 @@ namespace ClassLibrary1
                 linearMatrix.firstP = firstP;
                 str = string.Join("; ", firstP);
                 firstPlayer.AppendLine(str);
+                protocolBuilder.AppendLine("Стратегії першого гравця: " + str + "\n");
 
                 //gamep price
                 v = (1 / v) - linearMatrix.k;
                 gamePrice.AppendLine($"{Math.Round(v, 2)}");
+                protocolBuilder.AppendLine("Ціна гри: "+$"{Math.Round(v, 2)}");
 
                 double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1], 2);
                 protocolBuilder.AppendLine($"Z:{zRes}\n");
@@ -704,6 +661,7 @@ namespace ClassLibrary1
         {
             double[,] matrix = LinearMatrixBuilder.CreateMatrixLab3_2(matrixText);
             double[] percentage = LinearMatrixBuilder.CreateArrayLab3_2(percentageText);
+            protocolBuilder.AppendLine("Початкова матриця: ");
             FormPrint.ProtocolMatrixPrint(matrix, protocolBuilder);
             try
             {

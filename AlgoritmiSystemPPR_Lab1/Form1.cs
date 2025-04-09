@@ -396,48 +396,36 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleLab3_1Button_Click(object sender, EventArgs e)
         {
-            //Приклад 1
-            StringBuilder limitations = new();
-            limitations.AppendLine("5 2 7");
-            limitations.AppendLine("1 4 3");
-            limitations.AppendLine("6 1 5");
-            gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
-
-            gamesAmountNumericUpDown.Value = 10;
+            ////Приклад 1
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("5 2 7");
+            //limitations.AppendLine("1 4 3");
+            //limitations.AppendLine("6 1 5");
 
             ////Приклад 2
             //StringBuilder limitations = new();
             //limitations.AppendLine("2 -1 3 3");
             //limitations.AppendLine("-1 2 2 7");
             //limitations.AppendLine("1 1 1 2");
-            //gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
-
-            //gamesAmountNumericUpDown.Value = 10;
 
             ////Варіант 1
             //StringBuilder limitations = new();
             //limitations.AppendLine("1 1 2");
             //limitations.AppendLine("-1 -1 5");
             //limitations.AppendLine("2 3 -3");
-            //gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
-
-            //gamesAmountNumericUpDown.Value = 100;
 
             ////Варіант 2
             //StringBuilder limitations = new();
             //limitations.AppendLine("13 17");
             //limitations.AppendLine("15 7");
-            //gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
 
-            //gamesAmountNumericUpDown.Value = 100;
+            //Варіант 3
+            StringBuilder limitations = new();
+            limitations.AppendLine("4 5 7 10");
+            limitations.AppendLine("6 9 1 5");
 
-            ////Варіант 3
-            //StringBuilder limitations = new();
-            //limitations.AppendLine("4 5 7 10");
-            //limitations.AppendLine("6 9 1 5");
-            //gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
-
-            //gamesAmountNumericUpDown.Value = 100;
+            gameMatrixLab3_1RichTextBox.Text = limitations.ToString();
+            gamesAmountNumericUpDown.Value = 100;
         }
 
         private void calculateOptimalSolutionLab3_1Button_Click(object sender, EventArgs e)
@@ -487,13 +475,23 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleLab3_2Button_Click(object sender, EventArgs e)
         {
-            //Приклад 1
+            ////Приклад 1
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("-1 1 1 4");
+            //limitations.AppendLine("-1 -2 2 3");
+            //limitations.AppendLine("3 -1 3 2");
+            //gameMatrixLab3_2RichTextBox.Text = limitations.ToString();
+            //yCoefficientNumericUpDown.Value = 0.3m;
+            //natureStrategiesLab3_2TextBox.Text = "0,2 0,4 0,1 0,3";
+
+            //Варіант 1
             StringBuilder limitations = new();
-            limitations.AppendLine("-1 1 1 4");
-            limitations.AppendLine("-1 -2 2 3");
-            limitations.AppendLine("3 -1 3 2");
+            limitations.AppendLine("5 3 -6 4");
+            limitations.AppendLine("3 5 -1 3");
+            limitations.AppendLine("-1 -2 -3 2");
             gameMatrixLab3_2RichTextBox.Text = limitations.ToString();
             yCoefficientNumericUpDown.Value = 0.3m;
+            natureStrategiesLab3_2TextBox.Text = "0,2 0,4 0,1 0,3";
         }
 
         private void findOptimalStrategiesLab3_2Button_Click(object sender, EventArgs e)

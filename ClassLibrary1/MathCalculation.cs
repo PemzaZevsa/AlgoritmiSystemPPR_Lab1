@@ -1096,13 +1096,51 @@ namespace ClassLibrary1
             protocolBuilder.AppendLine("Avarage\t");
 
             Random random = new Random();
+            int[] firstPlayerStrats = new int[matrix.GetLength(0)];
+            int[] secondPlayerStrats = new int[matrix.GetLength(1)];
             double sumOfRewards = 0;
             for (int i = 0; i < gamesAmount; i++)
             {
                 double[] session = GameSession(matrix, firstStrategies, secondStrategies, sumOfRewards, i,k);
                 sumOfRewards = session[6];
                 protocolBuilder.AppendLine(string.Join("\t", session));
+                
+                for (int j = 0; j < firstPlayerStrats.Length; j++)
+                {
+                    if (session[2] == j)
+                    {
+                        firstPlayerStrats[j]++;
+                    }
+                }
+
+                for (int j = 0; j < secondPlayerStrats.Length; j++)
+                {
+                    if (session[4] == j)
+                    {
+                        secondPlayerStrats[j]++;
+                    }
+                }
             }
+
+            protocolBuilder.AppendLine();
+            protocolBuilder.AppendLine($"Експерементальна ціна гри = {sumOfRewards / gamesAmount}");
+
+            double[] firstPlayerStratsPercentage = new double[matrix.GetLength(0)];
+            double[] secondPlayerStratsPercentage = new double[matrix.GetLength(1)];
+
+            for (int i = 0; i < firstPlayerStrats.Length; i++)
+            {
+                firstPlayerStratsPercentage[i] = (double)firstPlayerStrats[i] / gamesAmount;
+            }
+
+            protocolBuilder.AppendLine("Стратегії першого гравця: "+string.Join("; ", firstPlayerStratsPercentage));
+
+            for (int i = 0; i < secondPlayerStrats.Length; i++)
+            {
+                secondPlayerStratsPercentage[i] = (double)secondPlayerStrats[i] / gamesAmount;
+            }
+
+            protocolBuilder.AppendLine("Стратегії другого гравця: "+string.Join("; ", secondPlayerStratsPercentage));
         }
 
         private static double[] GameSession(double[,] matrix, double[] firstStrategies, double[] secondStrategies, double sumOfRewards, int iteration, double k)
@@ -1114,7 +1152,6 @@ namespace ClassLibrary1
             for (int j = 0; j < firstStrategies.Length; j++)
             {
                 sumA += firstStrategies[j];
-                //sumA += firstStrategies[iteration];
                 if (randomA < sumA)
                 {
                     chosenStratA = j;
@@ -1128,7 +1165,6 @@ namespace ClassLibrary1
             for (int j = 0; j < secondStrategies.Length; j++)
             {
                 sumB += secondStrategies[j];
-                //sumB += secondStrategies[iteration];
                 if (randomB < sumB)
                 {
                     chosenStratB = j;
@@ -1140,7 +1176,7 @@ namespace ClassLibrary1
             sumOfRewards += revard;
             double avarage = sumOfRewards / (iteration + 1);
 
-            return new double[] { iteration, Math.Round(randomA, 2), chosenStratA, Math.Round(randomB, 2), chosenStratB, Math.Round(revard, 2), Math.Round(sumOfRewards, 2), Math.Round(avarage, 2) };
+            return new double[] { iteration + 1, Math.Round(randomA, 2), chosenStratA, Math.Round(randomB, 2), chosenStratB, Math.Round(revard, 2), Math.Round(sumOfRewards, 2), Math.Round(avarage, 2) };
         }
 
         //Lab 3.2
@@ -1150,79 +1186,16 @@ namespace ClassLibrary1
             StringBuilder laplaceBuilder, StringBuilder theMostCommonBuilder, StringBuilder protocolBuilder)
         {
             int[] stratsPopularity = new int[matrix.GetLength(0)];
-            try
-            {
-                int[] strategies = ValdSimulation(matrix, protocolBuilder);//todo тут будут все стратегии
-                valdBuilder.Append(string.Concat("або", strategies));
-                StratsPopularitySum(strategies, stratsPopularity);
-            }
-            catch (Exception ex)
-            {
-                protocolBuilder.AppendLine("Помилка у критерії Вальда");
-                protocolBuilder.AppendLine(ex.Message);
-            }
 
-            try
-            {
-                int[] strategies = MaxiMaxSimulation(matrix, protocolBuilder);//todo тут будут все стратегии
-                maxiMaxBuilder.Append(string.Concat("або", strategies));
-                StratsPopularitySum(strategies, stratsPopularity);
-            }
-            catch (Exception ex)
-            {
-                protocolBuilder.AppendLine("Помилка у критерії Максимакса");
-                protocolBuilder.AppendLine(ex.Message);
-            }
+            //обчислення критеріїв
+            CalculationTypeCalculation(matrix, stratsPopularity, ValdSimulation, valdBuilder, protocolBuilder);
+            CalculationTypeCalculation(matrix, stratsPopularity, MaxiMaxSimulation, maxiMaxBuilder, protocolBuilder);
+            CalculationTypeCalculation(matrix, stratsPopularity, coeff, GurvitsSimulation, gurvitsBuilder, protocolBuilder);
+            CalculationTypeCalculation(matrix, stratsPopularity, SavageSimulation, savageBuilder, protocolBuilder);
+            CalculationTypeCalculation(matrix, stratsPopularity, percentage, BaesSimulation, baesBuilder, protocolBuilder);
+            CalculationTypeCalculation(matrix, stratsPopularity, LaplaceSimulation, laplaceBuilder, protocolBuilder);
 
-            try
-            {
-                int[] strategies = GurvitsSimulation(matrix, coeff, protocolBuilder);//todo тут будут все стратегии
-                gurvitsBuilder.Append(string.Concat("або", strategies));
-                StratsPopularitySum(strategies, stratsPopularity);
-            }
-            catch (Exception ex)
-            {
-                protocolBuilder.AppendLine("Помилка у критерії Гурвіца");
-                protocolBuilder.AppendLine(ex.Message);
-            }
-
-            try
-            {
-                int[] strategies = SavageSimulation(matrix, protocolBuilder);//todo тут будут все стратегии
-                savageBuilder.Append(string.Concat("або", strategies));
-                StratsPopularitySum(strategies, stratsPopularity);
-            }
-            catch (Exception ex)
-            {
-                protocolBuilder.AppendLine("Помилка у критерії Севіджа");
-                protocolBuilder.AppendLine(ex.Message);
-            }
-
-            try
-            {
-                int[] strategies = BaesSimulation(matrix, percentage, protocolBuilder);//todo тут будут все стратегии
-                baesBuilder.Append(string.Concat("або", strategies));
-                StratsPopularitySum(strategies, stratsPopularity);
-            }
-            catch (Exception ex)
-            {
-                protocolBuilder.AppendLine("Помилка у критерії Баэса");
-                protocolBuilder.AppendLine(ex.Message);
-            }
-
-            try
-            {
-                int[] strategies = LaplaceSimulation(matrix, protocolBuilder);//todo тут будут все стратегии
-                laplaceBuilder.Append(string.Concat("або", strategies));
-                StratsPopularitySum(strategies, stratsPopularity);
-            }
-            catch (Exception ex)
-            {
-                protocolBuilder.AppendLine("Помилка у критерії Лапласа");
-                protocolBuilder.AppendLine(ex.Message);
-            }
-
-            //обчислення найпопулярніших стратегій //todo сделать у всех критериев обчисление результатов
+            //обчислення найпопулярніших стратегій
             int mostPopular = 0; 
             for (int i = 0; i < stratsPopularity.Length; i++)
             {
@@ -1244,8 +1217,61 @@ namespace ClassLibrary1
         {
             try
             {
-                int[] strategies = calcFunction(matrix, protocolBuilder);//todo тут будут все стратегии
-                calcTypeBuilder.Append(string.Concat("або", strategies));
+                int[] strategies = calcFunction(matrix, protocolBuilder);
+
+                for (int i = 0; i < strategies.Length; i++)
+                {
+                    if (strategies[i] == 1)
+                    {
+                        calcTypeBuilder.Append($"A{i + 1} ");
+                    }
+                }
+                
+                StratsPopularitySum(strategies, stratsPopularity);
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine($"Помилка у критерії {nameof(calcTypeBuilder)}");
+                protocolBuilder.AppendLine(ex.Message);
+            }
+        }
+
+        private static void CalculationTypeCalculation(double[,] matrix, int[] stratsPopularity, double[] percentage, Func<double[,], double[], StringBuilder, int[]> calcFunction, StringBuilder calcTypeBuilder, StringBuilder protocolBuilder)
+        {
+            try
+            {
+                int[] strategies = calcFunction(matrix, percentage, protocolBuilder);
+
+                for (int i = 0; i < strategies.Length; i++)
+                {
+                    if (strategies[i] == 1)
+                    {
+                        calcTypeBuilder.Append($"A{i + 1} ");
+                    }
+                }
+
+                StratsPopularitySum(strategies, stratsPopularity);
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine($"Помилка у критерії {nameof(calcTypeBuilder)}");
+                protocolBuilder.AppendLine(ex.Message);
+            }
+        }
+
+        private static void CalculationTypeCalculation(double[,] matrix, int[] stratsPopularity, double coeff, Func<double[,], double, StringBuilder, int[]> calcFunction, StringBuilder calcTypeBuilder, StringBuilder protocolBuilder)
+        {
+            try
+            {
+                int[] strategies = calcFunction(matrix, coeff, protocolBuilder);
+                for (int i = 0; i < strategies.Length; i++)
+                {
+                    if (strategies[i] == 1)
+                    {
+                        calcTypeBuilder.Append($"A{i + 1} ");
+                    }
+                }
+
                 StratsPopularitySum(strategies, stratsPopularity);
             }
             catch (Exception ex)
@@ -1268,6 +1294,7 @@ namespace ClassLibrary1
 
         private static int[] ValdSimulation(double[,] matrix, StringBuilder protocolBuilder)
         {
+            protocolBuilder.AppendLine();
             protocolBuilder.AppendLine($"Критерій Вальда");
 
             double[] mins = new double[matrix.GetLength(0)];
@@ -1302,7 +1329,7 @@ namespace ClassLibrary1
                 }
             }
 
-            protocolBuilder.AppendLine($"Максимальний елемент {max}");
+            protocolBuilder.AppendLine($"Максимальний елемент = {max}");
             StringBuilder optimalStrategies = new StringBuilder();
             int[] strategies = new int[matrix.GetLength(0)];
             for (int i = 0; i < mins.Length; i++)
@@ -1310,17 +1337,18 @@ namespace ClassLibrary1
                 if (mins[i] == max)
                 {
                     strategies[i] = 1;
-                    optimalStrategies.Append($"{i} ");
+                    optimalStrategies.Append($"А{i + 1} ");
                 }
             }
 
-            protocolBuilder.AppendLine($"Оптимальні стратегії:{optimalStrategies.ToString().Trim()}");
+            protocolBuilder.AppendLine($"Оптимальні стратегії : {optimalStrategies.ToString().Trim()}");
 
             return strategies;
         }
 
         private static int[] MaxiMaxSimulation(double[,] matrix, StringBuilder protocolBuilder)
         {
+            protocolBuilder.AppendLine();
             protocolBuilder.AppendLine($"Критерій Максимакса");
 
             double[] maxes = new double[matrix.GetLength(0)];
@@ -1345,39 +1373,41 @@ namespace ClassLibrary1
                 protocolBuilder.AppendLine($"Максимум в рядку {i + 1} = {maxes[i]}");
             }
 
-            //мінімум максимумів
-            double min = double.MaxValue;
+            //максимум максимумів
+            double max = double.MinValue;
             for (int i = 0; i < maxes.Length; i++)
             {
-                if (maxes[i] < min)
+                if (maxes[i] > max)
                 {
-                    min = maxes[i];
+                    max = maxes[i];
                 }
             }
 
-            protocolBuilder.AppendLine($"Мінімальний елемент {min}");
+            protocolBuilder.AppendLine($"Максимальний елемент = {max}");
             StringBuilder optimalStrategies = new StringBuilder();
             int[] strategies = new int[matrix.GetLength(0)];
             for (int i = 0; i < maxes.Length; i++)
             {
-                if (maxes[i] == min)
+                if (maxes[i] == max)
                 {
                     strategies[i] = 1;
-                    optimalStrategies.Append($"{i} ");
+                    optimalStrategies.Append($"А{i + 1} ");
                 }
             }
 
-            protocolBuilder.AppendLine($"Оптимальні стратегії:{optimalStrategies.ToString().Trim()}");
+            protocolBuilder.AppendLine($"Оптимальні стратегії : {optimalStrategies.ToString().Trim()}");
 
             return strategies;
         }
 
         private static int[] GurvitsSimulation(double[,] matrix, double y, StringBuilder protocolBuilder)
         {
+            protocolBuilder.AppendLine();
             protocolBuilder.AppendLine($"Критерій Гурвіца");
+            protocolBuilder.AppendLine($"Коефіцієнт = {y}");
 
             //1
-                double[] mins = new double[matrix.GetLength(0)];
+            double[] mins = new double[matrix.GetLength(0)];
 
                 //мінімуми
                 for (int i = 0; i < matrix.GetLength(0); i++)
@@ -1408,8 +1438,6 @@ namespace ClassLibrary1
                         max = mins[i];
                     }
                 }
-
-                protocolBuilder.AppendLine($"Максимальний елемент {max}");
 
             //2
                 double[] maxes = new double[matrix.GetLength(0)];
@@ -1444,20 +1472,19 @@ namespace ClassLibrary1
                     }
                 }
 
-                protocolBuilder.AppendLine($"Мінімальний елемент {min}");
-
             //обрахунок коеф. гурвіца
             double[] gurvitsCoeffs = new double[matrix.GetLength(0)];
             for (int i = 0; i < gurvitsCoeffs.Length; i++)
             {
-                gurvitsCoeffs[i] = y * mins[i] + (1-y) * maxes[i];
+                gurvitsCoeffs[i] = Math.Round(y * mins[i] + (1-y) * maxes[i],2);
+                protocolBuilder.AppendLine($"S{i + 1} ={y} * {mins[i]} + ( 1 - {y} ) * {maxes[i]} = {gurvitsCoeffs[i]}");
             }
 
             //макс коеф. гурвіца
             double maxCoeff = double.MinValue;
             for (int i = 0; i < gurvitsCoeffs.Length; i++)
             {
-                if(maxCoeff < gurvitsCoeffs[i])
+                if (maxCoeff < gurvitsCoeffs[i])
                 {
                     maxCoeff = gurvitsCoeffs[i];
                 }
@@ -1470,42 +1497,50 @@ namespace ClassLibrary1
                 if (gurvitsCoeffs[i] == maxCoeff)
                 {
                     strategies[i] = 1;
-                    optimalStrategies.Append($"{i} ");
+                    optimalStrategies.Append($"А{i + 1} ");
                 }
             }
 
-            protocolBuilder.AppendLine($"Оптимальні стратегії:{optimalStrategies.ToString().Trim()}");
+            protocolBuilder.AppendLine($"Максимальний елемент = {string.Concat(", ", maxCoeff)}");
+            protocolBuilder.AppendLine($"Оптимальні стратегії : {optimalStrategies.ToString().Trim()}");
 
             return strategies;
         }
 
         private static int[] SavageSimulation(double[,] matrix, StringBuilder protocolBuilder)
         {
+            protocolBuilder.AppendLine();
             protocolBuilder.AppendLine($"Критерій Севіджа");
 
             int numRows = matrix.GetLength(0);
             int numCols = matrix.GetLength(1);
-
-            double[] maxLosses = new double[numRows];
             double[,] loseMatrix = new double[matrix.GetLength(0), matrix.GetLength(1)];
-            for (int i = 0; i < numRows; i++)
+
+            //обчислення матриці ризиків
+            for (int j = 0; j < numCols; j++)
             {
                 double maxPayoffInColumn = double.MinValue;
-
-                for (int j = 0; j < numCols; j++)
+                for (int i = 0; i < numRows; i++)
                 {
                     if (matrix[i, j] > maxPayoffInColumn)
                         maxPayoffInColumn = matrix[i, j];
                 }
 
-                double maxLoss = double.MinValue;
+                for (int i = 0; i < numRows; i++)
+                {
+                    loseMatrix[i, j] = maxPayoffInColumn - matrix[i, j];
+                }
+            }
 
+            //максимальні втрати по рядках
+            double[] maxLosses = new double[numRows];
+            for (int i = 0; i < numRows; i++)
+            {
+                double maxLoss = double.MinValue;
                 for (int j = 0; j < numCols; j++)
                 {
-                    double loss = maxPayoffInColumn - matrix[i, j];
-                    loseMatrix[i, j] = loss;
-                    if (loss > maxLoss)
-                        maxLoss = loss;
+                    if (loseMatrix[i, j] > maxLoss)
+                        maxLoss = loseMatrix[i, j];
                 }
 
                 maxLosses[i] = maxLoss;
@@ -1539,18 +1574,21 @@ namespace ClassLibrary1
                 if (maxLosses[i] == minLoss)
                 {
                     strategies[i] = 1;
-                    optimalStrategies.Append($"{i} ");
+                    optimalStrategies.Append($"А{i+1} ");
                 }
             }
             
-            protocolBuilder.AppendLine($"Мінімальний елемент{minLoss}");
-            protocolBuilder.AppendLine($"Оптимальні стратегії:{optimalStrategies.ToString().Trim()}");
+            protocolBuilder.AppendLine($"Мінімальний елемент = {minLoss}");
+            protocolBuilder.AppendLine($"Оптимальні стратегії: {optimalStrategies.ToString().Trim()}");
             return strategies;
         }
 
         private static int[] BaesSimulation(double[,] matrix, double[] percentage, StringBuilder protocolBuilder)
         {
+            protocolBuilder.AppendLine();
             protocolBuilder.AppendLine("Критерій Баэса");
+            protocolBuilder.AppendLine("Ймовірності застосування природою своїх стратегій: " + string.Join(", ", percentage.Select(p => p.ToString()).ToArray()));
+
             double[] avarageWins = new double[matrix.GetLength(0)];
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
@@ -1560,13 +1598,13 @@ namespace ClassLibrary1
                     sum += matrix[i, j] * percentage[j];
                 }
 
-                avarageWins[i] = sum; 
+                avarageWins[i] = Math.Round(sum,2); 
             }
 
             double max = double.MinValue;
             for (int i = 0; i < avarageWins.Length; i++)
             {
-                protocolBuilder.AppendLine($"max в рядку {i + 1} = {avarageWins[i]}");
+                protocolBuilder.AppendLine($"S{i + 1} = {avarageWins[i]}");
                 if (max < avarageWins[i])
                 {
                     max = avarageWins[i];
@@ -1580,27 +1618,29 @@ namespace ClassLibrary1
                 if (avarageWins[i] == max)
                 {
                     strategies[i] = 1;
-                    optimalStrategies.Append($"{i} ");
+                    optimalStrategies.Append($"А{i + 1} ");
                 }
             }
 
-            protocolBuilder.AppendLine($"Максимальний елемент{max}");
-            protocolBuilder.AppendLine($"Оптимальні стратегії:{optimalStrategies.ToString().Trim()}");
+            protocolBuilder.AppendLine($"Максимальний елемент = {max}");
+            protocolBuilder.AppendLine($"Оптимальні стратегії : {optimalStrategies.ToString().Trim()}");
             return strategies;
         }
 
         private static int[] LaplaceSimulation(double[,] matrix, StringBuilder protocolBuilder)
         {
+            protocolBuilder.AppendLine();
             protocolBuilder.AppendLine("Критерій Лапласа");
 
             //обрахунок процентів
             double[] percentage = new double[matrix.GetLength(1)];
-            double avarageValue = (1 / percentage.Length);
+            double avarageValue = (1.00 / percentage.Length);
             for (int i = 0; i < percentage.Length; i++)
             {
                 percentage[i] = avarageValue;
             }
 
+            protocolBuilder.AppendLine("Ймовірності застосування природою своїх стратегій: " + string.Join(", ", percentage.Select(p => p.ToString()).ToArray()));
             double[] avarageWins = new double[matrix.GetLength(0)];
             for (int i = 0; i < matrix.GetLength(0); i++)
             {
@@ -1630,12 +1670,12 @@ namespace ClassLibrary1
                 if (avarageWins[i] == max)
                 {
                     strategies[i] = 1;
-                    optimalStrategies.Append($"{i} ");
+                    optimalStrategies.Append($"А{i + 1} ");
                 }
             }
 
-            protocolBuilder.AppendLine($"Максимальний елемент{max}");
-            protocolBuilder.AppendLine($"Оптимальні стратегії:{optimalStrategies.ToString().Trim()}");
+            protocolBuilder.AppendLine($"Максимальний елемент = {max}");
+            protocolBuilder.AppendLine($"Оптимальні стратегії : {optimalStrategies.ToString().Trim()}");
             return strategies;
         }
         
