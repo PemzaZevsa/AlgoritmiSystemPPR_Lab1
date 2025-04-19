@@ -382,5 +382,49 @@ namespace ClassLibrary1
             }
         }
 
+        //RR
+
+        public static void FancyMatrixPrint(double[,] matrix, string rowsChar, string colsChar, StringBuilder protocolBuilder)
+        {
+            string[] colsHeading = new string[matrix.GetLength(1)];
+            for (int i = 0; i < colsHeading.Length; i++)
+            {
+                colsHeading[i] = colsChar + $"{ i + 1}";
+            }
+
+            string[] rowsHeading = new string[matrix.GetLength(0)];
+            for (int i = 0; i < rowsHeading.Length; i++)
+            {
+                rowsHeading[i] = rowsChar + $"{i + 1}";
+            }
+
+            protocolBuilder.AppendLine("Вивід матриці:");
+            protocolBuilder.Append($"\t");
+            for (int j = 0; j < matrix.GetLength(1); j++)
+            {
+                protocolBuilder.Append($"{colsHeading[j]}\t");
+            }
+            protocolBuilder.AppendLine($"");
+
+            for (int i = 0; i < matrix.GetLength(1) + 1; i++)
+            {
+                protocolBuilder.Append($"---------\t");
+            }
+            protocolBuilder.AppendLine($"");
+
+            for (int i = 0; i < matrix.GetLength(0); i++)
+            {
+                protocolBuilder.Append($"{rowsHeading[i]} = \t");
+                
+
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    protocolBuilder.Append($"{Math.Round(matrix[i, j], 3)}");
+                    protocolBuilder.Append("\t");
+                }
+
+                protocolBuilder.AppendLine();
+            }
+        }
     }
 }

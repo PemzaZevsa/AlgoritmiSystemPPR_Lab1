@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Microsoft.VisualBasic;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ClassLibrary1
 {
@@ -10,36 +12,56 @@ namespace ClassLibrary1
     {
         //Lab 1.1
 
-        //public static void SLAUCalculateButton_Click(object sender, EventArgs e)
-        //{
-        //    StringBuilder stringBuilder = new StringBuilder();
+        public static void CalculateInverseMatrix(string matrixrText, StringBuilder inverseBuilder, StringBuilder stringBuilder)
+        {
+            double[,] aMatrix = FormPrint.ReadMatrixFromRichTextBox(matrixrText, stringBuilder);
 
-        //    //reading
-        //    aMatrix = FormPrint.ReadMatrixFromRichTextBox(matrixrRichTextBox.Text, stringBuilder);
-        //    bMatrix = FormPrint.ReadMatrixBFromRichTextBox(matrixBRichTextBox.Text, stringBuilder);
+            try
+            {
+                double[,] inverseMatrix = MathCalculation.InverseMatrix(aMatrix, stringBuilder);
+                FormPrint.ProtocolMatrixPrint(inverseMatrix, inverseBuilder);
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.AppendLine(ex.Message);
+            }
+        }
 
-        //    //preparations
-        //    inverseMatrix = MathCalculation.InverseMatrix(aMatrix, stringBuilder);
-        //    StringBuilder inverseBuilder = new StringBuilder();
-        //    FormPrint.ProtocolMatrixPrint(inverseMatrix, inverseBuilder);
-        //    inverseMatrixRichTextBox.Text = inverseBuilder.ToString();
+        public static void matrixRank(string matrixrText, StringBuilder rankBuilder, StringBuilder stringBuilder)
+        {
+            double[,] aMatrix = FormPrint.ReadMatrixFromRichTextBox(matrixrText, stringBuilder);
 
-        //    //calculation
-        //    double[] xMatrix = MathCalculation.SLAU(bMatrix, inverseMatrix, stringBuilder);
-        //    StringBuilder xBuilder = new StringBuilder();
-        //    FormPrint.ArrayPrint(xMatrix, xBuilder);
-        //    matrixXRichTextBox.Text = xBuilder.ToString();
+            try
+            {
+                int rank = MathCalculation.MatrixRank(aMatrix, stringBuilder);
+                rankBuilder.AppendLine($"{rank}");
+            }
+            catch (Exception ex)
+            {
+                stringBuilder.AppendLine(ex.Message);
+            }
+        }
 
-        //    //protocol
-        //    protocolRichTextBox.Text += stringBuilder.ToString();
-        //}
+        public static void SLAUCalculate(string matrixrText, string matrixBText, StringBuilder inverseBuilder, StringBuilder xBuilder, StringBuilder stringBuilder)
+        {
+            //reading
+            double[,] aMatrix = FormPrint.ReadMatrixFromRichTextBox(matrixrText, stringBuilder);
+            double[] bMatrix = FormPrint.ReadMatrixBFromRichTextBox(matrixBText, stringBuilder);
+
+            //preparations
+            double[,] inverseMatrix = MathCalculation.InverseMatrix(aMatrix, stringBuilder);
+            FormPrint.ProtocolMatrixPrint(inverseMatrix, inverseBuilder);
+
+            //calculation
+            double[] xMatrix = MathCalculation.SLAU(bMatrix, inverseMatrix, stringBuilder);
+            FormPrint.ArrayPrint(xMatrix, xBuilder);
+        }
 
         //Lab 1.2
 
         public static void CalculateOptimalSolutionLab1_2(int variablesAmount, string zFunction, string restrictions, bool maxSolution, bool minSolution, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
         {
             double[,] matrix = LinearMatrixBuilder.CreateMatrix(variablesAmount, zFunction, restrictions);
-            //StringBuilder protocolBuilder = new StringBuilder();
 
             if (maxSolution)
             {
@@ -58,9 +80,6 @@ namespace ClassLibrary1
                 FormPrint.FancyPrintMatrixOnRichTextBox(matrix, protocolBuilder);
                 MinSolutionScript(matrix, xResult, zResult, protocolBuilder);
             }
-
-            //protocol
-            //protocolRichTextBox.Text += stringBuilder.ToString();
         }
 
         private static void MaxSolutionScript(double[,] matrix, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
@@ -89,11 +108,8 @@ namespace ClassLibrary1
                 protocolBuilder.AppendLine($"X:({str})\n");
                 xResult.AppendLine(str);
 
-                //xResultTextBox.Text = str;
                 double zRes = matrix[matrix.GetLength(0) - 1, matrix.GetLength(1) - 1];
                 zResult.AppendLine($"{zRes}");
-
-                //zResultTextBox.Text = $"{zRes}";
             }
             catch (Exception ex)
             {
@@ -126,12 +142,10 @@ namespace ClassLibrary1
                 string str = string.Join(", ", result);
                 protocolBuilder.AppendLine($"X:({str})\n");
                 xResult.AppendLine(str);
-                //xResultTextBox.Text = str;
 
                 //min Z = -(max Z')
                 double zRes = matrix[matrix.GetLength(0) - 1, matrix.GetLength(1) - 1] * -1;
                 zResult.AppendLine($"{zRes}");
-                //zResultTextBox.Text = $"{zRes}";
             }
             catch (Exception ex)
             {
@@ -145,9 +159,6 @@ namespace ClassLibrary1
         {
             LinearMatrix linearMatrix = LinearMatrixBuilder.CreateLinearMatrix(variablesAmount, zFunction, restrictions);
             double[,] matrix = linearMatrix.matrix;
-            //StringBuilder protocolBuilder = new StringBuilder();
-            //StringBuilder xResult = new StringBuilder();
-            //StringBuilder zResult = new StringBuilder();
 
             if (maxSolution)
             {
@@ -184,10 +195,6 @@ namespace ClassLibrary1
                     protocolBuilder.AppendLine(ex.Message);
                 }
             }
-
-            //xResultTextBox2.Text = xResult.ToString();
-            //zResultTextBox2.Text = zResult.ToString();
-            //protocolRichTextBox.Text += protocolBuilder.ToString();
         }
 
         private static void MaxSolutionScript(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
@@ -195,28 +202,10 @@ namespace ClassLibrary1
             try
             {
                 //Support solution
-                protocolBuilder.AppendLine("Знаходження опорного рішення:");
-                double[] result = MathCalculation.SupportSolution(linearMatrix, protocolBuilder);
-                protocolBuilder.AppendLine("Опорний розв'язок знайдено:");
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = Math.Round(result[i], 2);
-                }
-                string str = string.Join(", ", result);
-                protocolBuilder.AppendLine($"X:({str})\n");
+                SupportSolution(linearMatrix, protocolBuilder);
 
                 //Optimal solution
-                protocolBuilder.AppendLine("Знаходження оптимального рішення:");
-                result = MathCalculation.OptimalSolution(linearMatrix, protocolBuilder);
-                protocolBuilder.AppendLine("Оптимальний розв'язок знайдено:");
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = Math.Round(result[i], 2);
-                }
-                str = string.Join(", ", result);
-                protocolBuilder.AppendLine($"X:({str})\n");
-                xResult.Clear();
-                xResult.AppendLine($"{str}");
+                OptimalSolution(linearMatrix, xResult, protocolBuilder);
 
                 double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1], 2);
                 zResult.Clear();
@@ -236,28 +225,10 @@ namespace ClassLibrary1
             try
             {
                 //Support solution
-                protocolBuilder.AppendLine("Знаходження опорного рішення:");
-                double[] result = MathCalculation.SupportSolution(linearMatrix, protocolBuilder);
-                protocolBuilder.AppendLine("Опорний розв'язок знайдено:");
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = Math.Round(result[i], 2);
-                }
-                string str = string.Join(", ", result);
-                protocolBuilder.AppendLine($"X:({str})\n");
+                SupportSolution(linearMatrix, protocolBuilder);
 
                 //Optimal solution
-                protocolBuilder.AppendLine("Знаходження оптимального рішення:");
-                result = MathCalculation.OptimalSolution(linearMatrix, protocolBuilder);
-                protocolBuilder.AppendLine("Оптимальний розв'язок знайдено:");
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = Math.Round(result[i], 2);
-                }
-                str = string.Join(", ", result);
-                protocolBuilder.AppendLine($"X:({str})\n");
-                xResult.Clear();
-                xResult.AppendLine($"{str}");
+                OptimalSolution(linearMatrix, xResult, protocolBuilder);
 
                 //min Z = -(max Z')
                 double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1] * -1, 2);
@@ -278,9 +249,6 @@ namespace ClassLibrary1
         public static void CalculateOptimalSolutionLab1_4(int variablesAmount, string zFunction, string restrictions, string integerVariables, bool maxSolution, bool minSolution, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
         {
             LinearMatrix linearMatrix = LinearMatrixBuilder.CreateLinearMatrix(variablesAmount, zFunction, restrictions, integerVariables);
-            //StringBuilder stringBuilder = new StringBuilder();
-            //StringBuilder xResult = new StringBuilder();
-            //StringBuilder zResult = new StringBuilder();
 
             if (maxSolution)
             {
@@ -315,10 +283,6 @@ namespace ClassLibrary1
                     protocolBuilder.AppendLine(ex.Message);
                 }
             }
-
-            //xResultTextBox3.Text = xResult.ToString();
-            //zResultTextBox3.Text = zResult.ToString();
-            //protocolRichTextBox.Text += protocolBuilder.ToString();
         }
 
         private static void MaxSolutionScriptWithIntegers(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
@@ -408,8 +372,6 @@ namespace ClassLibrary1
             bool minSolution, StringBuilder solutionsResult, StringBuilder protocolBuilder)
         {
             LinearMatrix linearMatrix = LinearMatrixBuilder.CreateDoubleLinearMatrix(variablesAmount, zFunction, restrictions);
-            //StringBuilder protocolBuilder = new StringBuilder();
-            //StringBuilder solutionsResult = new StringBuilder();
 
             if (maxSolution)
             {
@@ -444,9 +406,6 @@ namespace ClassLibrary1
                     protocolBuilder.AppendLine(ex.Message);
                 }
             }
-
-            //solutionsLab2richTextBox.Text = solutionsResult.ToString();
-            //protocolRichTextBox.Text += protocolBuilder.ToString();
         }
 
         private static void MaxSolutionScriptDoubleMatrix(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder zResult, 
@@ -455,35 +414,17 @@ namespace ClassLibrary1
             try
             {
                 //Support solution
-                protocolBuilder.AppendLine("Знаходження опорного рішення:");
-                double[] result = MathCalculation.SupportSolutionDoubleMatrix(linearMatrix, protocolBuilder);
-                protocolBuilder.AppendLine("Опорний розв'язок знайдено:");
+                SupportSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+
+                //Optimal solution
+                OptimalSolutionDoubleMatrix(linearMatrix, xResult, protocolBuilder);
+
+                double[] result = MathCalculation.DoubleLinearTask(linearMatrix, protocolBuilder);
                 for (int i = 0; i < result.Length; i++)
                 {
                     result[i] = Math.Round(result[i], 2);
                 }
                 string str = string.Join("; ", result);
-                protocolBuilder.AppendLine($"X:({str})\n");
-
-                //Optimal solution
-                protocolBuilder.AppendLine("Знаходження оптимального рішення:");
-                result = MathCalculation.OptimalSolutionDoubleMatrix(linearMatrix, protocolBuilder);
-                protocolBuilder.AppendLine("Оптимальний розв'язок знайдено:");
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = Math.Round(result[i], 2);
-                }
-                str = string.Join("; ", result);
-                protocolBuilder.AppendLine($"X:({str})\n");
-                xResult.AppendLine($"Розв'язки прямої задачі:");
-                xResult.AppendLine($"X = ({str})");
-
-                result = MathCalculation.DoubleLinearTask(linearMatrix, protocolBuilder);
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = Math.Round(result[i], 2);
-                }
-                str = string.Join("; ", result);
                 protocolBuilder.AppendLine($"U:({str})\n");
                 xResult.AppendLine($"Розв'язки двоічної задачі:");
                 xResult.AppendLine($"U = ({str})");
@@ -507,35 +448,17 @@ namespace ClassLibrary1
             try
             {
                 //Support solution
-                protocolBuilder.AppendLine("Знаходження опорного рішення:");
-                double[] result = MathCalculation.SupportSolutionDoubleMatrix(linearMatrix, protocolBuilder);
-                protocolBuilder.AppendLine("Опорний розв'язок знайдено:");
+                SupportSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+
+                //Optimal solution
+                OptimalSolutionDoubleMatrix(linearMatrix, xResult, protocolBuilder);
+
+                double[] result = MathCalculation.DoubleLinearTask(linearMatrix, protocolBuilder);
                 for (int i = 0; i < result.Length; i++)
                 {
                     result[i] = Math.Round(result[i], 2);
                 }
                 string str = string.Join("; ", result);
-                protocolBuilder.AppendLine($"X:({str})\n");
-
-                //Optimal solution
-                protocolBuilder.AppendLine("Знаходження оптимального рішення:");
-                result = MathCalculation.OptimalSolutionDoubleMatrix(linearMatrix, protocolBuilder);
-                protocolBuilder.AppendLine("Оптимальний розв'язок знайдено:");
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = Math.Round(result[i], 2);
-                }
-                str = string.Join("; ", result);
-                protocolBuilder.AppendLine($"X:({str})\n");
-                xResult.AppendLine($"Розв'язки прямої задачі:");
-                xResult.AppendLine($"X = ({str})");
-
-                result = MathCalculation.DoubleLinearTask(linearMatrix, protocolBuilder);
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = Math.Round(result[i], 2);
-                }
-                str = string.Join("; ", result);
                 protocolBuilder.AppendLine($"U:({str})\n");
                 xResult.AppendLine($"Розв'язки двоічної задачі:");
                 xResult.AppendLine($"U = ({str})");
@@ -570,7 +493,6 @@ namespace ClassLibrary1
                 if (gamesAmount > 0)
                 {
                     MathCalculation.GameSimulation(linearMatrix.startMatrix, linearMatrix.firstP, linearMatrix.secondP, gamesAmount, linearMatrix.k, protocolBuilder);
-                    //double[,] matrix, double[] firstStrategies, double[] secondStrategies, int gamesAmount, StringBuilder protocolBuilder
                 }
             }
             catch (Exception ex)
@@ -585,25 +507,17 @@ namespace ClassLibrary1
             try
             {
                 //Support solution
-                protocolBuilder.AppendLine("Знаходження опорного рішення:");
-                double[] result = MathCalculation.SupportSolutionDoubleMatrix(linearMatrix, protocolBuilder);
-                protocolBuilder.AppendLine("Опорний розв'язок знайдено:");
-                for (int i = 0; i < result.Length; i++)
-                {
-                    result[i] = Math.Round(result[i], 2);
-                }
-                string str = string.Join("; ", result);
-                protocolBuilder.AppendLine($"X:({str})\n");
+                SupportSolutionDoubleMatrix(linearMatrix, protocolBuilder);
 
                 //Optimal solution
                 protocolBuilder.AppendLine("Знаходження оптимального рішення:");
-                result = MathCalculation.OptimalSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+                double[] result = MathCalculation.OptimalSolutionDoubleMatrix(linearMatrix, protocolBuilder);
                 protocolBuilder.AppendLine("Оптимальний розв'язок знайдено:");
                 for (int i = 0; i < result.Length; i++)
                 {
                     result[i] = Math.Round(result[i], 2);
                 }
-                str = string.Join("; ", result);
+                string str = string.Join("; ", result);
                 protocolBuilder.AppendLine($"X:({str})\n");
 
                 //second player
@@ -683,6 +597,283 @@ namespace ClassLibrary1
             {
                 protocolBuilder.AppendLine(ex.Message);
             }
+        }
+
+        //RR
+
+        private static void SupportSolution(LinearMatrix linearMatrix, StringBuilder protocolBuilder)
+        {
+            protocolBuilder.AppendLine("Знаходження опорного рішення:");
+            double[] result = MathCalculation.SupportSolution(linearMatrix, protocolBuilder);
+            protocolBuilder.AppendLine("Опорний розв'язок знайдено:");
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = Math.Round(result[i], 2);
+            }
+            string str = string.Join(", ", result);
+            protocolBuilder.AppendLine($"X:({str})\n");
+        }
+
+        private static void OptimalSolution(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder protocolBuilder)
+        {
+            protocolBuilder.AppendLine("Знаходження оптимального рішення:");
+            double[] result = MathCalculation.OptimalSolution(linearMatrix, protocolBuilder);
+            protocolBuilder.AppendLine("Оптимальний розв'язок знайдено:");
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = Math.Round(result[i], 2);
+            }
+            string str = string.Join(", ", result);
+            protocolBuilder.AppendLine($"X:({str})\n");
+            xResult.Clear();
+            xResult.AppendLine($"{str}");
+        }
+
+        private static void SupportSolutionDoubleMatrix(LinearMatrix linearMatrix, StringBuilder protocolBuilder)
+        {
+            protocolBuilder.AppendLine("Знаходження опорного рішення:");
+            double[] result = MathCalculation.SupportSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+            protocolBuilder.AppendLine("Опорний розв'язок знайдено:");
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = Math.Round(result[i], 2);
+            }
+            string str = string.Join("; ", result);
+            protocolBuilder.AppendLine($"X:({str})\n");
+        }
+
+        private static void OptimalSolutionDoubleMatrix(LinearMatrix linearMatrix, StringBuilder xResult, StringBuilder protocolBuilder)
+        {
+            protocolBuilder.AppendLine("Знаходження оптимального рішення:");
+            double[] result = MathCalculation.OptimalSolutionDoubleMatrix(linearMatrix, protocolBuilder);
+            protocolBuilder.AppendLine("Оптимальний розв'язок знайдено:");
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i] = Math.Round(result[i], 2);
+            }
+            string str = string.Join("; ", result);
+            protocolBuilder.AppendLine($"X:({str})\n");
+            xResult.AppendLine($"Розв'язки прямої задачі:");
+            xResult.AppendLine($"X = ({str})");
+        }
+
+        public static void CalculateOptimalSolutionRR(string objFunctionsText, string restrictionsText, int variablesAmount,
+            StringBuilder objFunctionCoefficients, StringBuilder optimalVectorsBuilder, StringBuilder nonOptimalSolutionsBuilder, 
+            StringBuilder matrixGame, StringBuilder coefficients, StringBuilder compromiseSolutionBuilder, StringBuilder protocolBuilder)
+        {
+            string[] objFunctionsLines = objFunctionsText.Trim().Split("\n");
+            double[,] objFunctionsMatrix = new double[objFunctionsLines.Length, variablesAmount];
+            double[,] optimalVectors = new double[objFunctionsLines.Length, variablesAmount];
+
+            try
+            {
+                protocolBuilder.AppendLine("Пошук оптимальних вектрорів:");
+
+                //оптимальні розв'яки
+                for (int i = 0; i < objFunctionsLines.Length; i++)
+                {
+                    protocolBuilder.AppendLine($"Розв'язок {i+1}");
+                    protocolBuilder.AppendLine();
+
+                    (string zFunction, int keyWords) = LinearMatrixBuilder.ObjectFunctionForm(objFunctionsLines[i]);
+
+
+
+                    int[] variables = LinearMatrixBuilder.VariablesRead(variablesAmount, zFunction);
+                    for (int j = 0; j < optimalVectors.GetLength(1); j++)
+                    {
+                        objFunctionsMatrix[i,j] = variables[j];
+                    }
+
+
+
+                    if (keyWords == -1)
+                    {
+                        protocolBuilder.AppendLine("Не знайдено ключового слова max/min");
+                        break;
+                    }
+
+                    bool maxSolution = keyWords == 1;
+                    double[] res = CalculateOptimalSolution(variablesAmount, zFunction, restrictionsText, maxSolution, protocolBuilder);
+
+                    for (int j = 0; j < optimalVectors.GetLength(1); j++)
+                    {
+                        optimalVectors[i,j] = res[j];
+                    }
+                }
+
+                //вивід objFunctionCoefficients
+                for (int i = 0; i < objFunctionsMatrix.GetLength(0); i++)
+                {
+                    for (int j = 0; j < objFunctionsMatrix.GetLength(1); j++)
+                    {
+                        objFunctionCoefficients.Append(Math.Round(objFunctionsMatrix[i, j],2) + "\t");
+                    }
+
+                    objFunctionCoefficients.AppendLine();
+                }
+
+                //вивід оптимальних векторів
+                for (int i = 0; i < optimalVectors.GetLength(0); i++)
+                {
+                    for (int j = 0; j < optimalVectors.GetLength(1); j++)
+                    {
+                        optimalVectorsBuilder.Append(Math.Round(optimalVectors[i, j],2) + "\t");
+                    }
+
+                    optimalVectorsBuilder.AppendLine();
+                }
+
+                //вивід оптимальних у протокол
+                protocolBuilder.AppendLine();
+                protocolBuilder.AppendLine("Оптимальні вектори:");
+                FormPrint.FancyMatrixPrint(optimalVectors, "X*", "x", protocolBuilder);
+
+                //вивід objFunctionsMatrix у протокол
+                protocolBuilder.AppendLine();
+                protocolBuilder.AppendLine("Матриця коефіцієнтів функцій мети:");
+                FormPrint.FancyMatrixPrint(objFunctionsMatrix, "C", "x", protocolBuilder);
+
+                //розрахунок неоптимальної матриці
+                double[,] nonOptimalSolutions = new double[objFunctionsLines.Length, objFunctionsLines.Length];
+                for (int i = 0; i < nonOptimalSolutions.GetLength(0); i++)
+                {
+                    for (int j = 0; j < nonOptimalSolutions.GetLength(1); j++)
+                    {
+                        nonOptimalSolutions[i, j] = nonOptimalSolutionsCalculation(i, j, optimalVectors, objFunctionsMatrix);
+                    }
+                }
+
+                //вивід nonOptimalSolutions
+                for (int i = 0; i < nonOptimalSolutions.GetLength(0); i++)
+                {
+                    for (int j = 0; j < nonOptimalSolutions.GetLength(1); j++)
+                    {
+                        nonOptimalSolutionsBuilder.Append(Math.Round(nonOptimalSolutions[i, j],2) + "\t");
+                    }
+
+                    nonOptimalSolutionsBuilder.AppendLine();
+                }
+
+                //вивід nonOptimalSolutions у протокол
+                protocolBuilder.AppendLine();
+                protocolBuilder.AppendLine("Міри неоптимальності:");
+                FormPrint.FancyMatrixPrint(nonOptimalSolutions, "X", "Z", protocolBuilder);
+
+                //Розв'язання матричної гри
+                LinearMatrix linearMatrix = LinearMatrixBuilder.CreateDoubleLinearMatrixRR(nonOptimalSolutions);
+                protocolBuilder.AppendLine("Створена ігрова матриця:");
+                FormPrint.FancyDoubleMatrixPrint(linearMatrix, protocolBuilder);
+
+                //вивід matrixGame
+                for (int i = 0; i < linearMatrix.matrix.GetLength(0); i++)
+                {
+                    for (int j = 0; j < linearMatrix.matrix.GetLength(1); j++)
+                    {
+                        matrixGame.Append(Math.Round(linearMatrix.matrix[i, j], 2) + "\t");
+                    }
+
+                    matrixGame.AppendLine();
+                }
+
+                StringBuilder firstPlayer = coefficients; 
+                StringBuilder secondPlayer = new StringBuilder();
+                StringBuilder gamePrice = new StringBuilder();
+
+                MaxSolutionScriptDoubleMatrixLab3_1(linearMatrix, firstPlayer, secondPlayer, gamePrice, protocolBuilder);
+
+                double[] compromiseSolution = new double[optimalVectors.GetLength(1)];
+                for (int j = 0; j < optimalVectors.GetLength(1); j++)
+                {
+                    for (int i = 0; i < optimalVectors.GetLength(0); i++)
+                    {
+                        compromiseSolution[j] += Math.Round(optimalVectors[i, j] * linearMatrix.firstP[i], 2);
+                    }
+                }
+
+                compromiseSolutionBuilder.AppendLine(string.Join("; ", compromiseSolution));
+
+                //вивід compromiseSolution у протокол
+                protocolBuilder.AppendLine();
+                protocolBuilder.AppendLine("Компромісний розв'язок:");
+                protocolBuilder.AppendLine("X*(компр): " + string.Join("; ", compromiseSolution));
+
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine(ex.Message);
+            }            
+        }
+
+        private static double nonOptimalSolutionsCalculation(int itaya , int jtaya, double[,] optimalVectors, double[,] objFunctionsMatrix)
+        {
+            if (itaya == jtaya)
+            {
+                return 0;
+            }
+
+            double CjXi = 0;
+            double CjXj = 0;
+            double[] Cj = new double[objFunctionsMatrix.GetLength(1)];
+
+            for (int j = 0; j < Cj.Length; j++)   
+            {
+                CjXi += optimalVectors[itaya,j] * objFunctionsMatrix[jtaya,j];
+            }
+
+            for (int j = 0; j < Cj.Length; j++)
+            {
+                CjXj += optimalVectors[jtaya, j] * objFunctionsMatrix[jtaya, j];
+            }
+
+            return Math.Abs((CjXi - CjXj) / CjXj);
+        }
+
+        public static double[] CalculateOptimalSolution(int variablesAmount, string zFunction, string restrictions, bool maxSolution, StringBuilder protocolBuilder)
+        {
+            LinearMatrix linearMatrix = LinearMatrixBuilder.CreateLinearMatrix(variablesAmount, zFunction, restrictions);
+            StringBuilder xResult = new StringBuilder();// not usable
+            StringBuilder zResult = new StringBuilder();// not usable
+
+            if (maxSolution)
+            {
+                FormPrint.FancyMatrixPrint(linearMatrix, protocolBuilder);
+
+                try
+                {
+                    MathCalculation.ZerosElimanating(linearMatrix, protocolBuilder);
+                    MaxSolutionScript(linearMatrix, xResult, zResult, protocolBuilder);
+                }
+                catch (Exception ex)
+                {
+                    protocolBuilder.AppendLine(ex.Message);
+                }
+            }
+            else
+            {
+                //приведення Z до Z'
+                for (int j = 0; j < linearMatrix.matrix.GetLength(1) - 1; j++)
+                {
+                    linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, j] *= -1;
+                }
+
+                FormPrint.FancyMatrixPrint(linearMatrix, protocolBuilder);
+
+                try
+                {
+                    MathCalculation.ZerosElimanating(linearMatrix, protocolBuilder);
+                    MinSolutionScript(linearMatrix, xResult, zResult, protocolBuilder);
+                }
+                catch (Exception ex)
+                {
+                    protocolBuilder.AppendLine(ex.Message);
+                }
+            }
+
+            //protocolBuilder.AppendLine(xResult.ToString());
+            //protocolBuilder.AppendLine(zResult.ToString());
+
+            return linearMatrix.res;
         }
 
     }

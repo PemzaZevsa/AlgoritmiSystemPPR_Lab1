@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualBasic;
 using System;
 using System.Text;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ClassLibrary1
 {
@@ -1213,6 +1212,7 @@ namespace ClassLibrary1
                 }
             }
         }
+
         private static void CalculationTypeCalculation(double[,] matrix, int[] stratsPopularity, Func<double[,], StringBuilder, int[]> calcFunction, StringBuilder calcTypeBuilder, StringBuilder protocolBuilder)
         {
             try
@@ -1279,7 +1279,7 @@ namespace ClassLibrary1
                 protocolBuilder.AppendLine($"Помилка у критерії {nameof(calcTypeBuilder)}");
                 protocolBuilder.AppendLine(ex.Message);
             }
-        }
+        }       
 
         private static void StratsPopularitySum(int[] strategies, int[] stratsPopularity)
         {
@@ -1678,6 +1678,9 @@ namespace ClassLibrary1
             protocolBuilder.AppendLine($"Оптимальні стратегії : {optimalStrategies.ToString().Trim()}");
             return strategies;
         }
-        
+
+        //RR
+
+
     }
 }

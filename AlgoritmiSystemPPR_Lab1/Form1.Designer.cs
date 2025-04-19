@@ -158,6 +158,27 @@
             label32 = new Label();
             gameMatrixLab3_2RichTextBox = new RichTextBox();
             findOptimalStrategiesLab3_2Button = new Button();
+            tabPage8 = new TabPage();
+            variablesRRNumericUpDown = new NumericUpDown();
+            findOptimalStrategiesRRButton = new Button();
+            exampleRRButton = new Button();
+            label45 = new Label();
+            label46 = new Label();
+            compromiseSolutionRRTextBox = new TextBox();
+            coefficientsRRTextBox = new TextBox();
+            label43 = new Label();
+            matrixGameRRRichTextBox = new RichTextBox();
+            label44 = new Label();
+            nonOptimalSolutionsRRichTextBox = new RichTextBox();
+            label42 = new Label();
+            optimalVectorsRRRichTextBox = new RichTextBox();
+            label41 = new Label();
+            objFunctionCoefficientsRRRichTextBox = new RichTextBox();
+            label40 = new Label();
+            label39 = new Label();
+            restrictionsRRRichTextBox = new RichTextBox();
+            label38 = new Label();
+            objFunctionsRRRichTextBox = new RichTextBox();
             clearProtocolButton = new Button();
             protocolTextIncreaseButton = new Button();
             protocolTextDecreaseButton = new Button();
@@ -183,6 +204,8 @@
             ((System.ComponentModel.ISupportInitialize)gamesAmountNumericUpDown).BeginInit();
             tabPage7.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)yCoefficientNumericUpDown).BeginInit();
+            tabPage8.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)variablesRRNumericUpDown).BeginInit();
             SuspendLayout();
             // 
             // matrixLabel
@@ -405,6 +428,7 @@
             zTextLab2Box.Controls.Add(tabPage5);
             zTextLab2Box.Controls.Add(tabPage6);
             zTextLab2Box.Controls.Add(tabPage7);
+            zTextLab2Box.Controls.Add(tabPage8);
             zTextLab2Box.Location = new Point(2, 3);
             zTextLab2Box.Name = "zTextLab2Box";
             zTextLab2Box.SelectedIndex = 0;
@@ -1454,6 +1478,211 @@
             findOptimalStrategiesLab3_2Button.UseVisualStyleBackColor = true;
             findOptimalStrategiesLab3_2Button.Click += findOptimalStrategiesLab3_2Button_Click;
             // 
+            // tabPage8
+            // 
+            tabPage8.Controls.Add(variablesRRNumericUpDown);
+            tabPage8.Controls.Add(findOptimalStrategiesRRButton);
+            tabPage8.Controls.Add(exampleRRButton);
+            tabPage8.Controls.Add(label45);
+            tabPage8.Controls.Add(label46);
+            tabPage8.Controls.Add(compromiseSolutionRRTextBox);
+            tabPage8.Controls.Add(coefficientsRRTextBox);
+            tabPage8.Controls.Add(label43);
+            tabPage8.Controls.Add(matrixGameRRRichTextBox);
+            tabPage8.Controls.Add(label44);
+            tabPage8.Controls.Add(nonOptimalSolutionsRRichTextBox);
+            tabPage8.Controls.Add(label42);
+            tabPage8.Controls.Add(optimalVectorsRRRichTextBox);
+            tabPage8.Controls.Add(label41);
+            tabPage8.Controls.Add(objFunctionCoefficientsRRRichTextBox);
+            tabPage8.Controls.Add(label40);
+            tabPage8.Controls.Add(label39);
+            tabPage8.Controls.Add(restrictionsRRRichTextBox);
+            tabPage8.Controls.Add(label38);
+            tabPage8.Controls.Add(objFunctionsRRRichTextBox);
+            tabPage8.Location = new Point(4, 29);
+            tabPage8.Name = "tabPage8";
+            tabPage8.Padding = new Padding(3);
+            tabPage8.Size = new Size(677, 421);
+            tabPage8.TabIndex = 7;
+            tabPage8.Text = "РР";
+            tabPage8.UseVisualStyleBackColor = true;
+            // 
+            // variablesRRNumericUpDown
+            // 
+            variablesRRNumericUpDown.Location = new Point(145, 126);
+            variablesRRNumericUpDown.Maximum = new decimal(new int[] { 500, 0, 0, 0 });
+            variablesRRNumericUpDown.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
+            variablesRRNumericUpDown.Name = "variablesRRNumericUpDown";
+            variablesRRNumericUpDown.Size = new Size(102, 27);
+            variablesRRNumericUpDown.TabIndex = 107;
+            variablesRRNumericUpDown.Value = new decimal(new int[] { 1, 0, 0, 0 });
+            // 
+            // findOptimalStrategiesRRButton
+            // 
+            findOptimalStrategiesRRButton.Location = new Point(365, 127);
+            findOptimalStrategiesRRButton.Name = "findOptimalStrategiesRRButton";
+            findOptimalStrategiesRRButton.Size = new Size(306, 27);
+            findOptimalStrategiesRRButton.TabIndex = 106;
+            findOptimalStrategiesRRButton.Text = "Знайти оптимальний розв'язок";
+            findOptimalStrategiesRRButton.UseVisualStyleBackColor = true;
+            findOptimalStrategiesRRButton.Click += findOptimalStrategiesRRButton_Click;
+            // 
+            // exampleRRButton
+            // 
+            exampleRRButton.Location = new Point(253, 126);
+            exampleRRButton.Name = "exampleRRButton";
+            exampleRRButton.Size = new Size(106, 27);
+            exampleRRButton.TabIndex = 105;
+            exampleRRButton.Text = "Приклад";
+            exampleRRButton.UseVisualStyleBackColor = true;
+            exampleRRButton.Click += exampleRRButton_Click;
+            // 
+            // label45
+            // 
+            label45.AutoSize = true;
+            label45.Location = new Point(478, 283);
+            label45.Name = "label45";
+            label45.Size = new Size(138, 20);
+            label45.TabIndex = 104;
+            label45.Text = "Вагові коєфіцієнти";
+            // 
+            // label46
+            // 
+            label46.AutoSize = true;
+            label46.Location = new Point(478, 336);
+            label46.Name = "label46";
+            label46.Size = new Size(185, 20);
+            label46.TabIndex = 104;
+            label46.Text = "Компромісний розв'язок";
+            // 
+            // compromiseSolutionRRTextBox
+            // 
+            compromiseSolutionRRTextBox.Enabled = false;
+            compromiseSolutionRRTextBox.Location = new Point(478, 359);
+            compromiseSolutionRRTextBox.Name = "compromiseSolutionRRTextBox";
+            compromiseSolutionRRTextBox.Size = new Size(193, 27);
+            compromiseSolutionRRTextBox.TabIndex = 103;
+            // 
+            // coefficientsRRTextBox
+            // 
+            coefficientsRRTextBox.Enabled = false;
+            coefficientsRRTextBox.Location = new Point(478, 306);
+            coefficientsRRTextBox.Name = "coefficientsRRTextBox";
+            coefficientsRRTextBox.Size = new Size(193, 27);
+            coefficientsRRTextBox.TabIndex = 103;
+            // 
+            // label43
+            // 
+            label43.AutoSize = true;
+            label43.Location = new Point(242, 283);
+            label43.Name = "label43";
+            label43.Size = new Size(106, 20);
+            label43.TabIndex = 99;
+            label43.Text = "Матрична гра";
+            // 
+            // matrixGameRRRichTextBox
+            // 
+            matrixGameRRRichTextBox.Location = new Point(242, 306);
+            matrixGameRRRichTextBox.Name = "matrixGameRRRichTextBox";
+            matrixGameRRRichTextBox.Size = new Size(230, 100);
+            matrixGameRRRichTextBox.TabIndex = 98;
+            matrixGameRRRichTextBox.Text = "";
+            // 
+            // label44
+            // 
+            label44.AutoSize = true;
+            label44.Location = new Point(6, 283);
+            label44.Name = "label44";
+            label44.Size = new Size(180, 20);
+            label44.TabIndex = 97;
+            label44.Text = "Неоптимальні розв'язки";
+            // 
+            // nonOptimalSolutionsRRichTextBox
+            // 
+            nonOptimalSolutionsRRichTextBox.Location = new Point(6, 306);
+            nonOptimalSolutionsRRichTextBox.Name = "nonOptimalSolutionsRRichTextBox";
+            nonOptimalSolutionsRRichTextBox.Size = new Size(230, 100);
+            nonOptimalSolutionsRRichTextBox.TabIndex = 96;
+            nonOptimalSolutionsRRichTextBox.Text = "";
+            // 
+            // label42
+            // 
+            label42.AutoSize = true;
+            label42.Location = new Point(365, 157);
+            label42.Name = "label42";
+            label42.Size = new Size(152, 20);
+            label42.TabIndex = 95;
+            label42.Text = "Оптимальні вектори";
+            // 
+            // optimalVectorsRRRichTextBox
+            // 
+            optimalVectorsRRRichTextBox.Location = new Point(365, 180);
+            optimalVectorsRRRichTextBox.Name = "optimalVectorsRRRichTextBox";
+            optimalVectorsRRRichTextBox.Size = new Size(306, 100);
+            optimalVectorsRRRichTextBox.TabIndex = 94;
+            optimalVectorsRRRichTextBox.Text = "";
+            // 
+            // label41
+            // 
+            label41.AutoSize = true;
+            label41.Location = new Point(6, 157);
+            label41.Name = "label41";
+            label41.Size = new Size(184, 20);
+            label41.TabIndex = 93;
+            label41.Text = "Коєфіцієнти функції мети";
+            // 
+            // objFunctionCoefficientsRRRichTextBox
+            // 
+            objFunctionCoefficientsRRRichTextBox.Location = new Point(6, 180);
+            objFunctionCoefficientsRRRichTextBox.Name = "objFunctionCoefficientsRRRichTextBox";
+            objFunctionCoefficientsRRRichTextBox.Size = new Size(353, 100);
+            objFunctionCoefficientsRRRichTextBox.TabIndex = 92;
+            objFunctionCoefficientsRRRichTextBox.Text = "";
+            // 
+            // label40
+            // 
+            label40.AutoSize = true;
+            label40.Location = new Point(6, 129);
+            label40.Name = "label40";
+            label40.Size = new Size(133, 20);
+            label40.TabIndex = 90;
+            label40.Text = "Кількість змінних:";
+            // 
+            // label39
+            // 
+            label39.AutoSize = true;
+            label39.Location = new Point(365, 3);
+            label39.Name = "label39";
+            label39.Size = new Size(93, 20);
+            label39.TabIndex = 89;
+            label39.Text = "Обмеження";
+            // 
+            // restrictionsRRRichTextBox
+            // 
+            restrictionsRRRichTextBox.Location = new Point(365, 26);
+            restrictionsRRRichTextBox.Name = "restrictionsRRRichTextBox";
+            restrictionsRRRichTextBox.Size = new Size(306, 100);
+            restrictionsRRRichTextBox.TabIndex = 88;
+            restrictionsRRRichTextBox.Text = "";
+            // 
+            // label38
+            // 
+            label38.AutoSize = true;
+            label38.Location = new Point(6, 3);
+            label38.Name = "label38";
+            label38.Size = new Size(115, 20);
+            label38.TabIndex = 87;
+            label38.Text = "Цільові функції";
+            // 
+            // objFunctionsRRRichTextBox
+            // 
+            objFunctionsRRRichTextBox.Location = new Point(6, 26);
+            objFunctionsRRRichTextBox.Name = "objFunctionsRRRichTextBox";
+            objFunctionsRRRichTextBox.Size = new Size(353, 100);
+            objFunctionsRRRichTextBox.TabIndex = 86;
+            objFunctionsRRRichTextBox.Text = "";
+            // 
             // clearProtocolButton
             // 
             clearProtocolButton.BackColor = Color.LightCoral;
@@ -1534,6 +1763,9 @@
             tabPage7.ResumeLayout(false);
             tabPage7.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)yCoefficientNumericUpDown).EndInit();
+            tabPage8.ResumeLayout(false);
+            tabPage8.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)variablesRRNumericUpDown).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1672,5 +1904,26 @@
         private TextBox theMostCommonStrategyLab3_2TextBox;
         private Label label37;
         private TextBox natureStrategiesLab3_2TextBox;
+        private TabPage tabPage8;
+        private Label label39;
+        private RichTextBox restrictionsRRRichTextBox;
+        private Label label38;
+        private RichTextBox objFunctionsRRRichTextBox;
+        private Label label40;
+        private Label label42;
+        private RichTextBox optimalVectorsRRRichTextBox;
+        private Label label41;
+        private RichTextBox objFunctionCoefficientsRRRichTextBox;
+        private Button findOptimalStrategiesRRButton;
+        private Button exampleRRButton;
+        private Label label45;
+        private Label label46;
+        private TextBox compromiseSolutionRRTextBox;
+        private TextBox coefficientsRRTextBox;
+        private Label label43;
+        private RichTextBox matrixGameRRRichTextBox;
+        private Label label44;
+        private RichTextBox nonOptimalSolutionsRRichTextBox;
+        private NumericUpDown variablesRRNumericUpDown;
     }
 }

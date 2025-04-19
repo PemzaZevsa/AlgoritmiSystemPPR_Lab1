@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace ClassLibrary1
 {
@@ -333,6 +334,98 @@ namespace ClassLibrary1
             }
 
             return array;
+        }
+
+        //RR
+
+        public static (string, int) ObjectFunctionForm(string functionText)
+        {
+            int flag = -1;
+            if (functionText.Contains("max") || functionText.Contains("min"))
+            {
+                if (functionText.Contains("max"))
+                {
+                    flag = 1;
+                }
+                else
+                {
+                    flag = 0;
+                }
+            }
+
+            string zString = functionText.Trim().Substring(0,functionText.Length - 3);
+
+            return (zString, flag);
+        }
+
+        public static LinearMatrix CreateDoubleLinearMatrixRR(double[,] inputMatrix)
+        {
+            (double[,] matrix, string[] rowsHeadings, double k) = CreateMatrixRR(inputMatrix);
+
+            string[] rowsHeadings2 = new string[rowsHeadings.Length];
+            for (int i = 0; i < rowsHeadings2.Length; i++)
+            {
+                rowsHeadings2[i] = $"u{i + 1}";
+            }
+
+            return new LinearMatrix(matrix, rowsHeadings, rowsHeadings2, matrix.GetLength(1) - 1, k);
+        }
+
+        private static (double[,] matrix, string[] rowsHeadings, double k) CreateMatrixRR(double[,] inputMatrix)
+        {
+            int rowCount = inputMatrix.GetLength(0);
+            int columnCount = inputMatrix.GetLength(1);
+            string[] rowHeadings = new string[rowCount];
+            double[,] matrix = new double[rowCount + 1, columnCount + 1];
+
+            for (int i = 0; i < rowCount; i++)
+            {
+                for (int j = 0; j < columnCount; j++)
+                {
+                    matrix[i, j] = inputMatrix[i,j] * -1;
+                }
+            }
+
+            //calculating k
+            double minimal = double.MaxValue;
+            int matrixHeight = matrix.GetLength(0);
+            int matrixWidth = matrix.GetLength(1);
+            for (int i = 0; i < matrixHeight; i++)
+            {
+                for (int j = 0; j < matrixWidth; j++)
+                {
+                    if (matrix[i, j] < minimal)
+                    {
+                        minimal = matrix[i, j];
+                    }
+                }
+            }
+
+            if (minimal < 0)
+            {
+                for (int i = 0; i < matrixHeight - 1; i++)
+                {
+                    for (int j = 0; j < matrixWidth - 1; j++)
+                    {
+                        matrix[i, j] += Math.Abs(minimal);
+                    }
+                }
+            }
+
+            //row headings 1 and matrix last column
+            for (int i = 0; i < rowCount; i++)
+            {
+                matrix[i, columnCount] = 1;
+                rowHeadings[i] = $"y{i + 1}";
+            }
+
+            //matrix last row
+            for (int j = 0; j < columnCount; j++)
+            {
+                matrix[rowCount, j] = -1;
+            }
+
+            return (matrix, rowHeadings, Math.Abs(minimal));
         }
     }
 }

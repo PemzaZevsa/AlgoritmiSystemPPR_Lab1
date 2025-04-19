@@ -1,34 +1,22 @@
-using ClassLibrary1;
+ï»¿using ClassLibrary1;
 using System;
-using System.Drawing.Drawing2D;
 using System.Text;
-using System.Windows.Forms;
-using System.Xml.Linq;
 
 namespace AlgoritmiSystemPPR_Lab1
 {
     public partial class Form1 : Form
     {
-        private double[,] aMatrix;
-
-        private double[] bMatrix;
-
-        private double[,] inverseMatrix;
-
-        //lab 1.1
-
         public Form1()
         {
             InitializeComponent();
-            aMatrix = null;
-            bMatrix = null;
-            inverseMatrix = null;
         }
+
+        //lab 1.1
 
         private void GenerateMatrixButton_Click(object sender, EventArgs e)
         {
-            aMatrix = MathCalculation.GenerateMatrix(((int)matrixRows.Value), ((int)matrixCols.Value), 1, 5);
-            bMatrix = MathCalculation.GenerateArray(((int)matrixRows.Value), 1, 5);
+            double[,] aMatrix = MathCalculation.GenerateMatrix(((int)matrixRows.Value), ((int)matrixCols.Value), 1, 5);
+            double[] bMatrix = MathCalculation.GenerateArray(((int)matrixRows.Value), 1, 5);
 
             StringBuilder rBuilder = new StringBuilder();
             StringBuilder bBuilder = new StringBuilder();
@@ -43,64 +31,38 @@ namespace AlgoritmiSystemPPR_Lab1
         private void CalculateInverseMatrixButton_Click(object sender, EventArgs e)
         {
             StringBuilder stringBuilder = new StringBuilder();
-            aMatrix = FormPrint.ReadMatrixFromRichTextBox(matrixrRichTextBox.Text, stringBuilder);
+            StringBuilder inverseBuilder = new StringBuilder();
 
-            try
-            {
-                inverseMatrix = MathCalculation.InverseMatrix(aMatrix, stringBuilder);
-                StringBuilder inverseBuilder = new StringBuilder();
-                FormPrint.ProtocolMatrixPrint(inverseMatrix, inverseBuilder);
-                inverseMatrixRichTextBox.Text = inverseBuilder.ToString();
-            }
-            catch (Exception ex)
-            {
-                protocolRichTextBox.Text += stringBuilder.ToString();
-                protocolRichTextBox.Text += ex.Message;
-            }
+            CalculationScenarios.CalculateInverseMatrix(matrixrRichTextBox.Text, inverseBuilder, stringBuilder);
 
+            //protocol
+            inverseMatrixRichTextBox.Text = inverseBuilder.ToString();
             protocolRichTextBox.Text += stringBuilder.ToString();
         }
 
         private void matrixRankButton_Click(object sender, EventArgs e)
         {
             StringBuilder stringBuilder = new StringBuilder();
-            aMatrix = FormPrint.ReadMatrixFromRichTextBox(matrixrRichTextBox.Text, stringBuilder);
+            StringBuilder rankBuilder = new StringBuilder();
 
-            try
-            {
-                int rank = MathCalculation.MatrixRank(aMatrix, stringBuilder);
-                matrixRankTextBox.Clear();
-                matrixRankTextBox.Text = $"{rank}";
-                protocolRichTextBox.Text += stringBuilder.ToString();
-            }
-            catch (Exception ex)
-            {
-                protocolRichTextBox.Text += stringBuilder.ToString();
-                protocolRichTextBox.Text += ex.Message;
-            }
+            CalculationScenarios.matrixRank(matrixrRichTextBox.Text, rankBuilder, stringBuilder);
+
+            //protocol
+            matrixRankTextBox.Text = rankBuilder.ToString();
+            protocolRichTextBox.Text += stringBuilder.ToString();
         }
 
         private void SLAUCalculateButton_Click(object sender, EventArgs e)
         {
             StringBuilder stringBuilder = new StringBuilder();
-
-            //reading
-            aMatrix = FormPrint.ReadMatrixFromRichTextBox(matrixrRichTextBox.Text, stringBuilder);
-            bMatrix = FormPrint.ReadMatrixBFromRichTextBox(matrixBRichTextBox.Text, stringBuilder);
-
-            //preparations
-            inverseMatrix = MathCalculation.InverseMatrix(aMatrix, stringBuilder);
             StringBuilder inverseBuilder = new StringBuilder();
-            FormPrint.ProtocolMatrixPrint(inverseMatrix, inverseBuilder);
-            inverseMatrixRichTextBox.Text = inverseBuilder.ToString();
-
-            //calculation
-            double[] xMatrix = MathCalculation.SLAU(bMatrix, inverseMatrix, stringBuilder);
             StringBuilder xBuilder = new StringBuilder();
-            FormPrint.ArrayPrint(xMatrix, xBuilder);
-            matrixXRichTextBox.Text = xBuilder.ToString();
+
+            CalculationScenarios.SLAUCalculate(matrixrRichTextBox.Text, matrixBRichTextBox.Text, inverseBuilder, xBuilder, stringBuilder);
 
             //protocol
+            inverseMatrixRichTextBox.Text = inverseBuilder.ToString();
+            matrixXRichTextBox.Text = xBuilder.ToString();
             protocolRichTextBox.Text += stringBuilder.ToString();
         }
 
@@ -118,8 +80,8 @@ namespace AlgoritmiSystemPPR_Lab1
                         4,
                      };
 
-            aMatrix = MathCalculation.CopyMatrix(tempMatrix);
-            bMatrix = MathCalculation.CopyArray(tempBMatrix);
+            double[,] aMatrix = MathCalculation.CopyMatrix(tempMatrix);
+            double[] bMatrix = MathCalculation.CopyArray(tempBMatrix);
 
             StringBuilder rBuilder = new StringBuilder();
             StringBuilder bBuilder = new StringBuilder();
@@ -181,7 +143,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleButton_Click(object sender, EventArgs e)
         {
-            //Ïðèêëàä
+            //ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´
             //StringBuilder limitations = new();
             //limitations.AppendLine("x1+x2-x3-2x4<=6");
             //limitations.AppendLine("x1+x2+x3-x4>=5");
@@ -192,7 +154,7 @@ namespace AlgoritmiSystemPPR_Lab1
             //variablesNumericUpDown.Value = 4;
             //zTextBox.Text = "x1+2x2-x3-x4";
 
-            //Âàð³àíò
+            //Ð’Ð°Ñ€Ñ–Ð°Ð½Ñ‚
             StringBuilder limitations = new();
             limitations.AppendLine("x1+x2-x3-2x4<=6");
             limitations.AppendLine("x1+x2+x3-x4<=5");
@@ -208,7 +170,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleButton2_Click(object sender, EventArgs e)
         {
-            ////Ïðèêëàä
+            ////ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´
             //StringBuilder limitations = new();
             //limitations.AppendLine("-2x1+x2+x3+3x4=2");
             //limitations.AppendLine("-3x1+2x2-3x3=7");
@@ -220,7 +182,7 @@ namespace AlgoritmiSystemPPR_Lab1
             //variablesNumericUpDown2.Value = 4;
             //zTextBox2.Text = "10x1-x2-42x3-52x4";
 
-            //Âàð³àíò
+            //Ð’Ð°Ñ€Ñ–Ð°Ð½Ñ‚
             StringBuilder limitations = new();
             limitations.AppendLine("x1+x2-x3-2x4<=6");
             limitations.AppendLine("x1+x2+x3-x4=5");
@@ -231,7 +193,7 @@ namespace AlgoritmiSystemPPR_Lab1
             variablesNumericUpDown2.Value = 4;
             zTextBox2.Text = "x1-x3+x4";
 
-            ////Ïðèêëàä ç â³ëüíèìè çì³ííèìè
+            ////ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´ Ð· Ð²Ñ–Ð»ÑŒÐ½Ð¸Ð¼Ð¸ Ð·Ð¼Ñ–Ð½Ð½Ð¸Ð¼Ð¸
             //StringBuilder limitations = new();
             //limitations.AppendLine("x1+2x2+1>=0");
             //limitations.AppendLine("2x1+x2-4>=0");
@@ -274,7 +236,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleButton3_Click(object sender, EventArgs e)
         {
-            ////Ïðèêëàä
+            ////ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´
             //StringBuilder limitations = new();
             //limitations.AppendLine("3x1+2x2<=10");
             //limitations.AppendLine("x1+4x2<=11");
@@ -287,7 +249,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
             //integerVariablesTextBox3.Text = "x1 x2 x3";
 
-            //Âàð³àíò
+            //Ð’Ð°Ñ€Ñ–Ð°Ð½Ñ‚
             StringBuilder limitations = new();
             limitations.AppendLine("x1+x2-x3-2x4<=6");
             limitations.AppendLine("x1+x2+x3-x4<=5");
@@ -328,7 +290,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleLab2Button_Click(object sender, EventArgs e)
         {
-            //Ïðèêëàä 1
+            //ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´ 1
             StringBuilder limitations = new();
             limitations.AppendLine("x1+x2-x3-2x4<=6");
             limitations.AppendLine("x1+x2+x3-x4>=5");
@@ -339,7 +301,7 @@ namespace AlgoritmiSystemPPR_Lab1
             variablesLab2NumericUpDown.Value = 4;
             zLab2TextBox.Text = "x1+2x2-x3-x4";
 
-            ////Ïðèêëàä 2
+            ////ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´ 2
             //StringBuilder limitations = new();
             //limitations.AppendLine("-3x1+x2+4x3+x4<=1");
             //limitations.AppendLine("3x1-2x2+2x3-2x4<=-9");
@@ -351,7 +313,7 @@ namespace AlgoritmiSystemPPR_Lab1
             //variablesLab2NumericUpDown.Value = 4;
             //zLab2TextBox.Text = "10x1-x2-42x3-52x4";
 
-            ////Ïðèêëàä 3
+            ////ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´ 3
             //StringBuilder limitations = new();
             //limitations.AppendLine("-2x1+3x2<=14");
             //limitations.AppendLine("x1+x2<=8");
@@ -361,7 +323,7 @@ namespace AlgoritmiSystemPPR_Lab1
             //variablesLab2NumericUpDown.Value = 2;
             //zLab2TextBox.Text = "2x1+7x2";
 
-            ////Âàð³àíò
+            ////Ð’Ð°Ñ€Ñ–Ð°Ð½Ñ‚
             //StringBuilder limitations = new();
             //limitations.AppendLine("x1+x2-x3-2x4<=6");
             //limitations.AppendLine("x1+x2+x3-x4<=5");
@@ -396,30 +358,30 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleLab3_1Button_Click(object sender, EventArgs e)
         {
-            ////Ïðèêëàä 1
+            ////ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´ 1
             //StringBuilder limitations = new();
             //limitations.AppendLine("5 2 7");
             //limitations.AppendLine("1 4 3");
             //limitations.AppendLine("6 1 5");
 
-            ////Ïðèêëàä 2
+            ////ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´ 2
             //StringBuilder limitations = new();
             //limitations.AppendLine("2 -1 3 3");
             //limitations.AppendLine("-1 2 2 7");
             //limitations.AppendLine("1 1 1 2");
 
-            ////Âàð³àíò 1
+            ////Ð’Ð°Ñ€Ñ–Ð°Ð½Ñ‚ 1
             //StringBuilder limitations = new();
             //limitations.AppendLine("1 1 2");
             //limitations.AppendLine("-1 -1 5");
             //limitations.AppendLine("2 3 -3");
 
-            ////Âàð³àíò 2
+            ////Ð’Ð°Ñ€Ñ–Ð°Ð½Ñ‚ 2
             //StringBuilder limitations = new();
             //limitations.AppendLine("13 17");
             //limitations.AppendLine("15 7");
 
-            //Âàð³àíò 3
+            //Ð’Ð°Ñ€Ñ–Ð°Ð½Ñ‚ 3
             StringBuilder limitations = new();
             limitations.AppendLine("4 5 7 10");
             limitations.AppendLine("6 9 1 5");
@@ -475,7 +437,7 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleLab3_2Button_Click(object sender, EventArgs e)
         {
-            ////Ïðèêëàä 1
+            ////ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´ 1
             //StringBuilder limitations = new();
             //limitations.AppendLine("-1 1 1 4");
             //limitations.AppendLine("-1 -2 2 3");
@@ -484,7 +446,7 @@ namespace AlgoritmiSystemPPR_Lab1
             //yCoefficientNumericUpDown.Value = 0.3m;
             //natureStrategiesLab3_2TextBox.Text = "0,2 0,4 0,1 0,3";
 
-            //Âàð³àíò 1
+            //Ð’Ð°Ñ€Ñ–Ð°Ð½Ñ‚ 1
             StringBuilder limitations = new();
             limitations.AppendLine("5 3 -6 4");
             limitations.AppendLine("3 5 -1 3");
@@ -526,6 +488,69 @@ namespace AlgoritmiSystemPPR_Lab1
             savageLab3_2TextBox.Text = savageBuilder.ToString();
             laplaceLab3_2TextBox.Text = laplaceBuilder.ToString();
             theMostCommonStrategyLab3_2TextBox.Text = theMostCommonBuilder.ToString();
+            protocolRichTextBox.Text += protocolBuilder.ToString();
+        }
+
+        //RR
+
+        private void exampleRRButton_Click(object sender, EventArgs e)
+        {
+            ////Ð’Ð°Ñ€Ñ–Ð°Ð½Ñ‚ 1
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("x2+x3+2x4+x5<=6");
+            //limitations.AppendLine("x1+x2+x3+3x4+2x5<=9");
+            //limitations.AppendLine("x1+x2+2x4+x5<=5");
+            //restrictionsRRRichTextBox.Text = limitations.ToString();
+            //StringBuilder objFunctions = new();
+            //objFunctions.AppendLine("-4x4-x5 min");
+            //objFunctions.AppendLine("-x1-3x2+5x3+x4 min");
+            //objFunctions.AppendLine("3x1+x2+x3+x4+x5 max");
+            //objFunctionsRRRichTextBox.Text = objFunctions.ToString();
+            //variablesRRNumericUpDown.Value = 5;
+
+            //ÐŸÑ€Ð¸ÐºÐ»Ð°Ð´ 1
+            StringBuilder limitations = new();
+            limitations.AppendLine("x1+4x2+3x3+2x4+x5=9");
+            limitations.AppendLine("-x1+2x2-x3+2x4+x5=6");
+            limitations.AppendLine("x1+2x2+2x4-x5=2");
+            restrictionsRRRichTextBox.Text = limitations.ToString();
+            StringBuilder objFunctions = new();
+            objFunctions.AppendLine("2x1+2x2+x3+x4+x5 max");
+            objFunctions.AppendLine("x1-3x2+5x3-x4-2x5 min");
+            objFunctions.AppendLine("x1-4x2+5x3+9x4-2x5 max");
+            objFunctionsRRRichTextBox.Text = objFunctions.ToString();
+            variablesRRNumericUpDown.Value = 5;
+        }
+
+        private void findOptimalStrategiesRRButton_Click(object sender, EventArgs e)
+        {
+            StringBuilder objFunctionCoefficients = new StringBuilder();
+            StringBuilder optimalVectors = new StringBuilder();
+            StringBuilder nonOptimalSolutions = new StringBuilder();
+            StringBuilder matrixGame = new StringBuilder();
+            StringBuilder coefficients = new StringBuilder();
+            StringBuilder compromiseSolution = new StringBuilder();
+            StringBuilder protocolBuilder = new StringBuilder();
+
+            CalculationScenarios.CalculateOptimalSolutionRR(
+                objFunctionsText: objFunctionsRRRichTextBox.Text,
+                restrictionsText: restrictionsRRRichTextBox.Text,
+                variablesAmount: (int)variablesRRNumericUpDown.Value,
+                objFunctionCoefficients: objFunctionCoefficients,
+                optimalVectorsBuilder: optimalVectors,
+                nonOptimalSolutionsBuilder: nonOptimalSolutions,
+                matrixGame: matrixGame,
+                coefficients: coefficients,
+                compromiseSolutionBuilder: compromiseSolution,
+                protocolBuilder: protocolBuilder
+                );
+
+            objFunctionCoefficientsRRRichTextBox.Text = objFunctionCoefficients.ToString();
+            optimalVectorsRRRichTextBox.Text = optimalVectors.ToString();
+            nonOptimalSolutionsRRichTextBox.Text = nonOptimalSolutions.ToString();
+            matrixGameRRRichTextBox.Text = matrixGame.ToString();
+            coefficientsRRTextBox.Text = coefficients.ToString();
+            compromiseSolutionRRTextBox.Text = compromiseSolution.ToString();
             protocolRichTextBox.Text += protocolBuilder.ToString();
         }
     }
