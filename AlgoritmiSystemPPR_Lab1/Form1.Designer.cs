@@ -179,9 +179,11 @@
             restrictionsRRRichTextBox = new RichTextBox();
             label38 = new Label();
             objFunctionsRRRichTextBox = new RichTextBox();
+            tabPage9 = new TabPage();
             clearProtocolButton = new Button();
             protocolTextIncreaseButton = new Button();
             protocolTextDecreaseButton = new Button();
+            lab4Element1 = new LabElements.Lab4Element();
             ((System.ComponentModel.ISupportInitialize)matrixCols).BeginInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).BeginInit();
             panel1.SuspendLayout();
@@ -206,6 +208,7 @@
             ((System.ComponentModel.ISupportInitialize)yCoefficientNumericUpDown).BeginInit();
             tabPage8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)variablesRRNumericUpDown).BeginInit();
+            tabPage9.SuspendLayout();
             SuspendLayout();
             // 
             // matrixLabel
@@ -429,6 +432,7 @@
             zTextLab2Box.Controls.Add(tabPage6);
             zTextLab2Box.Controls.Add(tabPage7);
             zTextLab2Box.Controls.Add(tabPage8);
+            zTextLab2Box.Controls.Add(tabPage9);
             zTextLab2Box.Location = new Point(2, 3);
             zTextLab2Box.Name = "zTextLab2Box";
             zTextLab2Box.SelectedIndex = 0;
@@ -1683,6 +1687,17 @@
             objFunctionsRRRichTextBox.TabIndex = 86;
             objFunctionsRRRichTextBox.Text = "";
             // 
+            // tabPage9
+            // 
+            tabPage9.Controls.Add(lab4Element1);
+            tabPage9.Location = new Point(4, 29);
+            tabPage9.Name = "tabPage9";
+            tabPage9.Padding = new Padding(3);
+            tabPage9.Size = new Size(677, 421);
+            tabPage9.TabIndex = 8;
+            tabPage9.Text = "Лаб 4";
+            tabPage9.UseVisualStyleBackColor = true;
+            // 
             // clearProtocolButton
             // 
             clearProtocolButton.BackColor = Color.LightCoral;
@@ -1713,6 +1728,13 @@
             protocolTextDecreaseButton.Text = "Зменшити";
             protocolTextDecreaseButton.UseVisualStyleBackColor = true;
             protocolTextDecreaseButton.Click += protocolTextDecreaseButton_Click;
+            // 
+            // lab4Element1
+            // 
+            lab4Element1.Location = new Point(0, 3);
+            lab4Element1.Name = "lab4Element1";
+            lab4Element1.Size = new Size(677, 418);
+            lab4Element1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -1766,6 +1788,7 @@
             tabPage8.ResumeLayout(false);
             tabPage8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)variablesRRNumericUpDown).EndInit();
+            tabPage9.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1925,5 +1948,7 @@
         private Label label44;
         private RichTextBox nonOptimalSolutionsRRichTextBox;
         private NumericUpDown variablesRRNumericUpDown;
+        private TabPage tabPage9;
+        private LabElements.Lab4Element lab4Element1;
     }
 }

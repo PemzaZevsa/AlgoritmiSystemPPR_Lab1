@@ -7,7 +7,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace ClassLibrary1
 {
-    public static class LinearMatrixBuilder
+    public static class MatrixBuilder
     {
         //Lab 1.2
 
@@ -426,6 +426,17 @@ namespace ClassLibrary1
             }
 
             return (matrix, rowHeadings, Math.Abs(minimal));
+        }
+
+        //Lab 4
+
+        public static T_Problem CreateT_Problem(string costText, string suppliesText, string applicationsText)
+        {
+            double[,] matrix = CreateMatrixLab3_2(costText);
+            int[] po = CreateArrayLab3_2(suppliesText).Select(d => (int)d).ToArray();
+            int[] pn = CreateArrayLab3_2(applicationsText).Select(d => (int)d).ToArray();
+
+            return new T_Problem(po, pn, matrix);
         }
     }
 }

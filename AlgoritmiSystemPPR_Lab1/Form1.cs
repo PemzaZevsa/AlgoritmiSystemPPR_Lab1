@@ -1,4 +1,5 @@
 ﻿using ClassLibrary1;
+using LabElements;
 using System;
 using System.Text;
 
@@ -9,6 +10,10 @@ namespace AlgoritmiSystemPPR_Lab1
         public Form1()
         {
             InitializeComponent();
+
+            //Lab 4
+            lab4Element1.example += exampleLab4Button_Click;
+            lab4Element1.calculateOptimalPlan += findOptimalStrategiesLab4Button_Click;
         }
 
         //lab 1.1
@@ -551,6 +556,56 @@ namespace AlgoritmiSystemPPR_Lab1
             matrixGameRRRichTextBox.Text = matrixGame.ToString();
             coefficientsRRTextBox.Text = coefficients.ToString();
             compromiseSolutionRRTextBox.Text = compromiseSolution.ToString();
+            protocolRichTextBox.Text += protocolBuilder.ToString();
+        }
+
+        //Lab 4
+
+        private void exampleLab4Button_Click()
+        {
+            ////Варіант 1
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("9 3 8 2");
+            //limitations.AppendLine("6 2 4 10");
+            //limitations.AppendLine("4 3 4 5");
+            //lab4Element1.costRichTextBox.Text = limitations.ToString();
+            //lab4Element1.suppliesTextBox.Text = "60 85 35";
+            //lab4Element1.applicationsTextBox.Text = "50 40 60 30";
+
+            //Приклад 1
+            StringBuilder limitations = new();
+            limitations.AppendLine("6 3 2");
+            limitations.AppendLine("2 1 5");
+            limitations.AppendLine("3 4 1");
+            lab4Element1.costRichTextBox.Text = limitations.ToString();
+            lab4Element1.suppliesTextBox.Text = "30 20 50";
+            lab4Element1.applicationsTextBox.Text = "10 65 25";
+        }
+
+        private void findOptimalStrategiesLab4Button_Click()
+        {
+            StringBuilder supportBuilder = new StringBuilder();
+            StringBuilder supportCostBuilder = new StringBuilder();
+            StringBuilder optimalBuilder = new StringBuilder();
+            StringBuilder optimalCostBuilder = new StringBuilder();
+            StringBuilder protocolBuilder = new StringBuilder();
+
+            CalculationScenarios.CalculateOptimalSolutionLab4(
+                costText: lab4Element1.costRichTextBox.Text,
+                suppliesText: lab4Element1.suppliesTextBox.Text,
+                applicationsText: lab4Element1.applicationsTextBox.Text,
+                simplex: lab4Element1.simplexCheckBox.Checked,
+                supportBuilder: supportBuilder,
+                supportCostBuilder: supportCostBuilder,
+                optimalBuilder: optimalBuilder,
+                optimalCostBuilder: optimalCostBuilder,
+                protocolBuilder: protocolBuilder
+                );
+
+            lab4Element1.supportingSolutionRichTextBox.Text = supportBuilder.ToString();
+            lab4Element1.supportingCostTextBox.Text = supportCostBuilder.ToString();
+            lab4Element1.optimalSolutionRichTextBox.Text = optimalBuilder.ToString();
+            lab4Element1.optimalCostTextBox.Text = optimalCostBuilder.ToString();
             protocolRichTextBox.Text += protocolBuilder.ToString();
         }
     }

@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ClassLibrary1
 {
@@ -61,7 +59,7 @@ namespace ClassLibrary1
 
         public static void CalculateOptimalSolutionLab1_2(int variablesAmount, string zFunction, string restrictions, bool maxSolution, bool minSolution, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
         {
-            double[,] matrix = LinearMatrixBuilder.CreateMatrix(variablesAmount, zFunction, restrictions);
+            double[,] matrix = MatrixBuilder.CreateMatrix(variablesAmount, zFunction, restrictions);
 
             if (maxSolution)
             {
@@ -157,7 +155,7 @@ namespace ClassLibrary1
 
         public static void CalculateOptimalSolutionLab1_3(int variablesAmount, string zFunction, string restrictions, bool maxSolution, bool minSolution, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
         {
-            LinearMatrix linearMatrix = LinearMatrixBuilder.CreateLinearMatrix(variablesAmount, zFunction, restrictions);
+            LinearMatrix linearMatrix = MatrixBuilder.CreateLinearMatrix(variablesAmount, zFunction, restrictions);
             double[,] matrix = linearMatrix.matrix;
 
             if (maxSolution)
@@ -248,7 +246,7 @@ namespace ClassLibrary1
 
         public static void CalculateOptimalSolutionLab1_4(int variablesAmount, string zFunction, string restrictions, string integerVariables, bool maxSolution, bool minSolution, StringBuilder xResult, StringBuilder zResult, StringBuilder protocolBuilder)
         {
-            LinearMatrix linearMatrix = LinearMatrixBuilder.CreateLinearMatrix(variablesAmount, zFunction, restrictions, integerVariables);
+            LinearMatrix linearMatrix = MatrixBuilder.CreateLinearMatrix(variablesAmount, zFunction, restrictions, integerVariables);
 
             if (maxSolution)
             {
@@ -371,7 +369,7 @@ namespace ClassLibrary1
         public static void CalculateOptimalSolutionLab2(int variablesAmount, string zFunction, string restrictions, bool maxSolution, 
             bool minSolution, StringBuilder solutionsResult, StringBuilder protocolBuilder)
         {
-            LinearMatrix linearMatrix = LinearMatrixBuilder.CreateDoubleLinearMatrix(variablesAmount, zFunction, restrictions);
+            LinearMatrix linearMatrix = MatrixBuilder.CreateDoubleLinearMatrix(variablesAmount, zFunction, restrictions);
 
             if (maxSolution)
             {
@@ -484,7 +482,7 @@ namespace ClassLibrary1
         public static void CalculateOptimalSolutionLab3_1(string matrix, StringBuilder firstPlayer, StringBuilder secondPlayer, 
             StringBuilder gamePrice, StringBuilder protocolBuilder, int gamesAmount = 0)
         {
-            LinearMatrix linearMatrix = LinearMatrixBuilder.CreateDoubleLinearMatrixLab3_1(matrix);
+            LinearMatrix linearMatrix = MatrixBuilder.CreateDoubleLinearMatrixLab3_1(matrix);
             FormPrint.FancyDoubleMatrixPrint(linearMatrix, protocolBuilder);
             try
             {
@@ -573,8 +571,8 @@ namespace ClassLibrary1
             StringBuilder gurvitsBuilder, StringBuilder maxiMaxBuilder, StringBuilder baesBuilder, StringBuilder savageBuilder, 
             StringBuilder laplaceBuilder, StringBuilder theMostCommonBuilder, StringBuilder protocolBuilder)
         {
-            double[,] matrix = LinearMatrixBuilder.CreateMatrixLab3_2(matrixText);
-            double[] percentage = LinearMatrixBuilder.CreateArrayLab3_2(percentageText);
+            double[,] matrix = MatrixBuilder.CreateMatrixLab3_2(matrixText);
+            double[] percentage = MatrixBuilder.CreateArrayLab3_2(percentageText);
             protocolBuilder.AppendLine("Початкова матриця: ");
             FormPrint.ProtocolMatrixPrint(matrix, protocolBuilder);
             try
@@ -675,11 +673,11 @@ namespace ClassLibrary1
                     protocolBuilder.AppendLine($"Розв'язок {i+1}");
                     protocolBuilder.AppendLine();
 
-                    (string zFunction, int keyWords) = LinearMatrixBuilder.ObjectFunctionForm(objFunctionsLines[i]);
+                    (string zFunction, int keyWords) = MatrixBuilder.ObjectFunctionForm(objFunctionsLines[i]);
 
 
 
-                    int[] variables = LinearMatrixBuilder.VariablesRead(variablesAmount, zFunction);
+                    int[] variables = MatrixBuilder.VariablesRead(variablesAmount, zFunction);
                     for (int j = 0; j < optimalVectors.GetLength(1); j++)
                     {
                         objFunctionsMatrix[i,j] = variables[j];
@@ -761,7 +759,7 @@ namespace ClassLibrary1
                 FormPrint.FancyMatrixPrint(nonOptimalSolutions, "X", "Z", protocolBuilder);
 
                 //Розв'язання матричної гри
-                LinearMatrix linearMatrix = LinearMatrixBuilder.CreateDoubleLinearMatrixRR(nonOptimalSolutions);
+                LinearMatrix linearMatrix = MatrixBuilder.CreateDoubleLinearMatrixRR(nonOptimalSolutions);
                 protocolBuilder.AppendLine("Створена ігрова матриця:");
                 FormPrint.FancyDoubleMatrixPrint(linearMatrix, protocolBuilder);
 
@@ -831,7 +829,7 @@ namespace ClassLibrary1
 
         public static double[] CalculateOptimalSolution(int variablesAmount, string zFunction, string restrictions, bool maxSolution, StringBuilder protocolBuilder)
         {
-            LinearMatrix linearMatrix = LinearMatrixBuilder.CreateLinearMatrix(variablesAmount, zFunction, restrictions);
+            LinearMatrix linearMatrix = MatrixBuilder.CreateLinearMatrix(variablesAmount, zFunction, restrictions);
             StringBuilder xResult = new StringBuilder();// not usable
             StringBuilder zResult = new StringBuilder();// not usable
 
@@ -876,5 +874,34 @@ namespace ClassLibrary1
             return linearMatrix.res;
         }
 
+        //Lab 4
+
+        public static void CalculateOptimalSolutionLab4(string costText, string suppliesText, string applicationsText, bool simplex, StringBuilder supportBuilder,
+            StringBuilder supportCostBuilder, StringBuilder optimalBuilder, StringBuilder optimalCostBuilder, StringBuilder protocolBuilder)
+        {
+            try
+            {
+                T_Problem t_Problem = MatrixBuilder.CreateT_Problem(costText, suppliesText, applicationsText);
+
+                if (!t_Problem.IsCloseProblem())
+                {
+                    t_Problem.CloseProblem();
+                }
+
+                if (simplex)
+                {
+                    SimplexLab4(t_Problem, protocolBuilder);
+                }
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine(ex.Message);
+            }
+        }
+
+        private static void SimplexLab4(T_Problem t_Problem, StringBuilder protocolBuilder)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
