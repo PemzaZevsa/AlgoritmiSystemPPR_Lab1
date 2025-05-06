@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace ClassLibrary1
 {
@@ -884,11 +885,13 @@ namespace ClassLibrary1
                 T_Problem t_Problem = MatrixBuilder.CreateT_Problem(costText, suppliesText, applicationsText);
                 t_Problem.CloseProblem();
 
-                OptimalT_Problem(t_Problem, supportBuilder, supportCostBuilder, optimalBuilder, optimalCostBuilder, protocolBuilder);
-
                 if (simplex)
                 {
                     SimplexLab4(t_Problem, protocolBuilder);
+                }
+                else
+                {
+                    OptimalT_Problem(t_Problem, supportBuilder, supportCostBuilder, optimalBuilder, optimalCostBuilder, protocolBuilder);
                 }
             }
             catch (Exception ex)
@@ -938,7 +941,62 @@ namespace ClassLibrary1
 
         private static void SimplexLab4(T_Problem t_Problem, StringBuilder protocolBuilder)
         {
-            throw new NotImplementedException();
+            int m = t_Problem.po.Length;
+            int n = t_Problem.pn.Length;
+            int variables = m * n;
+
+            int constraints = m + n;
+            int totalCols = variables;
+
+            double[,] tableau = new double[constraints + 1, totalCols + 1]; 
+
+            // 1. Целевая функция: Z = sum c_ij * x_ij
+            for (int i = 0; i < m; i++)
+                for (int j = 0; j < n; j++)
+                    tableau[constraints, i * n + j] = t_Problem.costMatrix[i, j];
+
+            // 2. Ограничения по строкам (поставки)
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    tableau[i, i * n + j] = 1;
+                }
+
+                tableau[i, totalCols] = t_Problem.po[i]; 
+            }
+
+            // 3. Ограничения по столбцам (потребности)
+            for (int j = 0; j < n; j++)
+            {
+                for (int i = 0; i < m; i++)
+                {
+                    tableau[m + j, i * n + j] = -1;
+                }
+
+                tableau[m + j, totalCols] = -t_Problem.pn[j]; 
+            }
+
+            protocolBuilder.AppendLine("Початкова симплекс-таблиця:");
+            FormPrint.FancyMatrixPrint(tableau, protocolBuilder);
+
+            LinearMatrix linearMatrix = MatrixBuilder.CreatLinearMatrix(tableau);
+
+            FormPrint.FancyMatrixPrint(linearMatrix, protocolBuilder);
+
+            StringBuilder temp = new StringBuilder();
+            try
+            {
+                MathCalculation.ZerosElimanating(linearMatrix, protocolBuilder);
+                MaxSolutionScript(linearMatrix, temp, temp, protocolBuilder);
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine(ex.Message);
+            }
+
+            double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1], 2);
+            protocolBuilder.AppendLine("Min (Z) = " + -zRes);
         }
     }
 }

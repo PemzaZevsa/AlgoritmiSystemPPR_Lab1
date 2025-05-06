@@ -438,5 +438,19 @@ namespace ClassLibrary1
 
             return new T_Problem(po, pn, matrix);
         }
+
+        public static LinearMatrix CreatLinearMatrix(double[,] matrix)
+        {
+            int variables = matrix.GetLength(1) - 1;
+            string[] rowsHeadings = new string[matrix.GetLength(0)];
+
+            for (int i = 0; i < rowsHeadings.Length; i++)
+            {
+                rowsHeadings[i] = $"y{i+1}";
+            }
+
+            return new LinearMatrix(matrix, rowsHeadings, variables);
+        }
+
     }
 }

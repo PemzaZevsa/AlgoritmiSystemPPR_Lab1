@@ -577,23 +577,23 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleLab4Button_Click()
         {
-            ////Варіант 1
-            //StringBuilder limitations = new();
-            //limitations.AppendLine("9 3 8 2");
-            //limitations.AppendLine("6 2 4 10");
-            //limitations.AppendLine("4 3 4 5");
-            //lab4Element1.costRichTextBox.Text = limitations.ToString();
-            //lab4Element1.suppliesTextBox.Text = "60 85 35";
-            //lab4Element1.applicationsTextBox.Text = "50 40 60 30";
-
-            //Приклад 1
+            //Варіант 1
             StringBuilder limitations = new();
-            limitations.AppendLine("6 3 2");
-            limitations.AppendLine("2 1 5");
-            limitations.AppendLine("3 4 1");
+            limitations.AppendLine("9 3 8 2");
+            limitations.AppendLine("6 2 4 10");
+            limitations.AppendLine("4 3 4 5");
             lab4Element1.costRichTextBox.Text = limitations.ToString();
-            lab4Element1.suppliesTextBox.Text = "30 20 50";
-            lab4Element1.applicationsTextBox.Text = "10 65 25";
+            lab4Element1.suppliesTextBox.Text = "60 85 35";
+            lab4Element1.applicationsTextBox.Text = "50 40 60 30";
+
+            ////Приклад 1
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("6 3 2");
+            //limitations.AppendLine("2 1 5");
+            //limitations.AppendLine("3 4 1");
+            //lab4Element1.costRichTextBox.Text = limitations.ToString();
+            //lab4Element1.suppliesTextBox.Text = "30 20 50";
+            //lab4Element1.applicationsTextBox.Text = "10 65 25";
         }
 
         private void findOptimalStrategiesLab4Button_Click()
