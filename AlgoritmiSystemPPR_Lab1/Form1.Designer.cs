@@ -180,10 +180,10 @@
             label38 = new Label();
             objFunctionsRRRichTextBox = new RichTextBox();
             tabPage9 = new TabPage();
+            lab4Element1 = new LabElements.Lab4Element();
             clearProtocolButton = new Button();
             protocolTextIncreaseButton = new Button();
             protocolTextDecreaseButton = new Button();
-            lab4Element1 = new LabElements.Lab4Element();
             ((System.ComponentModel.ISupportInitialize)matrixCols).BeginInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).BeginInit();
             panel1.SuspendLayout();
@@ -1698,6 +1698,13 @@
             tabPage9.Text = "Лаб 4";
             tabPage9.UseVisualStyleBackColor = true;
             // 
+            // lab4Element1
+            // 
+            lab4Element1.Location = new Point(0, 3);
+            lab4Element1.Name = "lab4Element1";
+            lab4Element1.Size = new Size(677, 418);
+            lab4Element1.TabIndex = 0;
+            // 
             // clearProtocolButton
             // 
             clearProtocolButton.BackColor = Color.LightCoral;
@@ -1729,13 +1736,6 @@
             protocolTextDecreaseButton.UseVisualStyleBackColor = true;
             protocolTextDecreaseButton.Click += protocolTextDecreaseButton_Click;
             // 
-            // lab4Element1
-            // 
-            lab4Element1.Location = new Point(0, 3);
-            lab4Element1.Name = "lab4Element1";
-            lab4Element1.Size = new Size(677, 418);
-            lab4Element1.TabIndex = 0;
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1749,7 +1749,7 @@
             Controls.Add(label5);
             MinimumSize = new Size(1300, 520);
             Name = "Form1";
-            Text = "Хвостовець АСППР Лаб1.1-4, 2, 3.1-2";
+            Text = "Хвостовець АСППР Лаб1.1-4, 2, 3.1-2, 4, РР";
             ((System.ComponentModel.ISupportInitialize)matrixCols).EndInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).EndInit();
             panel1.ResumeLayout(false);

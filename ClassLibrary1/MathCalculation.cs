@@ -1,5 +1,7 @@
 ﻿using Microsoft.VisualBasic;
 using System;
+using System.IO;
+using System.Numerics;
 using System.Text;
 
 namespace ClassLibrary1
@@ -163,10 +165,10 @@ namespace ClassLibrary1
             return destination;
         }
 
-        public static double[] CopyArray(double[] source)
+        public static T[] CopyArray<T>(T[] source)
         {
             int rows = source.GetLength(0);
-            double[] destination = new double[rows];
+            T[] destination = new T[rows];
 
             for (int i = 0; i < rows; i++)
             {
@@ -1012,7 +1014,7 @@ namespace ClassLibrary1
             {
                 double dividedElement = matrix[i, matrixWidth - 1] / matrix[i, pickedCol];
 
-                if (dividedElement > 0)
+                if (dividedElement >= 0 && matrix[i, pickedCol] > 0) //fixed
                 {
                     if (dividedElement < minimalNonNegative)
                     {
@@ -1681,6 +1683,344 @@ namespace ClassLibrary1
 
         //RR
 
+        //lab 4
+        public static void NorthWestCorner(T_Problem t_Problem, StringBuilder protocolBuilder)
+        {
+            protocolBuilder.AppendLine("Пошук опорного плану перевезень методом північно-західного кута:\n");
+            protocolBuilder.AppendLine("Послідовність заповнення таблиці:");
 
+            int i = 0;
+            int j = 0;
+            int rowCount = t_Problem.solutionMatrix.GetLength(0);
+            int colCount = t_Problem.solutionMatrix.GetLength(1);
+            int[] cPO = CopyArray(t_Problem.po);
+            int[] cPN = CopyArray(t_Problem.pn);
+
+            while (i < rowCount && j < colCount)
+            {
+                int quantity = Math.Min(cPO[i], cPN[j]);
+                t_Problem.solutionMatrix[i, j] = quantity;
+                t_Problem.solutionsUsageMatrix[i, j] = true;
+                cPO[i] -= quantity;
+                cPN[j] -= quantity;
+
+                protocolBuilder.Append($"(x{i+1}{j+1} = {quantity}) -> ");
+
+                if (cPO[i] == 0)
+                {
+                    i++; 
+                }
+                else
+                {
+                    j++;
+                }
+            }
+
+            protocolBuilder.AppendLine($"end");
+
+        }
+
+        public static void PotentialsMethod(T_Problem t_Problem, StringBuilder protocolBuilder)
+        {
+            protocolBuilder.AppendLine("Пошук оптимального плану перевезень методом потенціалів:\n");
+
+            int rowCount = t_Problem.solutionMatrix.GetLength(0);
+            int colCount = t_Problem.solutionMatrix.GetLength(1);
+            bool updated = true;
+            int iterations = 0;
+
+            while (updated && iterations < 5)
+            {
+                iterations++;
+                updated = false;
+
+                if (t_Problem.BasedCells + 1 != (t_Problem.po.Length + t_Problem.pn.Length))
+                {
+                    protocolBuilder.AppendLine("Кількість базових клітинок не співпадає з кількістю потенціалів!");
+                    throw new Exception("Кількість базових клітинок не співпадає з кількістю потенціалів!");
+                    //todo smth throw an error mb
+                }
+
+                //класс потенціалів рядків
+                int[] u = new int[rowCount];
+                bool[] u_flags = new bool[rowCount];
+                var rows = new { values = u, flags = u_flags };
+
+                //класс потенціалів колонок
+                int[] v = new int[colCount];
+                bool[] v_flags = new bool[colCount];
+                var cols = new { values = v, flags = v_flags };
+
+                string[,] undirectCosts = new string[rowCount, colCount];
+
+                rows.values[0] = 0;
+                rows.flags[0] = true;
+
+                PotentialsSearch(t_Problem, u, u_flags, v, v_flags);
+
+                protocolBuilder.AppendLine("Потенціали постачальників:");
+                protocolBuilder.AppendLine(string.Join(" ", rows.values));
+
+                protocolBuilder.AppendLine("Потенціали споживачів:");
+                protocolBuilder.AppendLine(string.Join(" ", cols.values));
+
+                //перевірка на оптимальність, обрахунок непрямих вартостей, знаходження максимально-потенцыйного елемента
+                int max_i = -1, max_j = -1;
+                int max_cost = int.MinValue;
+                for (int i = 0; i < t_Problem.solutionMatrix.GetLength(0); i++)
+                {
+                    for (int j = 0; j < t_Problem.solutionMatrix.GetLength(1); j++)
+                    {
+                        if (!t_Problem.solutionsUsageMatrix[i, j])
+                        {
+                            int potentialsSum = (rows.values[i] + cols.values[j]);
+                            undirectCosts[i, j] = $"{potentialsSum}";
+
+                            int delta = potentialsSum - (int)t_Problem.costMatrix[i, j];
+
+                            if (delta > 0)
+                            {
+                                if (max_cost < delta)
+                                {
+                                    max_cost = delta;
+                                    max_i = i;
+                                    max_j = j;
+                                    updated = true;
+                                }            
+                            }
+                        }
+                        else
+                        {
+                            undirectCosts[i,j] = "x";
+                        }
+                    }
+                }
+
+                protocolBuilder.AppendLine("Непрямі вартості:");
+                FormPrint.FancyMatrixPrint(undirectCosts, protocolBuilder);
+
+                if (max_i == -1 || max_j == -1)
+                {
+                    break;
+                }
+
+                protocolBuilder.AppendLine("Клітинка з максимальною непрямою вартістю:");
+                protocolBuilder.AppendLine($"[{max_i},{max_j}] = {undirectCosts[max_i, max_j]}");
+
+                if (!LambdaOptimalSomething(t_Problem,max_i, max_j, protocolBuilder))
+                {
+                    break;
+                }
+
+                protocolBuilder.AppendLine("Нова вартість перевезень за оптимальним планом:");
+                protocolBuilder.AppendLine($"S = {t_Problem.ProblemCost}");
+
+            }
+        }
+
+        private static void PotentialsSearch(T_Problem t_Problem, int[] u, bool[] u_flags, int[] v, bool[] v_flags)
+        {
+            for (int i = 0; i < t_Problem.solutionMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < t_Problem.solutionMatrix.GetLength(1); j++)
+                {
+                    if (t_Problem.solutionsUsageMatrix[i, j])
+                    {
+                        if (u_flags[i] && !v_flags[j])
+                        {
+                            v[j] = (int)(t_Problem.costMatrix[i, j] - u[i]);
+                            v_flags[j] = true;
+                        }
+                        else if (!u_flags[i] && v_flags[j])
+                        {
+                            u[i] = (int)(t_Problem.costMatrix[i, j] - v[j]);
+                            u_flags[i] = true;
+                        }
+                    }
+                }
+            }
+
+            ////потенціали
+            //for (int i = 0; i < t_Problem.solutionMatrix.GetLength(0); i++)
+            //{
+            //    for (int j = 0; j < t_Problem.solutionMatrix.GetLength(1); j++)
+            //    {
+            //        if (t_Problem.solutionsUsageMatrix[i, j])
+            //        {
+            //            if (rows.flags[i] && !cols.flags[j])
+            //            {
+            //                cols.values[j] = (int)(t_Problem.costMatrix[i, j] - u[i]);
+            //                cols.flags[j] = true;
+            //                //updated = true;
+            //            }
+            //            else if (!rows.flags[i] && cols.flags[j])
+            //            {
+            //                rows.values[i] = (int)(t_Problem.costMatrix[i, j] - v[j]);
+            //                rows.flags[i] = true;
+            //                //updated = true;
+            //            }
+            //        }
+            //    }
+            //}
+
+        }
+
+        private static bool LambdaOptimalSomething(T_Problem t_Problem, int max_i, int max_j, StringBuilder protocolBuilder)
+        {
+            int rows = t_Problem.solutionsUsageMatrix.GetLength(0);
+            int cols = t_Problem.solutionsUsageMatrix.GetLength(1);
+            bool[,] visited = new bool[rows, cols];
+            List<(int, int)> path = new List<(int, int)> ();
+
+            (int, int) startCell = (max_i, max_j);
+            (int, int) start = startCell;
+            path.Add(startCell);
+            visited[startCell.Item1, startCell.Item2] = true;
+
+            if (Search(t_Problem, path, visited, start, startCell.Item1, startCell.Item2, isHorizontal: true))
+            {
+                FormatCycle(t_Problem, path, protocolBuilder);
+                CalculateNewBias(t_Problem, path, protocolBuilder);
+
+                return true;
+            }
+            if (Search(t_Problem, path, visited, start, startCell.Item1, startCell.Item2, isHorizontal: false))
+            {
+                FormatCycle(t_Problem, path, protocolBuilder);
+                CalculateNewBias(t_Problem, path, protocolBuilder);
+
+                return true;
+            }
+
+            protocolBuilder.AppendLine("Цикл не знайдено");
+            return false;
+        }
+
+        private static void CalculateNewBias(T_Problem t_Problem, List<(int, int)> path, StringBuilder protocolBuilder)
+        {
+            double minValue = double.MaxValue;
+
+            for (int i = 1; i < path.Count - 1; i += 2)
+            {
+                var (r, c) = path[i];
+                double val = t_Problem.solutionMatrix[r, c];
+
+                if (val < minValue)
+                    minValue = val;
+            }
+
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                var (r, c) = path[i];
+
+                if (i == 0 || i % 2 == 0)
+                {
+                    // λ и '+'
+                    t_Problem.solutionMatrix[r, c] += minValue;
+                    t_Problem.solutionsUsageMatrix[r, c] = true;
+                }
+                else
+                {
+                    // '-'
+                    t_Problem.solutionMatrix[r, c] -= minValue;
+                    if (t_Problem.solutionMatrix[r, c] == 0)
+                    {
+                        t_Problem.solutionsUsageMatrix[r, c] = false;
+                    }
+                }
+            }
+
+        }
+
+        private static bool Search(T_Problem problem, List<(int, int)> path, bool[,] visited, (int, int) start, int row, int col, bool isHorizontal)
+        {
+            int rows = problem.solutionsUsageMatrix.GetLength(0);
+            int cols = problem.solutionsUsageMatrix.GetLength(1);
+
+            if (isHorizontal)
+            {
+                for (int j = 0; j < cols; j++)
+                {
+                    if ((j != col && problem.solutionsUsageMatrix[row, j]) || start == (row, j))// когда он возращается назад он не может выбрать клетку пушо она не базисная
+                    {
+                        var next = (row, j);
+
+                        if (next == start && path.Count >= 4)
+                        {
+                            path.Add(start);
+                            return true;
+                        }
+
+                        if (!visited[row, j])
+                        {
+                            visited[row, j] = true;
+                            path.Add(next);
+
+                            if (Search(problem, path, visited, start, row, j, isHorizontal: false))
+                                return true;
+
+                            visited[row, j] = false;
+                            path.RemoveAt(path.Count - 1);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < rows; i++)
+                {
+                    if ((i != row && problem.solutionsUsageMatrix[i, col]) || start == (i, col))
+                    {
+                        var next = (i, col);
+
+                        if (next == start && path.Count >= 4)
+                        {
+                            path.Add(start);
+                            return true;
+                        }
+
+                        if (!visited[i, col])
+                        {
+                            visited[i, col] = true;
+                            path.Add(next);
+
+                            if (Search(problem, path, visited, start, i, col, isHorizontal: true))
+                                return true;
+
+                            visited[i, col] = false;
+                            path.RemoveAt(path.Count - 1);
+                        }
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private static void FormatCycle(T_Problem problem, List<(int, int)> path, StringBuilder protocolBuilder)
+        {
+            int rows = problem.solutionMatrix.GetLength(0);
+            int cols = problem.solutionMatrix.GetLength(1);
+            string[,] result = new string[rows, cols];
+
+            // Заполним все X
+            for (int i = 0; i < rows; i++)
+                for (int j = 0; j < cols; j++)
+                    result[i, j] = "X";
+
+            for (int k = 0; k < path.Count - 1; k++)
+            {
+                var (i, j) = path[k];
+
+                if (k == 0)
+                    result[i, j] = "λ";
+                else if (k % 2 == 1)
+                    result[i, j] = "-";
+                else
+                    result[i, j] = "+";
+            }
+
+            FormPrint.FancyMatrixPrint(result, protocolBuilder);
+        }
     }
 }

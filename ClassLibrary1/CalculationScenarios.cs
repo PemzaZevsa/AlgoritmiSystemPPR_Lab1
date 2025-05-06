@@ -63,7 +63,7 @@ namespace ClassLibrary1
 
             if (maxSolution)
             {
-                FormPrint.FancyPrintMatrixOnRichTextBox(matrix, protocolBuilder);
+                FormPrint.FancyMatrixPrint(matrix, protocolBuilder);
                 MaxSolutionScript(matrix, xResult, zResult, protocolBuilder);
             }
 
@@ -75,7 +75,7 @@ namespace ClassLibrary1
                     matrix[matrix.GetLength(0) - 1, j] *= -1;
                 }
 
-                FormPrint.FancyPrintMatrixOnRichTextBox(matrix, protocolBuilder);
+                FormPrint.FancyMatrixPrint(matrix, protocolBuilder);
                 MinSolutionScript(matrix, xResult, zResult, protocolBuilder);
             }
         }
@@ -882,11 +882,9 @@ namespace ClassLibrary1
             try
             {
                 T_Problem t_Problem = MatrixBuilder.CreateT_Problem(costText, suppliesText, applicationsText);
+                t_Problem.CloseProblem();
 
-                if (!t_Problem.IsCloseProblem())
-                {
-                    t_Problem.CloseProblem();
-                }
+                OptimalT_Problem(t_Problem, supportBuilder, supportCostBuilder, optimalBuilder, optimalCostBuilder, protocolBuilder);
 
                 if (simplex)
                 {
@@ -896,6 +894,45 @@ namespace ClassLibrary1
             catch (Exception ex)
             {
                 protocolBuilder.AppendLine(ex.Message);
+            }
+        }
+
+        private static void OptimalT_Problem(T_Problem t_Problem, StringBuilder supportBuilder, StringBuilder supportCostBuilder, 
+            StringBuilder optimalBuilder, StringBuilder optimalCostBuilder, StringBuilder protocolBuilder)
+        {
+            try
+            {
+                protocolBuilder.AppendLine("Матриця вартостей:");
+                FormPrint.FancyMatrixPrint(t_Problem.costMatrix, protocolBuilder);
+                protocolBuilder.AppendLine("Вектор запасів:");
+                protocolBuilder.AppendLine(string.Join(" ", t_Problem.po));
+                protocolBuilder.AppendLine("Вектор заявок:");
+                protocolBuilder.AppendLine(string.Join(" ", t_Problem.pn));
+
+                //Support solution
+                protocolBuilder.AppendLine("Знаходження опорного плану перевезень:");
+                MathCalculation.NorthWestCorner(t_Problem, protocolBuilder);
+                protocolBuilder.AppendLine("Опорний план перевезень знайдено:");
+                FormPrint.FancyMatrixPrint(t_Problem.solutionMatrix, "A", "B", protocolBuilder);//redo
+                protocolBuilder.AppendLine("Вартість перевезень за опорним планом:");
+                protocolBuilder.AppendLine($"S = {t_Problem.ProblemCost}");
+                FormPrint.MatrixPrint(t_Problem.solutionMatrix, supportBuilder);
+                supportCostBuilder.AppendLine($"{t_Problem.ProblemCost}");
+
+
+                //Optimal solution
+                protocolBuilder.AppendLine("Знаходження оптимального плану перевезень:");
+                MathCalculation.PotentialsMethod(t_Problem, protocolBuilder);
+                protocolBuilder.AppendLine("Оптимальний план перевезень знайдено:");
+                FormPrint.FancyMatrixPrint(t_Problem.solutionMatrix, "A", "B", protocolBuilder);//redo
+                protocolBuilder.AppendLine("Вартість перевезень за оптимальним планом:");
+                protocolBuilder.AppendLine($"S = {t_Problem.ProblemCost}");
+                FormPrint.MatrixPrint(t_Problem.solutionMatrix, optimalBuilder);
+                optimalCostBuilder.AppendLine($"{t_Problem.ProblemCost}");
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine($"{ex.Message}");
             }
         }
 

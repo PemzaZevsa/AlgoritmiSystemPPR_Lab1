@@ -8,10 +8,58 @@ namespace ClassLibrary1
 {
     public class T_Problem
     {
-        public int[] po; //cols headings
-        public int[] pn; //rows headings
+        public int[] po; //rows headings, supplies
+        public int[] pn; //cols headings, requests
         public double[,] costMatrix;
         public double[,] solutionMatrix;
+
+        //public bool[,] SolutionsUsageMatrix 
+        //{
+        //    get 
+        //    {
+        //        bool[,] biasMatrix = new bool[costMatrix.GetLength(0), costMatrix.GetLength(1)];
+        //        this.solutionsUsageMatrix = biasMatrix;
+
+        //        return biasMatrix;
+        //    }
+        //} //filled cells, bias sells
+
+        public bool[,] solutionsUsageMatrix; //filled cells, bias sells
+        public double ProblemCost //total cost (calculating solution) 
+        {
+            get 
+            {
+                double cost = 0;
+                for (int i = 0; i < solutionMatrix.GetLength(0); i++)
+                {
+                    for (int j = 0; j < solutionMatrix.GetLength(1); j++)
+                    {
+                        cost += solutionMatrix[i, j] * costMatrix[i,j];
+                    }
+                } 
+
+                return cost;
+            }
+        }
+        public int BasedCells //amount of filled cells
+        {
+            get
+            {
+                int count = 0;
+                for (int i = 0; i < solutionsUsageMatrix.GetLength(0); i++)
+                {
+                    for (int j = 0; j < solutionsUsageMatrix.GetLength(1); j++)
+                    {
+                        if (solutionsUsageMatrix[i,j])
+                        {
+                            count++;
+                        }
+                    }
+                }
+
+                return count;
+            }
+        }
 
         public T_Problem(int[] po, int[] pn, double[,] costMatrix)
         {
@@ -20,6 +68,7 @@ namespace ClassLibrary1
             this.costMatrix = costMatrix;
 
             this.solutionMatrix = new double[costMatrix.GetLength(0), costMatrix.GetLength(1)];
+            this.solutionsUsageMatrix = new bool[costMatrix.GetLength(0), costMatrix.GetLength(1)];
         }
 
         public void CloseProblem()
@@ -60,8 +109,9 @@ namespace ClassLibrary1
 
                 this.costMatrix = newCostMatrix;
 
-                //matrix
+                //matrixes
                 this.solutionMatrix = new double[costMatrix.GetLength(0), costMatrix.GetLength(1)];
+                this.solutionsUsageMatrix = new bool[costMatrix.GetLength(0), costMatrix.GetLength(1)];
             }
             else
             {
@@ -92,8 +142,9 @@ namespace ClassLibrary1
 
                 this.costMatrix = newCostMatrix;
 
-                //matrix
+                //matrixes
                 this.solutionMatrix = new double[costMatrix.GetLength(0), costMatrix.GetLength(1)];
+                this.solutionsUsageMatrix = new bool[costMatrix.GetLength(0), costMatrix.GetLength(1)];
             }
         }
 

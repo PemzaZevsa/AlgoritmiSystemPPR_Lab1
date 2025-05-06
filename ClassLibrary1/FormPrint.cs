@@ -5,6 +5,9 @@ namespace ClassLibrary1
 {
     public static class FormPrint
     {
+        //there are 4 types of methods + non themed ones:
+        //1.MatrixPrint (space as elements divider), 2.FancyMatrixPrint (\t as elements divider), 3.PrintProtocol, 4.FancyDoubleMatrixPrint
+
         //Lab 1.1
 
         public static double[,] ReadMatrixFromRichTextBox(string inputRichTextBox, StringBuilder protocolText)
@@ -98,7 +101,7 @@ namespace ClassLibrary1
             }
         }
 
-        public static void FancyPrintMatrixOnRichTextBox(double[,] incertMatrix, StringBuilder protocolText)
+        public static void FancyMatrixPrint(double[,] incertMatrix, StringBuilder protocolText)//FancyPrintMatrixOnRichTextBox
         {
             for (int i = 0; i < incertMatrix.GetLength(0); i++)
             {
@@ -426,5 +429,20 @@ namespace ClassLibrary1
                 protocolBuilder.AppendLine();
             }
         }
+
+        //Lab 4
+
+        public static void FancyMatrixPrint(string[,] incertMatrix, StringBuilder protocolText)
+        {
+            for (int i = 0; i < incertMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < incertMatrix.GetLength(1); j++)
+                {
+                    protocolText.Append(incertMatrix[i, j]);
+                    protocolText.Append("\t");
+                }
+                protocolText.AppendLine();
+            }
+        } 
     }
 }

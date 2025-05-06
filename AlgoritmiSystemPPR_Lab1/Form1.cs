@@ -500,31 +500,45 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleRRButton_Click(object sender, EventArgs e)
         {
-            ////Варіант 1
+            //Варіант 1
+            StringBuilder limitations = new();
+            limitations.AppendLine("x2+x3+2x4+x5<=6");
+            limitations.AppendLine("x1+x2+x3+3x4+2x5<=9");
+            limitations.AppendLine("x1+x2+2x4+x5<=5");
+            restrictionsRRRichTextBox.Text = limitations.ToString();
+            StringBuilder objFunctions = new();
+            objFunctions.AppendLine("-4x4-x5 min");
+            objFunctions.AppendLine("-x1-3x2+5x3+x4 min");
+            objFunctions.AppendLine("3x1+x2+x3+x4+x5 max");
+            objFunctionsRRRichTextBox.Text = objFunctions.ToString();
+            variablesRRNumericUpDown.Value = 5;
+
+            ////Приклад 1
             //StringBuilder limitations = new();
-            //limitations.AppendLine("x2+x3+2x4+x5<=6");
-            //limitations.AppendLine("x1+x2+x3+3x4+2x5<=9");
-            //limitations.AppendLine("x1+x2+2x4+x5<=5");
+            //limitations.AppendLine("x1+4x2+3x3+2x4+x5=9");
+            //limitations.AppendLine("-x1+2x2-x3+2x4+x5=6");
+            //limitations.AppendLine("x1+2x2+2x4-x5=2");
             //restrictionsRRRichTextBox.Text = limitations.ToString();
             //StringBuilder objFunctions = new();
-            //objFunctions.AppendLine("-4x4-x5 min");
-            //objFunctions.AppendLine("-x1-3x2+5x3+x4 min");
-            //objFunctions.AppendLine("3x1+x2+x3+x4+x5 max");
+            //objFunctions.AppendLine("2x1+2x2+x3+x4+x5 max");
+            //objFunctions.AppendLine("x1-3x2+5x3-x4-2x5 min");
+            //objFunctions.AppendLine("x1-4x2+5x3+9x4-2x5 max");
             //objFunctionsRRRichTextBox.Text = objFunctions.ToString();
             //variablesRRNumericUpDown.Value = 5;
 
-            //Приклад 1
-            StringBuilder limitations = new();
-            limitations.AppendLine("x1+4x2+3x3+2x4+x5=9");
-            limitations.AppendLine("-x1+2x2-x3+2x4+x5=6");
-            limitations.AppendLine("x1+2x2+2x4-x5=2");
-            restrictionsRRRichTextBox.Text = limitations.ToString();
-            StringBuilder objFunctions = new();
-            objFunctions.AppendLine("2x1+2x2+x3+x4+x5 max");
-            objFunctions.AppendLine("x1-3x2+5x3-x4-2x5 min");
-            objFunctions.AppendLine("x1-4x2+5x3+9x4-2x5 max");
-            objFunctionsRRRichTextBox.Text = objFunctions.ToString();
-            variablesRRNumericUpDown.Value = 5;
+            ////Приклад 2
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("x1-x2+x3+x4<=2");
+            //limitations.AppendLine("x1+x2+x3-x4<=2");
+            //limitations.AppendLine("-x1+x2+x3+x4<=2");
+            //limitations.AppendLine("x1+x2-x3+x4<=2");
+            //restrictionsRRRichTextBox.Text = limitations.ToString();
+            //StringBuilder objFunctions = new();
+            //objFunctions.AppendLine("x1-8x2+x3+4x4 max");
+            //objFunctions.AppendLine("-x1+3x2+5x3+x4 min");
+            //objFunctions.AppendLine("3x1+x2+x3-x4 max");
+            //objFunctionsRRRichTextBox.Text = objFunctions.ToString();
+            //variablesRRNumericUpDown.Value = 4;
         }
 
         private void findOptimalStrategiesRRButton_Click(object sender, EventArgs e)
