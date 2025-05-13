@@ -430,13 +430,13 @@ namespace ClassLibrary1
 
         //Lab 4
 
-        public static T_Problem CreateT_Problem(string costText, string suppliesText, string applicationsText)
+        public static TransportationProblem CreateT_Problem(string costText, string suppliesText, string applicationsText)
         {
             double[,] matrix = CreateMatrixLab3_2(costText);
             int[] po = CreateArrayLab3_2(suppliesText).Select(d => (int)d).ToArray();
             int[] pn = CreateArrayLab3_2(applicationsText).Select(d => (int)d).ToArray();
 
-            return new T_Problem(po, pn, matrix);
+            return new TransportationProblem(po, pn, matrix);
         }
 
         public static LinearMatrix CreatLinearMatrix(double[,] matrix)
@@ -450,6 +450,13 @@ namespace ClassLibrary1
             }
 
             return new LinearMatrix(matrix, rowsHeadings, variables);
+        }
+
+        //Lab 5
+
+        internal static AssignmentProblem CreateAssignmentProblem(string costText)
+        {
+            return new AssignmentProblem(CreateMatrixLab3_2(costText));
         }
 
     }

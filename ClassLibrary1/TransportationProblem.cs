@@ -6,24 +6,12 @@ using System.Threading.Tasks;
 
 namespace ClassLibrary1
 {
-    public class T_Problem
+    public class TransportationProblem
     {
         public int[] po; //rows headings, supplies
         public int[] pn; //cols headings, requests
         public double[,] costMatrix;
         public double[,] solutionMatrix;
-
-        //public bool[,] SolutionsUsageMatrix 
-        //{
-        //    get 
-        //    {
-        //        bool[,] biasMatrix = new bool[costMatrix.GetLength(0), costMatrix.GetLength(1)];
-        //        this.solutionsUsageMatrix = biasMatrix;
-
-        //        return biasMatrix;
-        //    }
-        //} //filled cells, bias sells
-
         public bool[,] solutionsUsageMatrix; //filled cells, bias sells
         public double ProblemCost //total cost (calculating solution) 
         {
@@ -61,7 +49,7 @@ namespace ClassLibrary1
             }
         }
 
-        public T_Problem(int[] po, int[] pn, double[,] costMatrix)
+        public TransportationProblem(int[] po, int[] pn, double[,] costMatrix)
         {
             this.po = po;
             this.pn = pn;

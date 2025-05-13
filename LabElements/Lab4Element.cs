@@ -22,12 +22,12 @@ namespace LabElements
 
         private void calculateOptimalPlanButton_Click(object sender, EventArgs e)
         {
-            calculateOptimalPlan.Invoke();
+            calculateOptimalPlan?.Invoke();
         }
 
         private void exampleButton_Click(object sender, EventArgs e)
         {
-            example.Invoke();
+            example?.Invoke();
         }
     }
 }

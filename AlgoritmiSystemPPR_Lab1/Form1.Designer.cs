@@ -181,9 +181,11 @@
             objFunctionsRRRichTextBox = new RichTextBox();
             tabPage9 = new TabPage();
             lab4Element1 = new LabElements.Lab4Element();
+            tabPage10 = new TabPage();
             clearProtocolButton = new Button();
             protocolTextIncreaseButton = new Button();
             protocolTextDecreaseButton = new Button();
+            lab5Element1 = new LabElements.Lab5Element();
             ((System.ComponentModel.ISupportInitialize)matrixCols).BeginInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).BeginInit();
             panel1.SuspendLayout();
@@ -209,6 +211,7 @@
             tabPage8.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)variablesRRNumericUpDown).BeginInit();
             tabPage9.SuspendLayout();
+            tabPage10.SuspendLayout();
             SuspendLayout();
             // 
             // matrixLabel
@@ -433,6 +436,7 @@
             zTextLab2Box.Controls.Add(tabPage7);
             zTextLab2Box.Controls.Add(tabPage8);
             zTextLab2Box.Controls.Add(tabPage9);
+            zTextLab2Box.Controls.Add(tabPage10);
             zTextLab2Box.Location = new Point(2, 3);
             zTextLab2Box.Name = "zTextLab2Box";
             zTextLab2Box.SelectedIndex = 0;
@@ -1705,6 +1709,17 @@
             lab4Element1.Size = new Size(677, 418);
             lab4Element1.TabIndex = 0;
             // 
+            // tabPage10
+            // 
+            tabPage10.Controls.Add(lab5Element1);
+            tabPage10.Location = new Point(4, 29);
+            tabPage10.Name = "tabPage10";
+            tabPage10.Padding = new Padding(3);
+            tabPage10.Size = new Size(677, 421);
+            tabPage10.TabIndex = 9;
+            tabPage10.Text = "Лаб 5";
+            tabPage10.UseVisualStyleBackColor = true;
+            // 
             // clearProtocolButton
             // 
             clearProtocolButton.BackColor = Color.LightCoral;
@@ -1736,6 +1751,13 @@
             protocolTextDecreaseButton.UseVisualStyleBackColor = true;
             protocolTextDecreaseButton.Click += protocolTextDecreaseButton_Click;
             // 
+            // lab5Element1
+            // 
+            lab5Element1.Location = new Point(0, 0);
+            lab5Element1.Name = "lab5Element1";
+            lab5Element1.Size = new Size(681, 421);
+            lab5Element1.TabIndex = 0;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -1749,7 +1771,7 @@
             Controls.Add(label5);
             MinimumSize = new Size(1300, 520);
             Name = "Form1";
-            Text = "Хвостовець АСППР Лаб1.1-4, 2, 3.1-2, 4, РР";
+            Text = "Хвостовець АСППР Лаб1.1-4, 2, 3.1-2, 4, 5, РР";
             ((System.ComponentModel.ISupportInitialize)matrixCols).EndInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).EndInit();
             panel1.ResumeLayout(false);
@@ -1789,6 +1811,7 @@
             tabPage8.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)variablesRRNumericUpDown).EndInit();
             tabPage9.ResumeLayout(false);
+            tabPage10.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1950,5 +1973,7 @@
         private NumericUpDown variablesRRNumericUpDown;
         private TabPage tabPage9;
         private LabElements.Lab4Element lab4Element1;
+        private TabPage tabPage10;
+        private LabElements.Lab5Element lab5Element1;
     }
 }

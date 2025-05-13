@@ -14,6 +14,10 @@ namespace AlgoritmiSystemPPR_Lab1
             //Lab 4
             lab4Element1.example += exampleLab4Button_Click;
             lab4Element1.calculateOptimalPlan += findOptimalStrategiesLab4Button_Click;
+
+            //Lab 5
+            lab5Element1.example += exampleLab5Button_Click;
+            lab5Element1.calculateSolution += findOptimalStrategiesLab5Button_Click;
         }
 
         //lab 1.1
@@ -620,6 +624,46 @@ namespace AlgoritmiSystemPPR_Lab1
             lab4Element1.supportingCostTextBox.Text = supportCostBuilder.ToString();
             lab4Element1.optimalSolutionRichTextBox.Text = optimalBuilder.ToString();
             lab4Element1.optimalCostTextBox.Text = optimalCostBuilder.ToString();
+            protocolRichTextBox.Text += protocolBuilder.ToString();
+        }
+
+        //Lab 5
+
+        private void exampleLab5Button_Click()
+        {
+            ////Варіант 1
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("6 7 2 8");
+            //limitations.AppendLine("8 6 9 4");
+            //limitations.AppendLine("5 4 7 6");
+            //limitations.AppendLine("7 5 3 5");
+            //lab5Element1.costMatrixRichTextBox.Text = limitations.ToString();
+
+            //Приклад
+            StringBuilder limitations = new();
+            limitations.AppendLine("2 10 9 7");
+            limitations.AppendLine("15 4 14 8");
+            limitations.AppendLine("13 14 16 11");
+            limitations.AppendLine("4 15 13 19");
+            lab5Element1.costMatrixRichTextBox.Text = limitations.ToString();
+        }
+
+        private void findOptimalStrategiesLab5Button_Click()
+        {
+            StringBuilder assimentMatrixBuilder = new StringBuilder();
+            StringBuilder costBuilder = new StringBuilder();
+            StringBuilder protocolBuilder = new StringBuilder();
+
+            CalculationScenarios.CalculateOptimalSolutionLab5(
+                costText: lab5Element1.costMatrixRichTextBox.Text,
+                simplex: lab5Element1.IsSimplex,
+                assimentMatrixBuilder: assimentMatrixBuilder,
+                costBuilder: costBuilder,
+                protocolBuilder: protocolBuilder
+                );
+
+            lab5Element1.costTextBox.Text = costBuilder.ToString();
+            lab5Element1.assignmentMatrixRichTextBox.Text = assimentMatrixBuilder.ToString();
             protocolRichTextBox.Text += protocolBuilder.ToString();
         }
     }

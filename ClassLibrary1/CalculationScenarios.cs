@@ -882,7 +882,7 @@ namespace ClassLibrary1
         {
             try
             {
-                T_Problem t_Problem = MatrixBuilder.CreateT_Problem(costText, suppliesText, applicationsText);
+                TransportationProblem t_Problem = MatrixBuilder.CreateT_Problem(costText, suppliesText, applicationsText);
                 t_Problem.CloseProblem();
 
                 if (simplex)
@@ -900,7 +900,7 @@ namespace ClassLibrary1
             }
         }
 
-        private static void OptimalT_Problem(T_Problem t_Problem, StringBuilder supportBuilder, StringBuilder supportCostBuilder, 
+        private static void OptimalT_Problem(TransportationProblem t_Problem, StringBuilder supportBuilder, StringBuilder supportCostBuilder, 
             StringBuilder optimalBuilder, StringBuilder optimalCostBuilder, StringBuilder protocolBuilder)
         {
             try
@@ -939,7 +939,7 @@ namespace ClassLibrary1
             }
         }
 
-        private static void SimplexLab4(T_Problem t_Problem, StringBuilder protocolBuilder)
+        private static void SimplexLab4(TransportationProblem t_Problem, StringBuilder protocolBuilder)
         {
             int m = t_Problem.po.Length;
             int n = t_Problem.pn.Length;
@@ -997,6 +997,149 @@ namespace ClassLibrary1
 
             double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1], 2);
             protocolBuilder.AppendLine("Min (Z) = " + -zRes);
+        }
+
+        //Lab 5
+
+        public static void CalculateOptimalSolutionLab5(string costText, bool simplex, StringBuilder assimentMatrixBuilder,
+            StringBuilder costBuilder, StringBuilder protocolBuilder)
+        {
+            try
+            {
+                AssignmentProblem problem = MatrixBuilder.CreateAssignmentProblem(costText);
+
+                if (problem.costMatrix.GetLength(0) != problem.costMatrix.GetLength(1))
+                {
+                    protocolBuilder.AppendLine("Матриця не є квадратною");
+                    return;
+                }
+
+                protocolBuilder.AppendLine("Матриця вартостей:");
+                FormPrint.FancyMatrixPrint(problem.costMatrix, protocolBuilder);
+
+                if (!simplex)
+                {
+                    AssimentSolution(problem, assimentMatrixBuilder, costBuilder, protocolBuilder);
+                }
+                else
+                {
+                    SimplexLab5(problem, assimentMatrixBuilder, costBuilder, protocolBuilder);
+                }
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine(ex.Message);
+            }
+        }
+
+        private static void AssimentSolution(AssignmentProblem problem, StringBuilder assimentMatrixBuilder, StringBuilder costBuilder, StringBuilder protocolBuilder)
+        {
+            while (!MathCalculation.IsOptimalAssignment(problem, protocolBuilder))
+            {
+                MathCalculation.MatrixTransformation(problem, protocolBuilder);
+
+                protocolBuilder.AppendLine("Матриця вартостей після додавання/ віднімання ‘min’ до / від відповідних елементів:");
+                FormPrint.FancyMatrixPrint(problem.costMatrix, protocolBuilder);
+            }
+
+            protocolBuilder.AppendLine("Побудова матриці призначень:");
+            MathCalculation.AssimentMatrixBuilding(problem, protocolBuilder);
+
+            protocolBuilder.AppendLine("Розв'язок знайдено");
+            protocolBuilder.AppendLine($"Ціна: {problem.ProblemCost}");
+            costBuilder.AppendLine($"{problem.ProblemCost}");
+
+            protocolBuilder.AppendLine("Матриця призначень");
+            FormPrint.FancyMatrixPrint(problem.assignmentMatrix,"1", "0", protocolBuilder);
+            FormPrint.FancyMatrixPrint(problem.assignmentMatrix, "1", "0", assimentMatrixBuilder);
+        }
+
+        private static void SimplexLab5(AssignmentProblem problem, StringBuilder assimentMatrixBuilder, StringBuilder costBuilder, StringBuilder protocolBuilder)
+        {
+            double[,] costMatrix = problem.costMatrix;
+            int m = costMatrix.GetLength(0); // строки
+            int n = costMatrix.GetLength(1); // столбцы
+            int vars = m * n;
+            int constraints = m + n;
+
+            double[,] simplexTable = new double[constraints + 1, vars + 1]; // +1 под RHS
+
+            // Целевая функция (последняя строка): -costs
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    int index = i * n + j;
+                    simplexTable[constraints, index] = costMatrix[i, j];
+                }
+            }
+
+            for (int i = 0; i < m; i++)
+            {
+                for (int j = 0; j < n; j++)
+                {
+                    int index = i * n + j;
+                    simplexTable[i, index] = 1.0;
+                }
+                simplexTable[i, vars] = 1.0;
+            }
+
+            for (int j = 0; j < n; j++)
+            {
+                for (int i = 0; i < m; i++)
+                {
+                    int index = i * n + j;
+                    simplexTable[m + j, index] = -1.0;
+                }
+                simplexTable[m + j, vars] = -1.0; 
+            }
+
+            for (int k = 0; k < vars; k++)
+            {
+                simplexTable[constraints, k] *= 1;
+            }
+
+            LinearMatrix linearMatrix = MatrixBuilder.CreatLinearMatrix(simplexTable);
+
+            FormPrint.FancyMatrixPrint(linearMatrix, protocolBuilder);
+
+            StringBuilder temp = new StringBuilder();
+            try
+            {
+                MathCalculation.ZerosElimanating(linearMatrix, protocolBuilder);
+                MaxSolutionScript(linearMatrix, temp, temp, protocolBuilder);
+            }
+            catch (Exception ex)
+            {
+                protocolBuilder.AppendLine(ex.Message);
+            }
+
+            double zRes = Math.Round(linearMatrix.matrix[linearMatrix.matrix.GetLength(0) - 1, linearMatrix.matrix.GetLength(1) - 1], 2);
+            protocolBuilder.AppendLine("Min (Z) = " + -zRes);
+            costBuilder.AppendLine($"{zRes}");
+
+            protocolBuilder.AppendLine("Розв'язок знайдено");
+            protocolBuilder.AppendLine($"Ціна: {zRes}");
+
+            //double[,] matrix = ConvertSolutionToMatrix(linearMatrix.matrix, linearMatrix.matrix.GetLength(0), linearMatrix.matrix.GetLength(1));
+            //protocolBuilder.AppendLine("Матриця призначень");
+            //FormPrint.FancyMatrixPrint(matrix, "1", "0", protocolBuilder);
+            //FormPrint.FancyMatrixPrint(matrix, "1", "0", assimentMatrixBuilder);
+        }
+
+        public static double[,] ConvertSolutionToMatrix(double[] solution, int rows, int cols)
+        {
+            double[,] result = new double[rows, cols];
+
+            for (int i = 0; i < solution.Length; i++)
+            {
+                int r = i / cols;
+                int c = i % cols;
+
+                result[r, c] = Math.Abs(solution[i] - 1.0) < 1e-6 ? 1 : 0;
+            }
+
+            return result;
         }
     }
 }

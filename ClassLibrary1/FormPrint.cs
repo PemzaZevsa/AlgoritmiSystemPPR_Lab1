@@ -443,6 +443,29 @@ namespace ClassLibrary1
                 }
                 protocolText.AppendLine();
             }
-        } 
+        }
+
+        //lab 5 
+
+        public static void FancyMatrixPrint(bool[,] incertMatrix,string trueS, string falseS, StringBuilder protocolText)
+        {
+            for (int i = 0; i < incertMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < incertMatrix.GetLength(1); j++)
+                {
+                    if (incertMatrix[i, j])
+                    {
+                        protocolText.Append(trueS);
+                    }
+                    else
+                    {
+                        protocolText.Append(falseS);
+                    }
+
+                    protocolText.Append("\t");
+                }
+                protocolText.AppendLine();
+            }
+        }
     }
 }
