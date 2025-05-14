@@ -2027,8 +2027,134 @@ namespace ClassLibrary1
 
         public static bool IsOptimalAssignment(AssignmentProblem problem, StringBuilder protocolBuilder)
         {
+            problem.AssignmentProblemReset();
+
             double[,] costMatrix = problem.costMatrix;
             bool[,] activeMatrix = problem.activeMatrix;
+
+            int deletionCount = 0;
+            protocolBuilder.AppendLine("\nВикреслення стовпців та рядків:");
+
+            while (true)
+            {
+                //max zeros in a row search
+                int maxZeroInRows = 0;
+                int[] rowsZeros = new int[costMatrix.GetLength(0)];
+                for (int i = 0; i < costMatrix.GetLength(0); i++)
+                {
+                    int zeros = 0;
+                    //zero count in row
+                    for (int j = 0; j < costMatrix.GetLength(1); j++)
+                    {
+                        if (activeMatrix[i, j] && costMatrix[i, j] == 0)
+                        {
+                            zeros++;
+                        }
+                    }
+
+                    //max zero
+                    rowsZeros[i] = zeros;
+                    if (maxZeroInRows < zeros)
+                    {
+                        maxZeroInRows = zeros;
+                    }
+                }
+
+                if (maxZeroInRows == 0)
+                    break;
+
+                //max zeros in a col search
+                int maxZeroInCols = 0;
+                int[] colsZeros = new int[costMatrix.GetLength(1)];
+                for (int j = 0; j < costMatrix.GetLength(1); j++)
+                {
+                    int zeros = 0;
+
+                    for (int i = 0; i < costMatrix.GetLength(0); i++)
+                    {
+                        if (activeMatrix[i, j] && costMatrix[i, j] == 0)
+                        {
+                            zeros++;
+                        }
+                    }
+
+                    colsZeros[j] = zeros;
+                    if (maxZeroInCols < zeros)
+                    {
+                        maxZeroInCols = zeros;
+                    }
+                }
+
+                if (maxZeroInCols == 0)
+                    break;
+
+                if (maxZeroInRows > maxZeroInCols)
+                {
+                    //deleting a row 
+                    for (int i = 0; i < costMatrix.GetLength(0); i++)
+                    {
+                        if (rowsZeros[i] == maxZeroInRows)
+                        {
+                            for (int j = 0; j < costMatrix.GetLength(1); j++)
+                            {
+                                if (!activeMatrix[i, j])
+                                {
+                                    problem.crossElementsMatrix[i, j] = true;
+                                }
+
+                                activeMatrix[i, j] = false;
+                            }
+
+                            protocolBuilder.AppendLine($"Закреслено {i + 1} рядок (-)");
+                            deletionCount++;
+                            break;
+                        }
+                    }
+                }
+                else
+                {
+                    //deleting a col 
+                    for (int j = 0; j < costMatrix.GetLength(1); j++)
+                    {
+                        if (colsZeros[j] == maxZeroInCols)
+                        {
+                            for (int i = 0; i < costMatrix.GetLength(0); i++)
+                            {
+                                if (!activeMatrix[i, j])
+                                {
+                                    problem.crossElementsMatrix[i, j] = true;
+                                }
+
+                                activeMatrix[i, j] = false;
+                            }
+
+                            protocolBuilder.AppendLine($"Закреслено {j + 1} стовпець (|)");
+                            deletionCount++;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            protocolBuilder.AppendLine($"Викреслених стовпців та рядків: {deletionCount}");
+            protocolBuilder.AppendLine($"Всього робіт: {costMatrix.GetLength(0)}");
+
+
+            if (deletionCount == costMatrix.GetLength(0))
+            {
+                protocolBuilder.AppendLine($"Знайдено оптимальне рішення\n");
+                return true;
+            }
+            else
+            {
+                protocolBuilder.AppendLine($"Оптимальне рішення не знайдено\n");
+                return false;
+            }
+        }
+
+        public static void MinRowAndColElementsSubstraction(AssignmentProblem problem, StringBuilder protocolBuilder)
+        {
+            double[,] costMatrix = problem.costMatrix;
 
             //min in a row
             double[] rowMins = new double[costMatrix.GetLength(0)];
@@ -2038,7 +2164,7 @@ namespace ClassLibrary1
 
                 for (int j = 0; j < costMatrix.GetLength(1); j++)
                 {
-                    if (costMatrix[i,j] < rowMins[i])
+                    if (costMatrix[i, j] < rowMins[i])
                     {
                         rowMins[i] = costMatrix[i, j];
                     }
@@ -2048,7 +2174,7 @@ namespace ClassLibrary1
             protocolBuilder.AppendLine($"Пошук мінімальних елементів у кожному рядку та віднімання його від кожного елемента в рядку:");
             for (int i = 0; i < rowMins.Length; i++)
             {
-                protocolBuilder.AppendLine($"В рядку {i+1} знайдено ‘min’: {rowMins[i]}");
+                protocolBuilder.AppendLine($"В рядку {i + 1} знайдено ‘min’: {rowMins[i]}");
             }
 
             for (int i = 0; i < costMatrix.GetLength(0); i++)
@@ -2083,7 +2209,7 @@ namespace ClassLibrary1
                 protocolBuilder.AppendLine($"В стовпці {i + 1} знайдено ‘min’: {colMins[i]}");
             }
 
-            for (int j = 0; j < costMatrix.GetLength(1); j++) 
+            for (int j = 0; j < costMatrix.GetLength(1); j++)
             {
                 for (int i = 0; i < costMatrix.GetLength(0); i++)
                 {
@@ -2093,122 +2219,6 @@ namespace ClassLibrary1
 
             protocolBuilder.AppendLine($"Матриця вартостей після віднімання мінімальних елементів у стовпцях:");
             FormPrint.FancyMatrixPrint(costMatrix, protocolBuilder);
-
-            //0 cols and rows deletion
-            int deletionCount = 0;
-            problem.AssignmentProblemReset();
-            protocolBuilder.AppendLine("\nВикреслення стовпців та рядків:");
-
-            while (true)
-            {
-                //max zeros in a row search
-                int maxZeroInRows = 0;
-                int[] rowsZeros = new int[costMatrix.GetLength(0)];
-                for (int i = 0; i < costMatrix.GetLength(0); i++)
-                {
-                    int zeros = 0;
-                    //zero count in row
-                    for (int j = 0; j < costMatrix.GetLength(1); j++)
-                    {
-                        if (activeMatrix[i, j] && costMatrix[i, j] == 0)
-                        {
-                            zeros++;
-                        }
-                    }
-
-                    //max zero
-                    rowsZeros[i] = zeros;
-                    if (maxZeroInRows < zeros)
-                    {
-                        maxZeroInRows = zeros;
-                    }
-                }
-
-                if (maxZeroInRows == 0)
-                    break;
-
-                //deleting a row 
-                for (int i = 0; i < costMatrix.GetLength(0); i++)
-                {
-                    if (rowsZeros[i] == maxZeroInRows)
-                    {
-                        for (int j = 0; j < costMatrix.GetLength(1); j++)
-                        {
-                            if (!activeMatrix[i, j])
-                            {
-                                problem.crossElementsMatrix[i, j] = true;
-                            }
-
-                            activeMatrix[i, j] = false;
-                        }
-
-                        protocolBuilder.AppendLine($"Закреслено {i+1} рядок (-)");
-                        deletionCount++;
-                        break;
-                    }
-                }
-
-                //max zeros in a col search
-                int maxZeroInCols = 0;
-                int[] colsZeros = new int[costMatrix.GetLength(1)];
-                for (int j = 0; j < costMatrix.GetLength(1); j++)
-                {
-                    int zeros = 0;
-
-                    for (int i = 0; i < costMatrix.GetLength(0); i++)
-                    {
-                        if (activeMatrix[i, j] && costMatrix[i, j] == 0)
-                        {
-                            zeros++;
-                        }
-                    }
-
-                    colsZeros[j] = zeros;
-                    if (maxZeroInCols < zeros)
-                    {
-                        maxZeroInCols = zeros;
-                    }
-                }
-
-                if (maxZeroInCols == 0)
-                    break;
-
-                //deleting a col 
-                for (int j = 0; j < costMatrix.GetLength(1); j++ )
-                {
-                    if (colsZeros[j] == maxZeroInCols)
-                    {
-                        for (int i = 0; i < costMatrix.GetLength(0); i++)
-                        {
-                            if (!activeMatrix[i, j])
-                            {
-                                problem.crossElementsMatrix[i, j] = true;
-                            }
-
-                            activeMatrix[i, j] = false;
-                        }
-
-                        protocolBuilder.AppendLine($"Закреслено {j + 1} стовпець (|)");
-                        deletionCount++;
-                        break;
-                    }
-                }
-            }
-
-            protocolBuilder.AppendLine($"Викреслених стовпців та рядків: {deletionCount}");
-            protocolBuilder.AppendLine($"Всього робіт: {costMatrix.GetLength(0)}");
-
-
-            if (deletionCount == costMatrix.GetLength(0))
-            {
-                protocolBuilder.AppendLine($"Знайдено оптимальне рішення\n");
-                return true;
-            }
-            else
-            {
-                protocolBuilder.AppendLine($"Оптимальне рішення не знайдено\n");
-                return false;
-            }            
         }
 
         internal static void MatrixTransformation(AssignmentProblem problem, StringBuilder protocolBuilder)

@@ -1034,6 +1034,8 @@ namespace ClassLibrary1
 
         private static void AssimentSolution(AssignmentProblem problem, StringBuilder assimentMatrixBuilder, StringBuilder costBuilder, StringBuilder protocolBuilder)
         {
+            MathCalculation.MinRowAndColElementsSubstraction(problem, protocolBuilder);
+
             while (!MathCalculation.IsOptimalAssignment(problem, protocolBuilder))
             {
                 MathCalculation.MatrixTransformation(problem, protocolBuilder);

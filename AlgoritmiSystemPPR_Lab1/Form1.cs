@@ -631,21 +631,30 @@ namespace AlgoritmiSystemPPR_Lab1
 
         private void exampleLab5Button_Click()
         {
-            ////Варіант 1
+            //Варіант 
+            StringBuilder limitations = new();
+            limitations.AppendLine("6 7 2 8");
+            limitations.AppendLine("8 6 9 4");
+            limitations.AppendLine("5 4 7 6");
+            limitations.AppendLine("7 5 3 5");
+            lab5Element1.costMatrixRichTextBox.Text = limitations.ToString();
+
+            ////Приклад 1
             //StringBuilder limitations = new();
-            //limitations.AppendLine("6 7 2 8");
-            //limitations.AppendLine("8 6 9 4");
-            //limitations.AppendLine("5 4 7 6");
-            //limitations.AppendLine("7 5 3 5");
+            //limitations.AppendLine("2 10 9 7");
+            //limitations.AppendLine("15 4 14 8");
+            //limitations.AppendLine("13 14 16 11");
+            //limitations.AppendLine("4 15 13 19");
             //lab5Element1.costMatrixRichTextBox.Text = limitations.ToString();
 
-            //Приклад
-            StringBuilder limitations = new();
-            limitations.AppendLine("2 10 9 7");
-            limitations.AppendLine("15 4 14 8");
-            limitations.AppendLine("13 14 16 11");
-            limitations.AppendLine("4 15 13 19");
-            lab5Element1.costMatrixRichTextBox.Text = limitations.ToString();
+            ////Приклад 2
+            //StringBuilder limitations = new();
+            //limitations.AppendLine("2 4 1 3 3");
+            //limitations.AppendLine("1 5 4 1 2");
+            //limitations.AppendLine("3 5 2 2 4");
+            //limitations.AppendLine("1 4 3 1 4");
+            //limitations.AppendLine("3 2 5 3 5");
+            //lab5Element1.costMatrixRichTextBox.Text = limitations.ToString();
         }
 
         private void findOptimalStrategiesLab5Button_Click()

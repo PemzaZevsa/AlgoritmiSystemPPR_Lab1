@@ -42,7 +42,7 @@
             // label51
             // 
             label51.AutoSize = true;
-            label51.Location = new Point(258, 225);
+            label51.Location = new Point(297, 225);
             label51.Name = "label51";
             label51.Size = new Size(69, 20);
             label51.TabIndex = 147;
@@ -50,7 +50,7 @@
             // 
             // costTextBox
             // 
-            costTextBox.Location = new Point(333, 222);
+            costTextBox.Location = new Point(372, 222);
             costTextBox.Name = "costTextBox";
             costTextBox.Size = new Size(174, 27);
             costTextBox.TabIndex = 146;
@@ -68,7 +68,7 @@
             // 
             costMatrixRichTextBox.Location = new Point(3, 23);
             costMatrixRichTextBox.Name = "costMatrixRichTextBox";
-            costMatrixRichTextBox.Size = new Size(249, 185);
+            costMatrixRichTextBox.Size = new Size(288, 185);
             costMatrixRichTextBox.TabIndex = 144;
             costMatrixRichTextBox.Text = "";
             // 
@@ -83,9 +83,9 @@
             // 
             // assignmentMatrixRichTextBox
             // 
-            assignmentMatrixRichTextBox.Location = new Point(258, 23);
+            assignmentMatrixRichTextBox.Location = new Point(297, 23);
             assignmentMatrixRichTextBox.Name = "assignmentMatrixRichTextBox";
-            assignmentMatrixRichTextBox.Size = new Size(249, 185);
+            assignmentMatrixRichTextBox.Size = new Size(288, 185);
             assignmentMatrixRichTextBox.TabIndex = 148;
             assignmentMatrixRichTextBox.Text = "";
             // 
@@ -93,7 +93,7 @@
             // 
             findSolutionButton.Location = new Point(3, 214);
             findSolutionButton.Name = "findSolutionButton";
-            findSolutionButton.Size = new Size(249, 43);
+            findSolutionButton.Size = new Size(288, 43);
             findSolutionButton.TabIndex = 151;
             findSolutionButton.Text = "Знайти матрицю призначень";
             findSolutionButton.UseVisualStyleBackColor = true;
@@ -114,7 +114,7 @@
             // 
             exampleButton.Location = new Point(3, 263);
             exampleButton.Name = "exampleButton";
-            exampleButton.Size = new Size(249, 43);
+            exampleButton.Size = new Size(288, 43);
             exampleButton.TabIndex = 153;
             exampleButton.Text = "Приклад";
             exampleButton.UseVisualStyleBackColor = true;
@@ -134,7 +134,7 @@
             Controls.Add(label48);
             Controls.Add(costMatrixRichTextBox);
             Name = "Lab5Element";
-            Size = new Size(569, 368);
+            Size = new Size(589, 368);
             ResumeLayout(false);
             PerformLayout();
         }
