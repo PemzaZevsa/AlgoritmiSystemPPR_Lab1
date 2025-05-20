@@ -1149,17 +1149,26 @@ namespace ClassLibrary1
         public static void FindCriticalPathLab6(List<string[]> rowsData , int variblesAmount, StringBuilder criricalPathBuilder,
             StringBuilder durationBuilder, StringBuilder protocolBuilder)
         {
-            //protocolBuilder.AppendLine("Таблиця робіт:");
-            //protocolBuilder.AppendLine("Попередня р.\tТривалість\tК-ть людей");
-            //foreach (var item in rowsData)
-            //{
-            //    protocolBuilder.AppendLine(string.Join("\t\t", item));
-            //}
+            protocolBuilder.AppendLine("Таблиця робіт:");
+            protocolBuilder.AppendLine("Попередня р.\tТривалість\tК-ть людей");
+            foreach (var item in rowsData)
+            {
+                protocolBuilder.AppendLine(string.Join("\t\t", item));
+            }
+            
+            protocolBuilder.AppendLine();
 
             NetworkPlanningProblem problem = MatrixBuilder.CreateNetworkPlanningProblem(rowsData);
             MathCalculation.CalcuateCriticalPath(problem, protocolBuilder);
 
-            int i = 0;
+            string criticalPath = problem.CriticalPath;
+            criricalPathBuilder.AppendLine(criticalPath);
+            protocolBuilder.AppendLine("Критичний шлях: "+criticalPath);
+
+            double duration = problem.ProjectDuration;
+            durationBuilder.AppendLine($"{duration}");
+            protocolBuilder.AppendLine("Тривалість проекту: " + duration);
+
         }
     }
 }

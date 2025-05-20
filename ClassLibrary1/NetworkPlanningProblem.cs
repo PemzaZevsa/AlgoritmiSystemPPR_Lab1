@@ -15,6 +15,30 @@ namespace ClassLibrary1
         public NetworkPlanningElement FirstElement {  get; set; }
         public NetworkPlanningElement LastElement {  get; set; }
         public int Count { get; set; }
+        public double ProjectDuration 
+        {
+            get
+            {
+                return LastElement.EarlyFinish;
+            }
+        }
+        public string CriticalPath
+        {
+            get
+            {
+                List<int> ids = new List<int>();
+
+                foreach (var element in WorkElements)
+                {
+                    if (element.TimeReserve == 0)
+                    {
+                        ids.Add(element.ID);
+                    }
+                }
+
+                return string.Join("-", ids);
+            }
+        }
 
         public NetworkPlanningProblem(List<string[]> rowsData)
         {
@@ -56,17 +80,6 @@ namespace ClassLibrary1
                 zeroEl.NextElements = firstElements;
                 workElements.Add(zeroEl);
             }
-
-            //foreach (var element in workElements)
-            //{
-            //    if (element.PreviousElements.Contains(0))
-            //    {
-            //        NetworkPlanningElement zeroEl = new NetworkPlanningElement(0, "-1", 0, 0);
-            //        workElements.Insert(0, zeroEl);
-            //        zeroElement = true;
-            //        break;
-            //    }
-            //}
 
             //linking elements
             foreach (var element in workElements)
@@ -153,5 +166,7 @@ namespace ClassLibrary1
                 element.CalculateTimeReserve();
             }
         }
+
+        
     }
 }

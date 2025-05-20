@@ -2342,11 +2342,55 @@ namespace ClassLibrary1
 
         //lab 6 
 
-        public static void CalcuateCriticalPath(NetworkPlanningProblem problem, StringBuilder protocolBuilder)
+        public static void CalcuateCriticalPath(NetworkPlanningProblem problem, StringBuilder protocolBuilder)//delete
         {
             problem.CalculateaEarlyStartFinish();
+            protocolBuilder.AppendLine("\nРозрахунок ранніх дат робіт:");
+
+            foreach (var element in problem.WorkElements)
+            {
+                protocolBuilder.AppendLine("Робота №" + element.ID);
+                protocolBuilder.AppendLine($"Тривалість робіт: {element.WorkDuration}");
+                protocolBuilder.AppendLine($"Ранній старт: {element.EarlyStart}");
+                protocolBuilder.AppendLine($"Ранній фініш: {element.EarlyFinish}");
+            }
+
             problem.CalculateaLateStartFinish();
             problem.CalculateTimeReserves();
+
+            protocolBuilder.AppendLine("\nРозрахунок пізніх дат робіт:");
+
+            foreach (var element in problem.WorkElements.AsEnumerable().Reverse())
+            {
+                protocolBuilder.AppendLine("Робота №" + element.ID);
+                protocolBuilder.AppendLine($"Пізній фініш: {element.LateFinish}");
+                protocolBuilder.AppendLine($"Пізній старт: {element.LateStart}");
+                protocolBuilder.AppendLine($"Резерв часу: {element.TimeReserve}");
+            }
+
+
+            protocolBuilder.AppendLine("\nРозраховані параметри сіткового графіка робіт:");
+
+            foreach (var element in problem.WorkElements)
+            {
+                protocolBuilder.AppendLine();
+
+                if (element.TimeReserve == 0)
+                {
+                    protocolBuilder.Append("(K) ");
+                }
+
+                protocolBuilder.AppendLine("Робота №" + element.ID);
+                protocolBuilder.AppendLine($"Кількість людей: {element.ManAmount}");
+                protocolBuilder.AppendLine($"Ранній старт: {element.EarlyStart}");
+                protocolBuilder.AppendLine($"Тривалість робіт: {element.WorkDuration}");
+                protocolBuilder.AppendLine($"Ранній фініш: {element.EarlyFinish}");
+                protocolBuilder.AppendLine($"Пізній старт: {element.LateStart}");
+                protocolBuilder.AppendLine($"Резерв часу: {element.TimeReserve}");
+                protocolBuilder.AppendLine($"Пізній фініш: {element.LateFinish}");
+            }
+
+            protocolBuilder.AppendLine();
         }
     }
 }
