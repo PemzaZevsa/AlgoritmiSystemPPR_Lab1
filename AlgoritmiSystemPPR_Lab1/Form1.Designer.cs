@@ -182,10 +182,12 @@
             tabPage9 = new TabPage();
             lab4Element1 = new LabElements.Lab4Element();
             tabPage10 = new TabPage();
+            lab5Element1 = new LabElements.Lab5Element();
             clearProtocolButton = new Button();
             protocolTextIncreaseButton = new Button();
             protocolTextDecreaseButton = new Button();
-            lab5Element1 = new LabElements.Lab5Element();
+            tabPage11 = new TabPage();
+            lab6Element1 = new LabElements.Lab6Element();
             ((System.ComponentModel.ISupportInitialize)matrixCols).BeginInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).BeginInit();
             panel1.SuspendLayout();
@@ -212,6 +214,7 @@
             ((System.ComponentModel.ISupportInitialize)variablesRRNumericUpDown).BeginInit();
             tabPage9.SuspendLayout();
             tabPage10.SuspendLayout();
+            tabPage11.SuspendLayout();
             SuspendLayout();
             // 
             // matrixLabel
@@ -437,6 +440,7 @@
             zTextLab2Box.Controls.Add(tabPage8);
             zTextLab2Box.Controls.Add(tabPage9);
             zTextLab2Box.Controls.Add(tabPage10);
+            zTextLab2Box.Controls.Add(tabPage11);
             zTextLab2Box.Location = new Point(2, 3);
             zTextLab2Box.Name = "zTextLab2Box";
             zTextLab2Box.SelectedIndex = 0;
@@ -1720,6 +1724,14 @@
             tabPage10.Text = "Лаб 5";
             tabPage10.UseVisualStyleBackColor = true;
             // 
+            // lab5Element1
+            // 
+            lab5Element1.IsSimplex = false;
+            lab5Element1.Location = new Point(0, 0);
+            lab5Element1.Name = "lab5Element1";
+            lab5Element1.Size = new Size(681, 421);
+            lab5Element1.TabIndex = 0;
+            // 
             // clearProtocolButton
             // 
             clearProtocolButton.BackColor = Color.LightCoral;
@@ -1751,12 +1763,23 @@
             protocolTextDecreaseButton.UseVisualStyleBackColor = true;
             protocolTextDecreaseButton.Click += protocolTextDecreaseButton_Click;
             // 
-            // lab5Element1
+            // tabPage11
             // 
-            lab5Element1.Location = new Point(0, 0);
-            lab5Element1.Name = "lab5Element1";
-            lab5Element1.Size = new Size(681, 421);
-            lab5Element1.TabIndex = 0;
+            tabPage11.Controls.Add(lab6Element1);
+            tabPage11.Location = new Point(4, 29);
+            tabPage11.Name = "tabPage11";
+            tabPage11.Padding = new Padding(3);
+            tabPage11.Size = new Size(677, 421);
+            tabPage11.TabIndex = 10;
+            tabPage11.Text = "Лаб 6";
+            tabPage11.UseVisualStyleBackColor = true;
+            // 
+            // lab6Element1
+            // 
+            lab6Element1.Location = new Point(0, 0);
+            lab6Element1.Name = "lab6Element1";
+            lab6Element1.Size = new Size(677, 421);
+            lab6Element1.TabIndex = 0;
             // 
             // Form1
             // 
@@ -1771,7 +1794,7 @@
             Controls.Add(label5);
             MinimumSize = new Size(1300, 520);
             Name = "Form1";
-            Text = "Хвостовець АСППР Лаб1.1-4, 2, 3.1-2, 4, 5, РР";
+            Text = "Хвостовець АСППР Лаб1.1-4, 2, 3.1-2, 4, 5, 6, РР";
             ((System.ComponentModel.ISupportInitialize)matrixCols).EndInit();
             ((System.ComponentModel.ISupportInitialize)matrixRows).EndInit();
             panel1.ResumeLayout(false);
@@ -1812,6 +1835,7 @@
             ((System.ComponentModel.ISupportInitialize)variablesRRNumericUpDown).EndInit();
             tabPage9.ResumeLayout(false);
             tabPage10.ResumeLayout(false);
+            tabPage11.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -1975,5 +1999,7 @@
         private LabElements.Lab4Element lab4Element1;
         private TabPage tabPage10;
         private LabElements.Lab5Element lab5Element1;
+        private TabPage tabPage11;
+        private LabElements.Lab6Element lab6Element1;
     }
 }

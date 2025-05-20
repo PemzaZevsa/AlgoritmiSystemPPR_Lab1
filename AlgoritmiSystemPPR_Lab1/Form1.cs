@@ -18,6 +18,12 @@ namespace AlgoritmiSystemPPR_Lab1
             //Lab 5
             lab5Element1.example += exampleLab5Button_Click;
             lab5Element1.calculateSolution += findOptimalStrategiesLab5Button_Click;
+
+            //lab6
+            lab6Element1.example1 += example1Lab6Button_Click;
+            lab6Element1.example2 += example2Lab6Button_Click;
+            lab6Element1.example3 += example3Lab6Button_Click;
+            lab6Element1.findCriticalPath += findCriticalPathLab6Button_Click;
         }
 
         //lab 1.1
@@ -673,6 +679,86 @@ namespace AlgoritmiSystemPPR_Lab1
 
             lab5Element1.costTextBox.Text = costBuilder.ToString();
             lab5Element1.assignmentMatrixRichTextBox.Text = assimentMatrixBuilder.ToString();
+            protocolRichTextBox.Text += protocolBuilder.ToString();
+        }
+
+        //Lab 6
+
+        private void example1Lab6Button_Click()
+        {
+            //Приклад 1
+            lab6Element1.workItemsDataGridView.Rows.Clear();
+            lab6Element1.workItemsDataGridView.Rows.Add("-",5,2);
+            lab6Element1.workItemsDataGridView.Rows.Add("1",8,3);
+            lab6Element1.workItemsDataGridView.Rows.Add("1", 3, 2);
+            lab6Element1.workItemsDataGridView.Rows.Add("1", 6, 2);
+            lab6Element1.workItemsDataGridView.Rows.Add("2", 7, 3);
+            lab6Element1.workItemsDataGridView.Rows.Add("2,3", 6, 2);
+            lab6Element1.workItemsDataGridView.Rows.Add("4,5,6", 4, 2);
+        }
+
+        private void example2Lab6Button_Click()
+        {
+            //Приклад 2
+            lab6Element1.workItemsDataGridView.Rows.Clear();
+            lab6Element1.workItemsDataGridView.Rows.Add("0", 3, 2);
+            lab6Element1.workItemsDataGridView.Rows.Add("1", 4, 3);
+            lab6Element1.workItemsDataGridView.Rows.Add("1", 2, 4);
+            lab6Element1.workItemsDataGridView.Rows.Add("2", 5, 3);
+            lab6Element1.workItemsDataGridView.Rows.Add("3", 1, 2);
+            lab6Element1.workItemsDataGridView.Rows.Add("3", 2, 3);
+            lab6Element1.workItemsDataGridView.Rows.Add("4,5", 4, 2);
+            lab6Element1.workItemsDataGridView.Rows.Add("6,7", 3, 2);
+        }
+
+        private void example3Lab6Button_Click()
+        {
+            //Варіант
+            lab6Element1.workItemsDataGridView.Rows.Clear();
+            lab6Element1.workItemsDataGridView.Rows.Add("-", 10, 3);
+            lab6Element1.workItemsDataGridView.Rows.Add("-", 7, 2);
+            lab6Element1.workItemsDataGridView.Rows.Add("1", 8, 2);
+            lab6Element1.workItemsDataGridView.Rows.Add("2", 6, 1);
+            lab6Element1.workItemsDataGridView.Rows.Add("3,4", 7, 2);
+            lab6Element1.workItemsDataGridView.Rows.Add("3,4", 10, 3);
+            lab6Element1.workItemsDataGridView.Rows.Add("2", 15, 4);
+            lab6Element1.workItemsDataGridView.Rows.Add("5", 13, 5);
+            lab6Element1.workItemsDataGridView.Rows.Add("5,6,7", 9, 6);
+            lab6Element1.workItemsDataGridView.Rows.Add("5,6,7", 5, 4);
+            lab6Element1.workItemsDataGridView.Rows.Add("8,9", 7, 3);
+        }
+
+        private void findCriticalPathLab6Button_Click()
+        {
+            StringBuilder criricalPathBuilder = new StringBuilder();
+            StringBuilder durationBuilder = new StringBuilder();
+            StringBuilder protocolBuilder = new StringBuilder();
+
+            List<string[]> rowsData = new List<string[]>();
+
+            foreach (DataGridViewRow row in lab6Element1.workItemsDataGridView.Rows)
+            {
+                if (!row.IsNewRow)
+                {
+                    string[] values = row.Cells
+                                         .Cast<DataGridViewCell>()
+                                         .Select(cell => cell.Value?.ToString() ?? "")
+                                         .ToArray();
+
+                    rowsData.Add(values);
+                }
+            }
+
+            CalculationScenarios.FindCriticalPathLab6(
+                rowsData: rowsData,
+                variblesAmount: (int)lab6Element1.workAmountNumericUpDown.Value,
+                criricalPathBuilder: criricalPathBuilder,
+                durationBuilder: durationBuilder,
+                protocolBuilder: protocolBuilder
+                );
+
+            lab6Element1.criricalPathTextBox.Text = criricalPathBuilder.ToString();
+            lab6Element1.durationTextBox.Text = durationBuilder.ToString();
             protocolRichTextBox.Text += protocolBuilder.ToString();
         }
     }

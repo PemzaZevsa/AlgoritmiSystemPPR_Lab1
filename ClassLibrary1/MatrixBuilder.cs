@@ -454,10 +454,16 @@ namespace ClassLibrary1
 
         //Lab 5
 
-        internal static AssignmentProblem CreateAssignmentProblem(string costText)
+        public static AssignmentProblem CreateAssignmentProblem(string costText)
         {
             return new AssignmentProblem(CreateMatrixLab3_2(costText));
         }
 
+        //Lab 6
+
+        public static NetworkPlanningProblem CreateNetworkPlanningProblem(List<string[]> rowsData)
+        {
+            return new NetworkPlanningProblem(rowsData);
+        }
     }
 }

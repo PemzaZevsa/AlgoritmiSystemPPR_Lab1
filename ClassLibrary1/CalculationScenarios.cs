@@ -1143,5 +1143,23 @@ namespace ClassLibrary1
 
             return result;
         }
+
+        //lab 6 
+
+        public static void FindCriticalPathLab6(List<string[]> rowsData , int variblesAmount, StringBuilder criricalPathBuilder,
+            StringBuilder durationBuilder, StringBuilder protocolBuilder)
+        {
+            //protocolBuilder.AppendLine("Таблиця робіт:");
+            //protocolBuilder.AppendLine("Попередня р.\tТривалість\tК-ть людей");
+            //foreach (var item in rowsData)
+            //{
+            //    protocolBuilder.AppendLine(string.Join("\t\t", item));
+            //}
+
+            NetworkPlanningProblem problem = MatrixBuilder.CreateNetworkPlanningProblem(rowsData);
+            MathCalculation.CalcuateCriticalPath(problem, protocolBuilder);
+
+            int i = 0;
+        }
     }
 }

@@ -2339,5 +2339,14 @@ namespace ClassLibrary1
 
             return singleZeroRow;
         }
+
+        //lab 6 
+
+        public static void CalcuateCriticalPath(NetworkPlanningProblem problem, StringBuilder protocolBuilder)
+        {
+            problem.CalculateaEarlyStartFinish();
+            problem.CalculateaLateStartFinish();
+            problem.CalculateTimeReserves();
+        }
     }
 }
